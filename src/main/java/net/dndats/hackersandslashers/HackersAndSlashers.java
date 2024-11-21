@@ -1,5 +1,7 @@
 package net.dndats.hackersandslashers;
 
+import net.dndats.hackersandslashers.combat.critical.CriticalRegistry;
+import net.dndats.hackersandslashers.combat.critical.types.Backstab;
 import org.slf4j.Logger;
 import com.mojang.logging.LogUtils;
 
@@ -24,6 +26,7 @@ public class HackersAndSlashers {
         // Mod event register
         modEventBus.addListener(this::commonSetup);
         NeoForge.EVENT_BUS.register(this);
+        CriticalRegistry.registerCritical(new Backstab("Backstab", 3.0F));
 
         LOGGER.info("HackersAndSlashers mod initialized without configuration.");
     }
