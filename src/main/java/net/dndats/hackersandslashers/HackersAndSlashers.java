@@ -1,7 +1,10 @@
 package net.dndats.hackersandslashers;
 
-import net.dndats.hackersandslashers.combat.critical.CriticalRegistry;
-import net.dndats.hackersandslashers.combat.critical.types.Backstab;
+import net.dndats.hackersandslashers.combat.critical.logic.BackstabLogic;
+import net.dndats.hackersandslashers.combat.critical.manager.CriticalAttack;
+import net.dndats.hackersandslashers.combat.critical.manager.CriticalRegistry;
+import net.dndats.hackersandslashers.playerdata.ModPlayerData;
+import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
 import org.slf4j.Logger;
 import com.mojang.logging.LogUtils;
 
@@ -26,7 +29,12 @@ public class HackersAndSlashers {
         // Mod event register
         modEventBus.addListener(this::commonSetup);
         NeoForge.EVENT_BUS.register(this);
-        CriticalRegistry.registerCritical(new Backstab("Backstab", 3.0F));
+
+        // Register Player Data
+        ModPlayerData.register(modEventBus);
+
+        // Register Critical types
+        CriticalRegistry.registerCritical(new CriticalAttack("Backstab", new BackstabLogic(3.0F)));
 
         LOGGER.info("HackersAndSlashers mod initialized without configuration.");
     }
@@ -38,6 +46,11 @@ public class HackersAndSlashers {
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
         LOGGER.info("Server is starting...");
+    }
+
+    @SubscribeEvent
+    public void removeVanillaCritical(CriticalHitEvent event) {
+        event.setCriticalHit(false);
     }
 
     @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
