@@ -3,7 +3,7 @@ package net.dndats.hackersandslashers;
 import net.dndats.hackersandslashers.combat.critical.logic.BackstabLogic;
 import net.dndats.hackersandslashers.combat.critical.manager.CriticalAttack;
 import net.dndats.hackersandslashers.combat.critical.manager.CriticalRegistry;
-import net.dndats.hackersandslashers.playerdata.ModPlayerData;
+import net.dndats.hackersandslashers.common.ModPlayerData;
 import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
 import org.slf4j.Logger;
 import com.mojang.logging.LogUtils;
@@ -30,11 +30,11 @@ public class HackersAndSlashers {
         modEventBus.addListener(this::commonSetup);
         NeoForge.EVENT_BUS.register(this);
 
-        // Register Player Data
-        ModPlayerData.register(modEventBus);
-
         // Register Critical types
         CriticalRegistry.registerCritical(new CriticalAttack("Backstab", new BackstabLogic(3.0F)));
+
+        // Register data
+        ModPlayerData.registerData(modEventBus);
 
         LOGGER.info("HackersAndSlashers mod initialized without configuration.");
     }
@@ -61,4 +61,5 @@ public class HackersAndSlashers {
             LOGGER.info("Logged in as: {}", Minecraft.getInstance().getUser().getName());
         }
     }
+
 }

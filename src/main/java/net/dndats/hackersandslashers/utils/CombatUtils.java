@@ -1,10 +1,10 @@
 package net.dndats.hackersandslashers.utils;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
-import net.dndats.hackersandslashers.playerdata.ModPlayerData;
-import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+
+import static net.dndats.hackersandslashers.common.ModPlayerData.IS_BLOCKING;
 
 // UTILITY METHODS RELATED TO COMBAT
 public class CombatUtils {
@@ -14,6 +14,19 @@ public class CombatUtils {
             event.setAmount(event.getOriginalAmount() * multiplier);
         } catch (Exception e) {
             HackersAndSlashers.LOGGER.error("Error while trying to apply a critical damage: {}", e.getMessage());
+        }
+    }
+
+    public static void blockDamage(float percentage, LivingIncomingDamageEvent event) {
+        try {
+            if (event.getEntity() instanceof Player player) {
+                if (player.getData(IS_BLOCKING)) {
+                    float totalReducedDamage = event.getAmount() * (percentage / 100);
+                    event.setAmount(totalReducedDamage);
+                }
+            }
+        } catch (Exception e) {
+            HackersAndSlashers.LOGGER.error("Error while trying to reduce damage: {}", e.getMessage());
         }
     }
 
