@@ -20,4 +20,11 @@ public class SoundEffects {
                 SoundSource.PLAYERS, 1.0F, 1.0F);
     }
 
+    public static void playBlockSwingSound(LivingEntity entity) {
+        entity.level().playSound(null,
+                entity.blockPosition(),
+                SoundEvents.PLAYER_ATTACK_SWEEP,
+                SoundSource.PLAYERS, 1.0F, 1.0F);
+    }
+
 }

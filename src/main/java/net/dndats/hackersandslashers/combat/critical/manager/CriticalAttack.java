@@ -3,9 +3,9 @@ package net.dndats.hackersandslashers.combat.critical.manager;
 public class CriticalAttack {
 
     private final String NAME;
-    private final CriticalLogic LOGIC;
+    private final ICriticalLogic LOGIC;
 
-    public CriticalAttack(String name, CriticalLogic logic) {
+    public CriticalAttack(String name, ICriticalLogic logic) {
         NAME = name;
         LOGIC = logic;
     }
@@ -14,7 +14,7 @@ public class CriticalAttack {
         return NAME;
     }
 
-    public CriticalLogic getLogic() {
+    public ICriticalLogic getLogic() {
         return LOGIC;
     }
 

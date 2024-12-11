@@ -2,7 +2,7 @@ package net.dndats.hackersandslashers.combat.critical.logic;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.client.effects.SoundEffects;
-import net.dndats.hackersandslashers.combat.critical.manager.CriticalLogic;
+import net.dndats.hackersandslashers.combat.critical.manager.ICriticalLogic;
 import net.dndats.hackersandslashers.utils.CombatUtils;
 import net.dndats.hackersandslashers.utils.EntityUtils;
 import net.minecraft.world.entity.Entity;
@@ -10,7 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
 // CRITICAL ATTACK OF TYPE BACKSTAB
-public class BackstabLogic implements CriticalLogic {
+public class BackstabLogic implements ICriticalLogic {
 
     private final float DAMAGE_MULTIPLIER;
 

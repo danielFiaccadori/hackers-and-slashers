@@ -1,6 +1,7 @@
 package net.dndats.hackersandslashers.utils;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
+import net.dndats.hackersandslashers.client.effects.SoundEffects;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
@@ -21,6 +22,10 @@ public class CombatUtils {
         try {
             if (event.getEntity() instanceof Player player) {
                 if (player.getData(IS_BLOCKING)) {
+                    SoundEffects.playBlockSound(player);
+                    ItemUtils.damageItem(event.getEntity().level(),
+                            event.getEntity().getMainHandItem(),
+                            (int)event.getOriginalAmount());
                     float totalReducedDamage = event.getAmount() * (percentage / 100);
                     event.setAmount(totalReducedDamage);
                 }

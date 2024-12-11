@@ -1,14 +1,30 @@
 package net.dndats.hackersandslashers.utils;
 
+import net.dndats.hackersandslashers.TickScheduler;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BushBlock;
 
+import java.util.Objects;
+
+
 // UTILITY METHODS RELATED TO PLAYERS
 public class PlayerUtils {
+
+    private static final ResourceLocation MOVESPEED_ATTRIBUTE_MODIFIER_LOCATION =
+            ResourceLocation.fromNamespaceAndPath("hackersandslashers", "parry_movespeed_modifier");
+
+    private static final AttributeModifier MOVESPEED_ATTRIBUTE_MODIFIER = new AttributeModifier(
+            MOVESPEED_ATTRIBUTE_MODIFIER_LOCATION,
+            -0.05,
+            AttributeModifier.Operation.ADD_VALUE
+    );
 
     public static boolean isOnDarkPlace(Player player) {
         Level level = player.level();
@@ -23,6 +39,20 @@ public class PlayerUtils {
     public static boolean isOnBush(Player player) {
         Block block = player.level().getBlockState(player.blockPosition()).getBlock();
         return block instanceof BushBlock;
+    }
+
+    public static void addSpeedModifier(Player player) {
+        if (!Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED)).hasModifier(MOVESPEED_ATTRIBUTE_MODIFIER_LOCATION)) {
+            Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED)).addTransientModifier(MOVESPEED_ATTRIBUTE_MODIFIER);
+        } else {
+            Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED)).removeModifier(MOVESPEED_ATTRIBUTE_MODIFIER);
+        }
+    }
+
+    public static void removeSpeedModifier(Player player) {
+        if (Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED)).hasModifier(MOVESPEED_ATTRIBUTE_MODIFIER_LOCATION)) {
+            Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED)).removeModifier(MOVESPEED_ATTRIBUTE_MODIFIER);
+        }
     }
 
 }
