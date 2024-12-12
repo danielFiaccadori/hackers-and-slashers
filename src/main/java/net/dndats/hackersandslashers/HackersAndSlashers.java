@@ -1,17 +1,12 @@
 package net.dndats.hackersandslashers;
 
+import net.dndats.hackersandslashers.assets.effects.ModMobEffects;
 import net.dndats.hackersandslashers.combat.critical.logic.BackstabLogic;
+import net.dndats.hackersandslashers.combat.critical.logic.RiposteLogic;
 import net.dndats.hackersandslashers.combat.critical.manager.CriticalAttack;
 import net.dndats.hackersandslashers.combat.critical.manager.CriticalRegistry;
 import net.dndats.hackersandslashers.common.ModPlayerData;
-import net.dndats.hackersandslashers.network.NetworkHandler;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
-import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
-import net.neoforged.neoforge.network.handling.IPayloadHandler;
-import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import org.slf4j.Logger;
 import com.mojang.logging.LogUtils;
 
@@ -27,9 +22,6 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Mod(HackersAndSlashers.MODID)
 public class HackersAndSlashers {
     public static final String MODID = "hackersandslashers";
@@ -39,11 +31,16 @@ public class HackersAndSlashers {
         // Mod event register
         modEventBus.addListener(this::commonSetup);
         NeoForge.EVENT_BUS.register(this);
+
         // Register Critical types
         CriticalRegistry.registerCritical(new CriticalAttack("Backstab", new BackstabLogic(3.0F)));
+        CriticalRegistry.registerCritical(new CriticalAttack("Riposte", new RiposteLogic(1.5F)));
 
         // Register data
         ModPlayerData.registerData(modEventBus);
+
+        // Register assets
+        ModMobEffects.MOB_EFFECTS.register(modEventBus);
 
         LOGGER.info("HackersAndSlashers mod initialized without configuration.");
     }

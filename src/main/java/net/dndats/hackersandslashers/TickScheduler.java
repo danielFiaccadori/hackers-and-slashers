@@ -12,6 +12,10 @@ import java.util.Comparator;
 @EventBusSubscriber(modid = "hackersandslashers")
 public class TickScheduler {
 
+    /*
+    This class is a scheduler, to provide a function to wait, in ticks.
+     */
+
     private static final Queue<ScheduledTask> TASK_QUEUE = new PriorityQueue<>(
             Comparator.comparingInt(ScheduledTask::getRemainingTicks)
     );

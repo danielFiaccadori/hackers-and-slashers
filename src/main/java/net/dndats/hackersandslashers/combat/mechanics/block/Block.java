@@ -21,7 +21,7 @@ public class Block {
         }
         if (canBlock(player)) {
             PacketDistributor.sendToServer(new PlayerBlockPacket(true));
-            PlayerAnimator.execute(null, player.level(), player, "parry_variation1");
+            PlayerAnimator.playAnimation(null, player.level(), player, "parry_variation1");
             TickScheduler.schedule(() -> {
                 PacketDistributor.sendToServer(new PlayerBlockPacket(false));
             }, duration);

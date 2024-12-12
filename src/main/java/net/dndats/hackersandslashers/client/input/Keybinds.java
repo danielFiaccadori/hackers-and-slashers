@@ -6,7 +6,10 @@ import net.minecraft.client.KeyMapping;
 // KEYBINDING REGISTERER
 public class Keybinds {
 
-    // Created keybindings
+    /**
+     * This class is responsible for registering the mod keybindings.
+     */
+
     public static final KeyMapping PARRY = new KeyMapping(
             "key.hackersandslashers.parry",
             InputConstants.Type.MOUSE,

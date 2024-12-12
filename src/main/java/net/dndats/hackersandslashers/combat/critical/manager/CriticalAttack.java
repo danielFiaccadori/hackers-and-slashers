@@ -1,6 +1,13 @@
 package net.dndats.hackersandslashers.combat.critical.manager;
 
+import java.util.Objects;
+
 public class CriticalAttack {
+
+    /*
+      This class is a base for the creation of Critical Attacks
+      To create a new Crit, instantiate a new CriticalAttack, passing the name and the logic as arguments.
+    */
 
     private final String NAME;
     private final ICriticalLogic LOGIC;

@@ -10,8 +10,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
-// CRITICAL ATTACK OF TYPE BACKSTAB
-public class BackstabLogic implements ICriticalLogic {
+// CRITICAL ATTACK OF TYPE RIPOSTE
+public class RiposteLogic implements ICriticalLogic {
 
     private final float DAMAGE_MULTIPLIER;
 
@@ -20,7 +20,7 @@ public class BackstabLogic implements ICriticalLogic {
      * @param damageMultiplier The multiplier of this critical hit.
      */
 
-    public BackstabLogic(float damageMultiplier) {
+    public RiposteLogic(float damageMultiplier) {
         if (damageMultiplier <= 0) {
             throw new IllegalArgumentException("Damage multiplier must be greater than 0");
         }
@@ -28,7 +28,7 @@ public class BackstabLogic implements ICriticalLogic {
     }
 
     /**
-     * Applies, if viable, the backstab critical.
+     * Applies, if viable, the riposte critical.
      * @param event The damage event that multiplies the damage.
      */
 
@@ -41,6 +41,10 @@ public class BackstabLogic implements ICriticalLogic {
                 if (canBeApplied(player, targetEntity)) {
                     // If passes the conditional, then applies the critical
                     CombatUtils.dealCriticalDamage(getDamageMultiplier(), event);
+                    // Remove stun potion effect
+                    if (targetEntity.hasEffect(ModMobEffects.STUN)) {
+                        targetEntity.removeEffect(ModMobEffects.STUN);
+                    }
                 }
                 SoundEffects.playCriticalSound(event.getEntity());
                 HackersAndSlashers.LOGGER.info("Dealt {} damage with multiplier of {}",
@@ -48,24 +52,20 @@ public class BackstabLogic implements ICriticalLogic {
                         getDamageMultiplier());
             }
         } catch (Exception e) {
-            HackersAndSlashers.LOGGER.error("Error while trying to implement backstab logics: {}", e.getMessage());
+            HackersAndSlashers.LOGGER.error("Error while trying to implement riposte logics: {}", e.getMessage());
         }
     }
 
     /**
-     * Verifies if the backstab can be applied based on the position of the player and the target.
-     * Also, applies the backstab if it's not being actively targeted (for mobs).
-     * @param source The player attempting the backstab.
+     * Verifies if the riposte can be applied if an entity has the Stun effect.
+     * @param source The player attempting the riposte.
      * @param target The target entity.
-     * @return True if the backstab can be applied, false otherwise.
+     * @return True if the riposte can be applied, false otherwise.
      */
 
     @Override
     public boolean canBeApplied(Player source, LivingEntity target) {
-        if (target instanceof Player) {
-            EntityUtils.isBehind(source, target);
-        }
-        return !EntityUtils.isBeingTargeted(source, target);
+        return target.hasEffect(ModMobEffects.STUN);
     }
 
     private float getDamageMultiplier() {

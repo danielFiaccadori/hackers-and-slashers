@@ -4,8 +4,6 @@ import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.combat.critical.manager.CriticalRegistry;
 import net.dndats.hackersandslashers.combat.mechanics.stealth.Stealth;
 import net.dndats.hackersandslashers.utils.CombatUtils;
-import net.dndats.hackersandslashers.utils.ItemUtils;
-import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
@@ -46,6 +44,15 @@ public class CombatEventHandler {
             HackersAndSlashers.LOGGER.info("Reduced {} damage of {} from entity {}", event.getAmount(), event.getOriginalAmount(), event.getSource().getEntity());
         } catch (Exception e) {
             HackersAndSlashers.LOGGER.error("Error while trying to block damage: {}", e.getMessage());
+        }
+    }
+
+    @SubscribeEvent
+    public static void stunEntityBlocked(LivingIncomingDamageEvent event) {
+        try {
+            CombatUtils.stunAttackingEntity(event);
+        } catch (Exception e) {
+            HackersAndSlashers.LOGGER.error("Error while trying to stun the target {}: {}", event.getSource().getEntity().getDisplayName(), e.getMessage());
         }
     }
 

@@ -1,6 +1,5 @@
 package net.dndats.hackersandslashers.utils;
 
-import net.dndats.hackersandslashers.TickScheduler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -27,13 +26,16 @@ public class PlayerUtils {
     );
 
     public static boolean isOnDarkPlace(Player player) {
-        Level level = player.level();
-        BlockPos position = player.blockPosition();
-        int lightLevel = Math.max(
-                level.getBrightness(LightLayer.SKY, position),
-                level.getBrightness(LightLayer.BLOCK, position)
-        );
-        return lightLevel <= 10;
+        if (!player.level().isClientSide) {
+            Level level = player.level();
+            BlockPos position = player.blockPosition();
+            int lightLevel = Math.max(
+                    level.getBrightness(LightLayer.SKY, position),
+                    level.getBrightness(LightLayer.BLOCK, position)
+            );
+            return lightLevel <= 10;
+        }
+        return false;
     }
 
     public static boolean isOnBush(Player player) {
@@ -42,16 +44,20 @@ public class PlayerUtils {
     }
 
     public static void addSpeedModifier(Player player) {
-        if (!Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED)).hasModifier(MOVESPEED_ATTRIBUTE_MODIFIER_LOCATION)) {
-            Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED)).addTransientModifier(MOVESPEED_ATTRIBUTE_MODIFIER);
-        } else {
-            Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED)).removeModifier(MOVESPEED_ATTRIBUTE_MODIFIER);
+        if (!player.level().isClientSide) {
+            if (!Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED)).hasModifier(MOVESPEED_ATTRIBUTE_MODIFIER_LOCATION)) {
+                Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED)).addTransientModifier(MOVESPEED_ATTRIBUTE_MODIFIER);
+            } else {
+                Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED)).removeModifier(MOVESPEED_ATTRIBUTE_MODIFIER);
+            }
         }
     }
 
     public static void removeSpeedModifier(Player player) {
-        if (Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED)).hasModifier(MOVESPEED_ATTRIBUTE_MODIFIER_LOCATION)) {
-            Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED)).removeModifier(MOVESPEED_ATTRIBUTE_MODIFIER);
+        if (!player.level().isClientSide) {
+            if (Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED)).hasModifier(MOVESPEED_ATTRIBUTE_MODIFIER_LOCATION)) {
+                Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED)).removeModifier(MOVESPEED_ATTRIBUTE_MODIFIER);
+            }
         }
     }
 

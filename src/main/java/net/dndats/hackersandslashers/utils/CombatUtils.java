@@ -1,7 +1,10 @@
 package net.dndats.hackersandslashers.utils;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
+import net.dndats.hackersandslashers.assets.effects.ModMobEffects;
 import net.dndats.hackersandslashers.client.effects.SoundEffects;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
@@ -32,6 +35,16 @@ public class CombatUtils {
             }
         } catch (Exception e) {
             HackersAndSlashers.LOGGER.error("Error while trying to reduce damage: {}", e.getMessage());
+        }
+    }
+
+    public static void stunAttackingEntity(LivingIncomingDamageEvent event) {
+        if (event.getSource().getEntity() instanceof LivingEntity entity) {
+            if (entity.getHealth() < event.getEntity().getHealth()) {
+                if (event.getEntity().getData(IS_BLOCKING)) {
+                    entity.addEffect(new MobEffectInstance(ModMobEffects.STUN, 60, 1, false, false));
+                }
+            }
         }
     }
 
