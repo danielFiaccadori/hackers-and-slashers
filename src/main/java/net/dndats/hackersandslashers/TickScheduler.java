@@ -22,7 +22,6 @@ public class TickScheduler {
 
     public static void schedule(Runnable action, int ticks) {
         TASK_QUEUE.add(new ScheduledTask(action, ticks));
-        HackersAndSlashers.LOGGER.info("Scheduled task to run in {} ticks", ticks);
     }
 
     @SubscribeEvent
@@ -34,13 +33,11 @@ public class TickScheduler {
 
     private static void processTasks() {
         if (!TASK_QUEUE.isEmpty()) {
-            HackersAndSlashers.LOGGER.info("Processing {} scheduled tasks", TASK_QUEUE.size());
             Iterator<ScheduledTask> iterator = TASK_QUEUE.iterator();
             while (iterator.hasNext()) {
                 ScheduledTask task = iterator.next();
                 task.tick();
                 if (task.isComplete()) {
-                    HackersAndSlashers.LOGGER.info("Task completed and removed from queue");
                     iterator.remove();
                 }
             }

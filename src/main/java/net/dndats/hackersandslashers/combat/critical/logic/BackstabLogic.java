@@ -41,11 +41,11 @@ public class BackstabLogic implements ICriticalLogic {
                 if (canBeApplied(player, targetEntity)) {
                     // If passes the conditional, then applies the critical
                     CombatUtils.dealCriticalDamage(getDamageMultiplier(), event);
+                    SoundEffects.playCriticalSound(event.getEntity());
+                    HackersAndSlashers.LOGGER.info("Dealt {} damage with multiplier of {}",
+                            event.getAmount(),
+                            getDamageMultiplier());
                 }
-                SoundEffects.playCriticalSound(event.getEntity());
-                HackersAndSlashers.LOGGER.info("Dealt {} damage with multiplier of {}",
-                        event.getAmount(),
-                        getDamageMultiplier());
             }
         } catch (Exception e) {
             HackersAndSlashers.LOGGER.error("Error while trying to implement backstab logics: {}", e.getMessage());

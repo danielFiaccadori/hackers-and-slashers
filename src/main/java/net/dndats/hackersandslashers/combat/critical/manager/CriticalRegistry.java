@@ -33,9 +33,6 @@ public class CriticalRegistry {
         try {
             for (CriticalAttack critical : criticalTypes) {
                 critical.getLogic().apply(event);
-                HackersAndSlashers.LOGGER.info("Critical hit of type {} applied to the entity {}",
-                        critical.getName(),
-                        event.getEntity().getName().getString());
             }
         } catch (Exception e) {
             HackersAndSlashers.LOGGER.error("Error while trying to process critical: {}", e.getMessage());

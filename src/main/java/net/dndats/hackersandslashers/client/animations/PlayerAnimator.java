@@ -64,7 +64,7 @@ public class PlayerAnimator {
                         animation.replaceAnimationWithFade(AbstractFadeModifier.
                                         functionalFadeIn(20, (modelName, type, value) -> value),
                                 Objects.requireNonNull(PlayerAnimationRegistry.getAnimation(ResourceLocation.fromNamespaceAndPath(HackersAndSlashers.MODID, animationName))).
-                                        playAnimation().setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL).setFirstPersonConfiguration(new FirstPersonConfiguration().setShowRightArm(true).setShowLeftItem(false)));
+                                        playAnimation().setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL).setFirstPersonConfiguration(new FirstPersonConfiguration().setShowRightArm(false).setShowLeftItem(true)));
                     }
                 }
             }

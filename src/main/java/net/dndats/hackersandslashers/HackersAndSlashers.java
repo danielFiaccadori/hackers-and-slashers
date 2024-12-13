@@ -40,7 +40,7 @@ public class HackersAndSlashers {
         ModPlayerData.registerData(modEventBus);
 
         // Register assets
-        ModMobEffects.MOB_EFFECTS.register(modEventBus);
+        ModMobEffects.register(modEventBus);
 
         LOGGER.info("HackersAndSlashers mod initialized without configuration.");
     }

@@ -6,6 +6,7 @@ import net.dndats.hackersandslashers.client.effects.SoundEffects;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.SwordItem;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
 import static net.dndats.hackersandslashers.common.ModPlayerData.IS_BLOCKING;
@@ -26,9 +27,17 @@ public class CombatUtils {
             if (event.getEntity() instanceof Player player) {
                 if (player.getData(IS_BLOCKING)) {
                     SoundEffects.playBlockSound(player);
-                    ItemUtils.damageItem(event.getEntity().level(),
-                            event.getEntity().getMainHandItem(),
-                            (int)event.getOriginalAmount());
+                    if (event.getEntity().getOffhandItem().getItem() instanceof SwordItem &&
+                            event.getEntity().getMainHandItem().getItem() instanceof SwordItem) {
+                        ItemUtils.damageAndDistribute(event.getEntity().level(),
+                                event.getEntity().getMainHandItem(),
+                                event.getEntity().getOffhandItem(),
+                                (int) event.getOriginalAmount());
+                    } else {
+                        ItemUtils.damage(event.getEntity().level(),
+                                event.getEntity().getMainHandItem(),
+                                (int) event.getOriginalAmount());
+                    }
                     float totalReducedDamage = event.getAmount() * (percentage / 100);
                     event.setAmount(totalReducedDamage);
                 }
@@ -39,13 +48,18 @@ public class CombatUtils {
     }
 
     public static void stunAttackingEntity(LivingIncomingDamageEvent event) {
-        if (event.getSource().getEntity() instanceof LivingEntity entity) {
-            if (entity.getHealth() < event.getEntity().getHealth()) {
-                if (event.getEntity().getData(IS_BLOCKING)) {
-                    entity.addEffect(new MobEffectInstance(ModMobEffects.STUN, 60, 1, false, false));
+        try {
+            if (event.getSource().getEntity() instanceof LivingEntity entity) {
+                if (entity.getHealth() < event.getEntity().getHealth()) {
+                    if (event.getEntity().getData(IS_BLOCKING)) {
+                        entity.addEffect(new MobEffectInstance(ModMobEffects.STUN, 60, 1, false, false));
+                    }
                 }
             }
-        }
-    }
+        } catch (Exception e) {
+            HackersAndSlashers.LOGGER.error("Error while trying to stun a target: {}", e.getMessage());
 
+        }
+
+    }
 }
