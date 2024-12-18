@@ -1,10 +1,7 @@
 package net.dndats.hackersandslashers.network.packets;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
-import net.dndats.hackersandslashers.client.effects.SoundEffects;
-import net.dndats.hackersandslashers.common.ModData;
 import net.dndats.hackersandslashers.network.NetworkHandler;
-import net.dndats.hackersandslashers.utils.PlayerUtils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -17,33 +14,29 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.jetbrains.annotations.NotNull;
 
+import static net.dndats.hackersandslashers.common.ModData.IS_HIDDEN;
+
 @EventBusSubscriber(modid = HackersAndSlashers.MODID, bus = EventBusSubscriber.Bus.MOD)
-public record PlayerBlockPacket(boolean isBlocking) implements CustomPacketPayload {
+public record PlayerDetectionStatePacket(boolean isHidden) implements CustomPacketPayload {
 
-    public static final Type<PlayerBlockPacket> TYPE =
-            new Type<>(ResourceLocation.fromNamespaceAndPath("hackersandslashers", "is_blocking"));
+    public static final Type<PlayerDetectionStatePacket> TYPE =
+            new Type<>(ResourceLocation.fromNamespaceAndPath("hackersandslashers", "is_hidden"));
 
-    public static final StreamCodec<FriendlyByteBuf, PlayerBlockPacket> STREAM_CODEC =
+    public static final StreamCodec<FriendlyByteBuf, PlayerDetectionStatePacket> STREAM_CODEC =
             StreamCodec.composite(
                     ByteBufCodecs.BOOL,
-                    PlayerBlockPacket::isBlocking,
-                    PlayerBlockPacket::new
+                    PlayerDetectionStatePacket::isHidden,
+                    PlayerDetectionStatePacket::new
             );
 
-    private static void handlePlayerBlockPacket(final PlayerBlockPacket packet, final IPayloadContext context) {
+    private static void handlePlayerDetectionStatePacket(final PlayerDetectionStatePacket packet, final IPayloadContext context) {
         ServerPlayer player = (ServerPlayer) context.player();
-        player.setData(ModData.IS_BLOCKING, packet.isBlocking());
-        if (packet.isBlocking()) {
-            PlayerUtils.addSpeedModifier(player);
-            SoundEffects.playBlockSwingSound(player);
-        } else {
-            PlayerUtils.removeSpeedModifier(player);
-        }
+        player.setData(IS_HIDDEN, packet.isHidden);
     }
 
     @SubscribeEvent
     public static void registerMessage(FMLCommonSetupEvent event) {
-        NetworkHandler.addNetworkMessage(PlayerBlockPacket.TYPE, PlayerBlockPacket.STREAM_CODEC, PlayerBlockPacket::handlePlayerBlockPacket);
+        NetworkHandler.addNetworkMessage(PlayerDetectionStatePacket.TYPE, PlayerDetectionStatePacket.STREAM_CODEC, PlayerDetectionStatePacket::handlePlayerDetectionStatePacket);
     }
 
     @Override

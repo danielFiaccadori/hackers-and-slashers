@@ -5,12 +5,15 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BushBlock;
 
 import java.util.Objects;
+
+import static net.dndats.hackersandslashers.common.ModData.IS_BLOCKING;
 
 
 // UTILITY METHODS RELATED TO PLAYERS
@@ -25,15 +28,18 @@ public class PlayerUtils {
             AttributeModifier.Operation.ADD_VALUE
     );
 
-    public static boolean isOnDarkPlace(Player player) {
+    // Checkers
+
+    public static boolean isAtDarkPlace(Player player) {
         if (!player.level().isClientSide) {
             Level level = player.level();
             BlockPos position = player.blockPosition();
+            boolean isObfuscated = level.isRainingAt(position) && level.isNight();
             int lightLevel = Math.max(
                     level.getBrightness(LightLayer.SKY, position),
                     level.getBrightness(LightLayer.BLOCK, position)
             );
-            return lightLevel <= 10;
+            return lightLevel <= 13 || isObfuscated;
         }
         return false;
     }
@@ -42,6 +48,16 @@ public class PlayerUtils {
         Block block = player.level().getBlockState(player.blockPosition()).getBlock();
         return block instanceof BushBlock;
     }
+
+    public static boolean isBlocking(Player player) {
+        return player.getData(IS_BLOCKING);
+    }
+
+    public static boolean isHoldingSword(Player player) {
+        return player.getMainHandItem().getItem() instanceof SwordItem;
+    }
+
+    // Modifiers
 
     public static void addSpeedModifier(Player player) {
         if (!player.level().isClientSide) {

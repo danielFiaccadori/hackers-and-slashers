@@ -9,7 +9,7 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 import java.util.function.Supplier;
 
-public class ModPlayerData {
+public class ModData {
 
     private static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(
             NeoForgeRegistries.ATTACHMENT_TYPES, HackersAndSlashers.MODID
@@ -17,6 +17,14 @@ public class ModPlayerData {
 
     public static final Supplier<AttachmentType<Boolean>> IS_BLOCKING = ATTACHMENT_TYPES.register(
             "is_blocking", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL).build()
+    );
+
+    public static final Supplier<AttachmentType<Boolean>> IS_ALERT = ATTACHMENT_TYPES.register(
+            "is_alert", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL).build()
+    );
+
+    public static final Supplier<AttachmentType<Boolean>> IS_HIDDEN = ATTACHMENT_TYPES.register(
+            "is_hidden", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL).build()
     );
 
     public static void registerData(IEventBus eventBus) {

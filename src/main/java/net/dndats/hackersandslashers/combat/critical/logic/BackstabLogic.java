@@ -1,7 +1,6 @@
 package net.dndats.hackersandslashers.combat.critical.logic;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
-import net.dndats.hackersandslashers.assets.effects.ModMobEffects;
 import net.dndats.hackersandslashers.client.effects.SoundEffects;
 import net.dndats.hackersandslashers.combat.critical.manager.ICriticalLogic;
 import net.dndats.hackersandslashers.utils.CombatUtils;
@@ -55,17 +54,17 @@ public class BackstabLogic implements ICriticalLogic {
     /**
      * Verifies if the backstab can be applied based on the position of the player and the target.
      * Also, applies the backstab if it's not being actively targeted (for mobs).
-     * @param source The player attempting the backstab.
+     * @param player The player attempting the backstab.
      * @param target The target entity.
      * @return True if the backstab can be applied, false otherwise.
      */
 
     @Override
-    public boolean canBeApplied(Player source, LivingEntity target) {
+    public boolean canBeApplied(Player player, LivingEntity target) {
         if (target instanceof Player) {
-            EntityUtils.isBehind(source, target);
+            return EntityUtils.isBehind(player, target) && EntityUtils.isAwareOf(player, target);
         }
-        return !EntityUtils.isBeingTargeted(source, target);
+        return !EntityUtils.isBeingTargeted(player, target);
     }
 
     private float getDamageMultiplier() {

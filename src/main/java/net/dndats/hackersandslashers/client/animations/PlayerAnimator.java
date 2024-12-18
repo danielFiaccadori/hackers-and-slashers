@@ -61,9 +61,8 @@ public class PlayerAnimator {
                             getPlayerAssociatedData(Minecraft.getInstance().player).
                             get(ResourceLocation.fromNamespaceAndPath(HackersAndSlashers.MODID, "player_animation"));
                     if (animation != null) {
-                        animation.replaceAnimationWithFade(AbstractFadeModifier.
-                                        functionalFadeIn(20, (modelName, type, value) -> value),
-                                Objects.requireNonNull(PlayerAnimationRegistry.getAnimation(ResourceLocation.fromNamespaceAndPath(HackersAndSlashers.MODID, animationName))).
+                        animation.replaceAnimationWithFade(AbstractFadeModifier
+                                        .functionalFadeIn(20, (modelName, type, value) -> value), Objects.requireNonNull(PlayerAnimationRegistry.getAnimation(ResourceLocation.fromNamespaceAndPath(HackersAndSlashers.MODID, animationName))).
                                         playAnimation().setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL).setFirstPersonConfiguration(new FirstPersonConfiguration().setShowRightArm(false).setShowLeftItem(true)));
                     }
                 }
