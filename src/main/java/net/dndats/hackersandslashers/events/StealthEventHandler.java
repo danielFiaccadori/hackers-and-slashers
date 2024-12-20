@@ -4,6 +4,7 @@ import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.combat.mechanics.stealth.Stealth;
 import net.dndats.hackersandslashers.network.packets.PlayerDetectionStatePacket;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -42,11 +43,13 @@ public class StealthEventHandler {
             if (Stealth.mobTargetChecker(player)) {
                 if (!player.getData(IS_HIDDEN)) {
                     PacketDistributor.sendToServer(new PlayerDetectionStatePacket(true));
+                    PacketDistributor.sendToPlayer((ServerPlayer) player, new PlayerDetectionStatePacket(true));
                     player.sendSystemMessage(Component.literal("Is hidden: " + player.getData(IS_HIDDEN)));
                 }
             } else {
                 if (player.getData(IS_HIDDEN)) {
                     PacketDistributor.sendToServer(new PlayerDetectionStatePacket(false));
+                    PacketDistributor.sendToPlayer((ServerPlayer) player, new PlayerDetectionStatePacket(false));
                     player.sendSystemMessage(Component.literal("Is hidden: " + player.getData(IS_HIDDEN)));
                 }
             }

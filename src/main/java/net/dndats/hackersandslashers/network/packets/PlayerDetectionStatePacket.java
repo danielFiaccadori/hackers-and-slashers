@@ -1,8 +1,10 @@
 package net.dndats.hackersandslashers.network.packets;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
+import net.dndats.hackersandslashers.common.ModData;
 import net.dndats.hackersandslashers.network.NetworkHandler;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -30,8 +32,13 @@ public record PlayerDetectionStatePacket(boolean isHidden) implements CustomPack
             );
 
     private static void handlePlayerDetectionStatePacket(final PlayerDetectionStatePacket packet, final IPayloadContext context) {
-        ServerPlayer player = (ServerPlayer) context.player();
-        player.setData(IS_HIDDEN, packet.isHidden);
+        context.enqueueWork(() -> {
+            ServerPlayer player = (ServerPlayer) context.player();
+            player.setData(ModData.IS_HIDDEN, packet.isHidden);
+        }).exceptionally (e -> {
+            context.connection().disconnect(Component.literal(e.getMessage()));
+            return null;
+        });
     }
 
     @SubscribeEvent

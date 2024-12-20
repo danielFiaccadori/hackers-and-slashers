@@ -2,6 +2,7 @@ package net.dndats.hackersandslashers.client.overlay;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.dndats.hackersandslashers.utils.PlayerUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -49,7 +50,7 @@ public class DetectionOverlay {
                 int posX = (width / 2) - halfTexture;
                 int posY = ((height / 2) - textureSize - gap) - 30;
 
-                if (!isHidden(player)) {
+                if (PlayerUtils.isHidden(player)) {
                     event.getGuiGraphics().blit(
                             ResourceLocation.parse("hackersandslashers:textures/screens/hidden.png"),
                             posX,
@@ -80,9 +81,6 @@ public class DetectionOverlay {
 
     private static boolean canRender(Player player) {
         return player.isCrouching();
-    }
-    private static boolean isHidden(Player player) {
-        return player.getData(IS_HIDDEN);
     }
 
 }

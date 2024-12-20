@@ -6,6 +6,7 @@ import net.dndats.hackersandslashers.common.ModData;
 import net.dndats.hackersandslashers.network.NetworkHandler;
 import net.dndats.hackersandslashers.utils.PlayerUtils;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -31,14 +32,19 @@ public record PlayerBlockPacket(boolean isBlocking) implements CustomPacketPaylo
             );
 
     private static void handlePlayerBlockPacket(final PlayerBlockPacket packet, final IPayloadContext context) {
-        ServerPlayer player = (ServerPlayer) context.player();
-        player.setData(ModData.IS_BLOCKING, packet.isBlocking());
-        if (packet.isBlocking()) {
-            PlayerUtils.addSpeedModifier(player);
-            SoundEffects.playBlockSwingSound(player);
-        } else {
-            PlayerUtils.removeSpeedModifier(player);
-        }
+        context.enqueueWork(() -> {
+            ServerPlayer player = (ServerPlayer) context.player();
+            player.setData(ModData.IS_BLOCKING, packet.isBlocking());
+            if (packet.isBlocking()) {
+                PlayerUtils.addSpeedModifier(player);
+                SoundEffects.playBlockSwingSound(player);
+            } else {
+                PlayerUtils.removeSpeedModifier(player);
+            }
+        }).exceptionally (e -> {
+            context.connection().disconnect(Component.literal(e.getMessage()));
+            return null;
+        });
     }
 
     @SubscribeEvent

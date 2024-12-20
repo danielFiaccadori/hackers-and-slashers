@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.BushBlock;
 import java.util.Objects;
 
 import static net.dndats.hackersandslashers.common.ModData.IS_BLOCKING;
+import static net.dndats.hackersandslashers.common.ModData.IS_HIDDEN;
 
 
 // UTILITY METHODS RELATED TO PLAYERS
@@ -51,6 +52,10 @@ public class PlayerUtils {
 
     public static boolean isBlocking(Player player) {
         return player.getData(IS_BLOCKING);
+    }
+
+    public static boolean isHidden(Player player) {
+        return player.getData(IS_HIDDEN);
     }
 
     public static boolean isHoldingSword(Player player) {
