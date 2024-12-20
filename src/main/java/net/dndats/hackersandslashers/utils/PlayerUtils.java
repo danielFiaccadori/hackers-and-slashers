@@ -31,18 +31,20 @@ public class PlayerUtils {
 
     // Checkers
 
+    public static boolean isHidden(Player player) {
+        if (player == null) return false;
+        return (isAtDarkPlace(player) || isOnBush(player));
+    }
+
     public static boolean isAtDarkPlace(Player player) {
-        if (!player.level().isClientSide) {
-            Level level = player.level();
-            BlockPos position = player.blockPosition();
-            boolean isObfuscated = level.isRainingAt(position) && level.isNight();
-            int lightLevel = Math.max(
-                    level.getBrightness(LightLayer.SKY, position),
-                    level.getBrightness(LightLayer.BLOCK, position)
-            );
-            return lightLevel <= 13 || isObfuscated;
-        }
-        return false;
+        Level level = player.level();
+        BlockPos position = player.blockPosition();
+        boolean isObfuscated = level.isRainingAt(position) && level.isNight();
+        int lightLevel = Math.max(
+                level.getBrightness(LightLayer.SKY, position),
+                level.getBrightness(LightLayer.BLOCK, position)
+        );
+        return lightLevel <= 13 || isObfuscated;
     }
 
     public static boolean isOnBush(Player player) {
@@ -52,10 +54,6 @@ public class PlayerUtils {
 
     public static boolean isBlocking(Player player) {
         return player.getData(IS_BLOCKING);
-    }
-
-    public static boolean isHidden(Player player) {
-        return player.getData(IS_HIDDEN);
     }
 
     public static boolean isHoldingSword(Player player) {

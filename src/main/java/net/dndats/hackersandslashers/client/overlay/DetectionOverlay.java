@@ -9,8 +9,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
 
-import static net.dndats.hackersandslashers.common.ModData.IS_HIDDEN;
-
 public class DetectionOverlay {
 
     public static void renderDetectionOverlay(RenderGuiEvent.Pre event) {
@@ -23,11 +21,6 @@ public class DetectionOverlay {
         Player player = Minecraft.getInstance().player;
 
         if (player != null) {
-
-            x = player.getX();
-            y = player.getY();
-            z = player.getZ();
-
 
             RenderSystem.disableDepthTest();
             RenderSystem.depthMask(false);
@@ -50,9 +43,9 @@ public class DetectionOverlay {
                 int posX = (width / 2) - halfTexture;
                 int posY = ((height / 2) - textureSize - gap) - 30;
 
-                if (PlayerUtils.isHidden(player)) {
+                if (!PlayerUtils.isHidden(player)) {
                     event.getGuiGraphics().blit(
-                            ResourceLocation.parse("hackersandslashers:textures/screens/hidden.png"),
+                            ResourceLocation.parse("hackersandslashers:textures/screens/alert.png"),
                             posX,
                             posY,
                             0, 0,
@@ -61,7 +54,7 @@ public class DetectionOverlay {
                     );
                 } else {
                     event.getGuiGraphics().blit(
-                            ResourceLocation.parse("hackersandslashers:textures/screens/alert.png"),
+                            ResourceLocation.parse("hackersandslashers:textures/screens/hidden.png"),
                             posX,
                             posY,
                             0, 0,

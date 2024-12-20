@@ -3,6 +3,7 @@ package net.dndats.hackersandslashers.network.packets;
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.common.ModData;
 import net.dndats.hackersandslashers.network.NetworkHandler;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -15,8 +16,6 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.jetbrains.annotations.NotNull;
-
-import static net.dndats.hackersandslashers.common.ModData.IS_HIDDEN;
 
 @EventBusSubscriber(modid = HackersAndSlashers.MODID, bus = EventBusSubscriber.Bus.MOD)
 public record PlayerDetectionStatePacket(boolean isHidden) implements CustomPacketPayload {

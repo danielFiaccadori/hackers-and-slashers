@@ -46,7 +46,6 @@ public class Block {
         if (canBlock(player)) {
             PacketDistributor.sendToServer(new PlayerBlockPacket(true));
             AnimationUtils.playBlockAnimation(player);
-            HackersAndSlashers.LOGGER.info("Triggered defensive at Block::triggerDefensive");
             TickScheduler.schedule(() -> PacketDistributor.sendToServer(new PlayerBlockPacket(false)), duration);
         }
     }

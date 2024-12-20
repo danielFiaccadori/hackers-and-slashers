@@ -19,7 +19,6 @@ public class KeybindEventHandler {
     @SubscribeEvent
     public static void onEntityBlock(ClientTickEvent.Pre event) {
         if (Keybinds.PARRY.consumeClick()) {
-            HackersAndSlashers.LOGGER.info("Trying to trigger defensive mode");
             Block.triggerDefensive(5);
         }
     }
