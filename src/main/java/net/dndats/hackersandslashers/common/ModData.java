@@ -2,8 +2,11 @@ package net.dndats.hackersandslashers.common;
 
 import com.mojang.serialization.Codec;
 import net.dndats.hackersandslashers.HackersAndSlashers;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.attachment.AttachmentType;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 

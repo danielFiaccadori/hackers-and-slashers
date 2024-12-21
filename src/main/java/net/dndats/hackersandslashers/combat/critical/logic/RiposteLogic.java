@@ -5,7 +5,6 @@ import net.dndats.hackersandslashers.assets.effects.ModMobEffects;
 import net.dndats.hackersandslashers.client.effects.SoundEffects;
 import net.dndats.hackersandslashers.combat.critical.manager.ICriticalLogic;
 import net.dndats.hackersandslashers.utils.CombatUtils;
-import net.dndats.hackersandslashers.utils.EntityUtils;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;

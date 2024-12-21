@@ -5,8 +5,6 @@ import net.dndats.hackersandslashers.TickScheduler;
 import net.dndats.hackersandslashers.network.packets.PlayerDetectionStatePacket;
 import net.dndats.hackersandslashers.utils.EntityUtils;
 import net.dndats.hackersandslashers.utils.PlayerUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
@@ -71,12 +69,25 @@ public class Stealth {
         }
     }
 
+    public static boolean detectAlertMobs(Player player) {
+        if (player == null) return false;
+        return mobAlertChecker(player);
+    }
+
     private static boolean mobTargetChecker(Player player) {
         if (player == null) return false;
         final Vec3 surroundings = new Vec3(player.getX(), player.getY(), player.getZ());
-        return player.level().getEntitiesOfClass(Mob.class, new AABB(surroundings, surroundings).inflate(10))
+        return player.level().getEntitiesOfClass(Mob.class, new AABB(surroundings, surroundings).inflate(64))
                 .stream()
                 .anyMatch(mob -> mob.getTarget() == player);
+    }
+
+    private static boolean mobAlertChecker(Player player) {
+        if (player == null) return false;
+        final Vec3 surroundings = new Vec3(player.getX(), player.getY(), player.getZ());
+        return player.level().getEntitiesOfClass(Mob.class, new AABB(surroundings, surroundings).inflate(64))
+                .stream()
+                .anyMatch(mob -> mob.getData(IS_ALERT));
     }
 
     private static boolean isAtObfuscatedPlace(Player player) {

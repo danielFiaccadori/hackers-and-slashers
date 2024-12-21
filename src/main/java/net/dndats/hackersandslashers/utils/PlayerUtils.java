@@ -1,6 +1,8 @@
 package net.dndats.hackersandslashers.utils;
 
+import net.dndats.hackersandslashers.network.packets.PlayerDetectionStatePacket;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -10,6 +12,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BushBlock;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.Objects;
 
@@ -31,11 +34,6 @@ public class PlayerUtils {
 
     // Checkers
 
-    public static boolean isHidden(Player player) {
-        if (player == null) return false;
-        return (isAtDarkPlace(player) || isOnBush(player));
-    }
-
     public static boolean isAtDarkPlace(Player player) {
         Level level = player.level();
         BlockPos position = player.blockPosition();
@@ -54,6 +52,11 @@ public class PlayerUtils {
 
     public static boolean isBlocking(Player player) {
         return player.getData(IS_BLOCKING);
+    }
+
+    public static boolean isHidden(Player player) {
+        if (player == null) return false;
+        return player.getData(IS_HIDDEN);
     }
 
     public static boolean isHoldingSword(Player player) {

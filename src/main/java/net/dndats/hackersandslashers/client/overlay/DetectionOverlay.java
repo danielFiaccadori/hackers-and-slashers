@@ -11,7 +11,7 @@ import net.neoforged.neoforge.client.event.RenderGuiEvent;
 
 public class DetectionOverlay {
 
-    public static void renderDetectionOverlay(RenderGuiEvent.Pre event) {
+    public static void renderDetectionOverlay(RenderGuiEvent.Pre event, boolean isHidden) {
 
         int width = event.getGuiGraphics().guiWidth();
         int height = event.getGuiGraphics().guiHeight();
@@ -43,7 +43,7 @@ public class DetectionOverlay {
                 int posX = (width / 2) - halfTexture;
                 int posY = ((height / 2) - textureSize - gap) - 30;
 
-                if (!PlayerUtils.isHidden(player)) {
+                if (isHidden) {
                     event.getGuiGraphics().blit(
                             ResourceLocation.parse("hackersandslashers:textures/screens/alert.png"),
                             posX,

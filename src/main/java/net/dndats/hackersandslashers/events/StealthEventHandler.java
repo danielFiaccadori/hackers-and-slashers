@@ -2,12 +2,15 @@ package net.dndats.hackersandslashers.events;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.combat.mechanics.stealth.Stealth;
+import net.dndats.hackersandslashers.network.packets.PlayerDetectionStatePacket;
 import net.dndats.hackersandslashers.utils.EntityUtils;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+
+import static net.dndats.hackersandslashers.common.ModData.IS_HIDDEN;
 
 @EventBusSubscriber(modid = "hackersandslashers")
 public class StealthEventHandler {
