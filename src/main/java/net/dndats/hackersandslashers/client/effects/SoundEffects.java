@@ -1,5 +1,6 @@
 package net.dndats.hackersandslashers.client.effects;
 
+import net.dndats.hackersandslashers.assets.sounds.ModSounds;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -11,11 +12,20 @@ public class SoundEffects {
      * @param entity Every method takes an Entity to play the sound.
      */
 
-    public static void playCriticalSound(LivingEntity entity) {
+    public static void playBackstabSound(LivingEntity entity) {
         if (!entity.level().isClientSide()) {
             entity.level().playSound(null,
                     entity.blockPosition(),
-                    SoundEvents.PLAYER_ATTACK_CRIT,
+                    ModSounds.BACKSTAB_CRITICAL.get(),
+                    SoundSource.PLAYERS, 1.0F, 1.0F);
+        }
+    }
+
+    public static void playRiposteSound(LivingEntity entity) {
+        if (!entity.level().isClientSide()) {
+            entity.level().playSound(null,
+                    entity.blockPosition(),
+                    ModSounds.RIPOSTE_CRITICAL.get(),
                     SoundSource.PLAYERS, 1.0F, 1.0F);
         }
     }

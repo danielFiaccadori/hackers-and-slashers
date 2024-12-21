@@ -12,6 +12,7 @@ import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 import java.util.Map;
@@ -22,6 +23,11 @@ import java.util.concurrent.ConcurrentHashMap;
 public class OverlayEventHandler {
 
     private static final Map<UUID, Player> hiddenPlayers = new ConcurrentHashMap<>();
+
+    @SubscribeEvent
+    public static void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {
+        hiddenPlayers.remove(event.getEntity().getUUID());
+    }
 
     @SubscribeEvent
     public static void onPlayerDetectHiddenStatus(PlayerTickEvent.Pre event) {
