@@ -10,6 +10,8 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class ModMobEffects {
 
+    // MOD MOB EFFECT REGISTERER
+
     public static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(Registries.MOB_EFFECT, HackersAndSlashers.MODID);
 
     public static final DeferredHolder<MobEffect, MobEffect> STUN = MOB_EFFECTS.register("stun", Stun::new);

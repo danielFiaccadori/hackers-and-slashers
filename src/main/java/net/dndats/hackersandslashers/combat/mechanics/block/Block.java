@@ -15,6 +15,12 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 public class Block {
 
+    /**
+     * This class represents the block mechanic behavior
+     * @param percentage: the damage percentage reduced when blocked an attack
+     * @param event: the event that triggers 
+     */
+
     public static void blockDamage(float percentage, LivingIncomingDamageEvent event) {
         try {
             if (event.getEntity() instanceof Player player) {

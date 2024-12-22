@@ -4,6 +4,7 @@ package net.dndats.hackersandslashers.events;
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.TickScheduler;
 import net.dndats.hackersandslashers.client.overlay.DetectionOverlay;
+import net.dndats.hackersandslashers.combat.mechanics.stealth.Stealth;
 import net.dndats.hackersandslashers.utils.PlayerUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;

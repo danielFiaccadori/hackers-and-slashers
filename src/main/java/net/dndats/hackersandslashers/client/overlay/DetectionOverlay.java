@@ -11,6 +11,12 @@ import net.neoforged.neoforge.client.event.RenderGuiEvent;
 
 public class DetectionOverlay {
 
+    /**
+     * This class manages the detection overlay that appears when the player sneaks
+     * @param event: the event triggered to display the overlay
+     * @param isHidden: the conditional that changes the icon based on the detection state
+     */
+
     public static void renderDetectionOverlay(RenderGuiEvent.Pre event, boolean isHidden) {
 
         int width = event.getGuiGraphics().guiWidth();

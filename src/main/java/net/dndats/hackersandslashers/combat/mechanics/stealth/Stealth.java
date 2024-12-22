@@ -2,6 +2,7 @@ package net.dndats.hackersandslashers.combat.mechanics.stealth;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.TickScheduler;
+import net.dndats.hackersandslashers.client.effects.SoundEffects;
 import net.dndats.hackersandslashers.network.packets.PlayerDetectionStatePacket;
 import net.dndats.hackersandslashers.utils.EntityUtils;
 import net.dndats.hackersandslashers.utils.PlayerUtils;

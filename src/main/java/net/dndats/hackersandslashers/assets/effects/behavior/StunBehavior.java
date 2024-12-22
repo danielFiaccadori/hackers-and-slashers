@@ -10,6 +10,11 @@ import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 @EventBusSubscriber(modid = "hackersandslashers")
 public class StunBehavior {
 
+    /**
+     * These methods are related to stun uncommon behavior
+     * @param event: every method takes an event to trigger an action
+     */
+
     @SubscribeEvent
     public static void disablePlayerActions(AttackEntityEvent event) {
         if (event.getEntity().hasEffect(ModMobEffects.STUN)) {
