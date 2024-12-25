@@ -8,6 +8,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -33,13 +34,16 @@ public record PlayerDetectionStatePacket(boolean isHidden) implements CustomPack
             );
 
     private static void handlePlayerDetectionStatePacket(final PlayerDetectionStatePacket packet, final IPayloadContext context) {
-        context.enqueueWork(() -> {
-            ServerPlayer player = (ServerPlayer) context.player();
-            player.setData(ModData.IS_HIDDEN, packet.isHidden);
-        }).exceptionally (e -> {
-            context.connection().disconnect(Component.literal(e.getMessage()));
-            return null;
-        });
+        if (context.flow() == PacketFlow.SERVERBOUND) {
+            context.enqueueWork(() -> {
+                ServerPlayer player = (ServerPlayer) context.player();
+                player.setData(ModData.IS_HIDDEN, packet.isHidden);
+                player.connection.send(new PlayerDetectionStatePacket(packet.isHidden()));
+            }).exceptionally(e -> {
+                context.connection().disconnect(Component.literal(e.getMessage()));
+                return null;
+            });
+        }
     }
 
     @SubscribeEvent
