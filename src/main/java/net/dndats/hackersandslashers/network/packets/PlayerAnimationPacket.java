@@ -45,7 +45,7 @@ public record PlayerAnimationPacket(String animation, int target, boolean overri
                 if (level.getEntity(packet.target) != null) {
                     Player player = (Player) level.getEntity(packet.target);
                     if (player instanceof AbstractClientPlayer player_) {
-                        var animation = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData(Minecraft.getInstance().player).get(ResourceLocation.fromNamespaceAndPath(HackersAndSlashers.MODID, "player_animation"));
+                        var animation = (ModifierLayer<IAnimation>) PlayerAnimationAccess.getPlayerAssociatedData(Minecraft.getInstance().player).get(ResourceLocation.fromNamespaceAndPath(HackersAndSlashers.MODID, "player_animations"));
                         if (animation != null && (packet.override ? true : !animation.isActive())) {
                             animation.replaceAnimationWithFade(AbstractFadeModifier.functionalFadeIn(20, (modelName, type, value) -> value), PlayerAnimationRegistry.getAnimation(ResourceLocation.fromNamespaceAndPath("hackersandslashers", packet.animation))
                                     .playAnimation().setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL).setFirstPersonConfiguration(new FirstPersonConfiguration().setShowRightArm(true).setShowLeftItem(false)));

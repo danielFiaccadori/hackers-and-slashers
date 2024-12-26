@@ -37,7 +37,7 @@ public class PlayerAnimator {
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         PlayerAnimationFactory.ANIMATION_DATA_FACTORY.registerFactory(
-                ResourceLocation.fromNamespaceAndPath(HackersAndSlashers.MODID, "player_animation"),
+                ResourceLocation.fromNamespaceAndPath(HackersAndSlashers.MODID, "player_animations"),
                 42,
                 PlayerAnimator::registerPlayerAnimation
         );
@@ -59,7 +59,7 @@ public class PlayerAnimator {
                 if (entity instanceof AbstractClientPlayer player) {
                     var animation = (ModifierLayer<IAnimation>) PlayerAnimationAccess.
                             getPlayerAssociatedData(Minecraft.getInstance().player).
-                            get(ResourceLocation.fromNamespaceAndPath(HackersAndSlashers.MODID, "player_animation"));
+                            get(ResourceLocation.fromNamespaceAndPath(HackersAndSlashers.MODID, "player_animations"));
                     if (animation != null) {
                         animation.replaceAnimationWithFade(AbstractFadeModifier
                                         .functionalFadeIn(20, (modelName, type, value) -> value), Objects.requireNonNull(PlayerAnimationRegistry.getAnimation(ResourceLocation.fromNamespaceAndPath(HackersAndSlashers.MODID, animationName))).

@@ -1,6 +1,7 @@
 package net.dndats.hackersandslashers.network.packets;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
+import net.dndats.hackersandslashers.client.effects.SoundEffects;
 import net.dndats.hackersandslashers.common.ModData;
 import net.dndats.hackersandslashers.network.NetworkHandler;
 import net.minecraft.network.FriendlyByteBuf;

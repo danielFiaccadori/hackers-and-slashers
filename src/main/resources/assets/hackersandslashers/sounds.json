@@ -10,11 +10,5 @@
     "sounds": [
       "hackersandslashers:riposte_critical"
     ]
-  },
-  "player_detected": {
-    "subtitle": "sounds.hackersandslashers.player_detected",
-    "sounds": [
-      "hackersandslashers:player_detected"
-    ]
   }
 }
