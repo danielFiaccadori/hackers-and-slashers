@@ -1,12 +1,8 @@
 package net.dndats.hackersandslashers.client.overlay;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.dndats.hackersandslashers.utils.OverlayUtils;
 import net.dndats.hackersandslashers.utils.PlayerUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
 

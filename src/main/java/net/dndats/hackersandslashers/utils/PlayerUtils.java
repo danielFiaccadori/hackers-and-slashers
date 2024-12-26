@@ -39,7 +39,7 @@ public class PlayerUtils {
                 level.getBrightness(LightLayer.SKY, position),
                 level.getBrightness(LightLayer.BLOCK, position)
         );
-        return lightLevel <= 13 || isObfuscated;
+        return lightLevel < 15 || isObfuscated;
     }
 
     public static boolean isOnBush(Player player) {

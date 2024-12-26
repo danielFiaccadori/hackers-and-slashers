@@ -38,7 +38,6 @@ public class StealthEventHandler {
             if (event.getEntity().level().isClientSide) return;
             scheduledTracker++;
             if (scheduledTracker >= 20) {
-                HackersAndSlashers.LOGGER.info("Tracking alert mobs");
                 scheduledTracker = 0;
                 Stealth.detectBeingTargeted(event.getEntity());
             }

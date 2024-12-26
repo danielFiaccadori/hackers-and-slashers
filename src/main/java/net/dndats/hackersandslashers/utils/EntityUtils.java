@@ -1,13 +1,12 @@
 package net.dndats.hackersandslashers.utils;
 
 import net.dndats.hackersandslashers.assets.effects.ModMobEffects;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
-
-import static net.dndats.hackersandslashers.common.ModData.IS_ALERT;
 
 // UTILITY METHODS RELATED TO ENTITIES AND PLAYERS
 public class EntityUtils {
@@ -23,11 +22,34 @@ public class EntityUtils {
     }
 
     public static void resetMobTarget(EntityTickEvent event) {
-        if (event.getEntity() instanceof Mob mob && mob.getTarget() instanceof Player player) {
-            if (mob.getData(IS_ALERT) && mob.getTarget() == null) {
-                mob.setData(IS_ALERT, false);
+        if (event.getEntity() instanceof Mob mob) {
+            CompoundTag nbt = mob.getPersistentData();
+            if (nbt.getBoolean("is_alert") && mob.getTarget() == null) {
+                nbt.remove("is_alert");
             }
         }
+    }
+
+    private static final String ALERT_TAG = "alert_level";
+
+    public static boolean hasAlertTag(Mob mob) {
+        CompoundTag nbt = mob.getPersistentData();
+        return nbt.contains(ALERT_TAG);
+    }
+
+    public static int getMobAlertLevel(Mob mob) {
+        CompoundTag nbt = mob.getPersistentData();
+        return nbt.getInt("alert_level");
+    }
+
+    public static void addAlertTag(Mob mob, int alertLevel) {
+        CompoundTag nbt = mob.getPersistentData();
+        nbt.putInt(ALERT_TAG, alertLevel);
+    }
+
+    public static void removeAlertTag(Mob mob) {
+        CompoundTag nbt = mob.getPersistentData();
+        nbt.remove(ALERT_TAG);
     }
 
     public static boolean isAwareOf(Player player, LivingEntity entity) {

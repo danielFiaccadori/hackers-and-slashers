@@ -19,7 +19,6 @@ public class CombatEventHandler {
     public static void blockReduceDamage(LivingIncomingDamageEvent event) {
         try {
             Block.blockDamage(25, event);
-            HackersAndSlashers.LOGGER.info("Reduced {} damage of {} from entity {}", event.getAmount(), event.getOriginalAmount(), event.getSource().getEntity());
         } catch (Exception e) {
             HackersAndSlashers.LOGGER.error("Error while trying to block damage: {}", e.getMessage());
         }

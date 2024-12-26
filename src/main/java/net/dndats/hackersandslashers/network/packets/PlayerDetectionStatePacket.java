@@ -36,7 +36,6 @@ public record PlayerDetectionStatePacket(int visibility_level) implements Custom
                 ServerPlayer player = (ServerPlayer) context.player();
                 player.setData(ModData.VISIBILITY_LEVEL, packet.visibility_level);
                 player.connection.send(new PlayerDetectionStatePacket(packet.visibility_level()));
-                HackersAndSlashers.LOGGER.info("Data VISIBILITY_LEVEL set to {} at serverside.", context.player().getData(ModData.VISIBILITY_LEVEL));
             }).exceptionally(e -> {
                 context.connection().disconnect(Component.literal(e.getMessage()));
                 return null;
@@ -44,7 +43,6 @@ public record PlayerDetectionStatePacket(int visibility_level) implements Custom
         } else {
             context.enqueueWork(() -> {
                 context.player().setData(ModData.VISIBILITY_LEVEL, packet.visibility_level());
-                HackersAndSlashers.LOGGER.info("Data VISIBILITY_LEVEL set to {} at clientside.", context.player().getData(ModData.VISIBILITY_LEVEL));
             }).exceptionally(e -> {
                 context.connection().disconnect(Component.literal(e.getMessage()));
                 return null;

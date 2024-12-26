@@ -19,10 +19,6 @@ public class ModData {
             "is_blocking", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL).build()
     );
 
-    public static final Supplier<AttachmentType<Boolean>> IS_ALERT = ATTACHMENT_TYPES.register(
-            "is_alert", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL).build()
-    );
-
     public static final Supplier<AttachmentType<Integer>> VISIBILITY_LEVEL = ATTACHMENT_TYPES.register(
             "visibility_level", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT).build()
     );

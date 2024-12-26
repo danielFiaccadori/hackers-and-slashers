@@ -17,8 +17,9 @@ public class Block {
 
     /**
      * This class represents the block mechanic behavior
+     *
      * @param percentage: the damage percentage reduced when blocked an attack
-     * @param event: the event that triggers 
+     * @param event: the event that is responsible by applying the block effect
      */
 
     public static void blockDamage(float percentage, LivingIncomingDamageEvent event) {
@@ -45,6 +46,11 @@ public class Block {
             HackersAndSlashers.LOGGER.error("Error while trying to reduce damage: {}", e.getMessage());
         }
     }
+
+    /**
+     * This method triggers the defensive mode based on a parameter
+     * @param duration: the parameter that controls the amount of time that the player will stay in defensive mode
+     */
 
     public static void triggerDefensive(int duration) {
         Player player = Minecraft.getInstance().player;
