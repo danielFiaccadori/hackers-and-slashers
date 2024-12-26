@@ -3,7 +3,6 @@ package net.dndats.hackersandslashers.network.packets;
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.common.ModData;
 import net.dndats.hackersandslashers.network.NetworkHandler;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -12,24 +11,22 @@ import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.jetbrains.annotations.NotNull;
 
 @EventBusSubscriber(modid = HackersAndSlashers.MODID, bus = EventBusSubscriber.Bus.MOD)
-public record PlayerDetectionStatePacket(boolean isHidden) implements CustomPacketPayload {
+public record PlayerDetectionStatePacket(int visibility_level) implements CustomPacketPayload {
 
     public static final Type<PlayerDetectionStatePacket> TYPE =
             new Type<>(ResourceLocation.fromNamespaceAndPath("hackersandslashers", "is_hidden"));
 
     public static final StreamCodec<FriendlyByteBuf, PlayerDetectionStatePacket> STREAM_CODEC =
             StreamCodec.composite(
-                    ByteBufCodecs.BOOL,
-                    PlayerDetectionStatePacket::isHidden,
+                    ByteBufCodecs.INT,
+                    PlayerDetectionStatePacket::visibility_level,
                     PlayerDetectionStatePacket::new
             );
 
@@ -37,17 +34,17 @@ public record PlayerDetectionStatePacket(boolean isHidden) implements CustomPack
         if (context.flow() == PacketFlow.SERVERBOUND) {
             context.enqueueWork(() -> {
                 ServerPlayer player = (ServerPlayer) context.player();
-                player.setData(ModData.IS_HIDDEN, packet.isHidden);
-                player.connection.send(new PlayerDetectionStatePacket(packet.isHidden()));
-                HackersAndSlashers.LOGGER.info("Data IS_HIDDEN set to {} at serverside.", context.player().getData(ModData.IS_HIDDEN));
+                player.setData(ModData.VISIBILITY_LEVEL, packet.visibility_level);
+                player.connection.send(new PlayerDetectionStatePacket(packet.visibility_level()));
+                HackersAndSlashers.LOGGER.info("Data VISIBILITY_LEVEL set to {} at serverside.", context.player().getData(ModData.VISIBILITY_LEVEL));
             }).exceptionally(e -> {
                 context.connection().disconnect(Component.literal(e.getMessage()));
                 return null;
             });
         } else {
             context.enqueueWork(() -> {
-                context.player().setData(ModData.IS_HIDDEN, packet.isHidden());
-                HackersAndSlashers.LOGGER.info("Data IS_HIDDEN set to {} at clientside.", context.player().getData(ModData.IS_HIDDEN));
+                context.player().setData(ModData.VISIBILITY_LEVEL, packet.visibility_level());
+                HackersAndSlashers.LOGGER.info("Data VISIBILITY_LEVEL set to {} at clientside.", context.player().getData(ModData.VISIBILITY_LEVEL));
             }).exceptionally(e -> {
                 context.connection().disconnect(Component.literal(e.getMessage()));
                 return null;

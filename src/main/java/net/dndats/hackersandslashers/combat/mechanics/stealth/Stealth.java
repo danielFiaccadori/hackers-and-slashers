@@ -2,7 +2,6 @@ package net.dndats.hackersandslashers.combat.mechanics.stealth;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.TickScheduler;
-import net.dndats.hackersandslashers.client.effects.SoundEffects;
 import net.dndats.hackersandslashers.network.packets.PlayerDetectionStatePacket;
 import net.dndats.hackersandslashers.utils.EntityUtils;
 import net.dndats.hackersandslashers.utils.PlayerUtils;
@@ -15,10 +14,9 @@ import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import static net.dndats.hackersandslashers.common.ModData.IS_ALERT;
-import static net.dndats.hackersandslashers.common.ModData.IS_HIDDEN;
+import static net.dndats.hackersandslashers.common.ModData.VISIBILITY_LEVEL;
 
 // MANAGES STEALTH LOGICS
-
 public class Stealth {
 
     private static final int DETECTION_WAIT_TIME = 90;
@@ -58,21 +56,23 @@ public class Stealth {
     public static void detectBeingTargeted(Player player) {
         if (player == null) return;
         if (mobTargetChecker(player)) {
-            if (!player.getData(IS_HIDDEN)) {
-                PacketDistributor.sendToServer(new PlayerDetectionStatePacket(true));
-                player.sendSystemMessage(Component.literal("Is hidden: " + player.getData(IS_HIDDEN)));
+            if (mobAlertChecker(player)) {
+                if (PlayerUtils.getVisibilityLevel(player) != 100) {
+                    PacketDistributor.sendToServer(new PlayerDetectionStatePacket(100));
+                    player.sendSystemMessage(Component.literal("Visibility: " + player.getData(VISIBILITY_LEVEL)));
+                }
+            } else {
+                if (PlayerUtils.getVisibilityLevel(player) != 50) {
+                    PacketDistributor.sendToServer(new PlayerDetectionStatePacket(50));
+                    player.sendSystemMessage(Component.literal("Visibility: " + player.getData(VISIBILITY_LEVEL)));
+                }
             }
         } else {
-            if (player.getData(IS_HIDDEN)) {
-                PacketDistributor.sendToServer(new PlayerDetectionStatePacket(false));
-                player.sendSystemMessage(Component.literal("Is hidden: " + player.getData(IS_HIDDEN)));
+            if (PlayerUtils.getVisibilityLevel(player) != 0) {
+                PacketDistributor.sendToServer(new PlayerDetectionStatePacket(0));
+                player.sendSystemMessage(Component.literal("Visibility: " + player.getData(VISIBILITY_LEVEL)));
             }
         }
-    }
-
-    public static boolean detectAlertMobs(Player player) {
-        if (player == null) return false;
-        return mobAlertChecker(player);
     }
 
     private static boolean mobTargetChecker(Player player) {

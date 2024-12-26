@@ -9,6 +9,7 @@ import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
+// IMPLEMENTS STEALTH LOGICS
 @EventBusSubscriber(modid = HackersAndSlashers.MODID)
 public class StealthEventHandler {
 

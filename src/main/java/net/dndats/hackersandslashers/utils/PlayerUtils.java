@@ -1,8 +1,6 @@
 package net.dndats.hackersandslashers.utils;
 
-import net.dndats.hackersandslashers.network.packets.PlayerDetectionStatePacket;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -12,12 +10,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BushBlock;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.Objects;
 
 import static net.dndats.hackersandslashers.common.ModData.IS_BLOCKING;
-import static net.dndats.hackersandslashers.common.ModData.IS_HIDDEN;
+import static net.dndats.hackersandslashers.common.ModData.VISIBILITY_LEVEL;
 
 
 // UTILITY METHODS RELATED TO PLAYERS
@@ -54,9 +51,9 @@ public class PlayerUtils {
         return player.getData(IS_BLOCKING);
     }
 
-    public static boolean isHidden(Player player) {
-        if (player == null) return false;
-        return player.getData(IS_HIDDEN);
+    public static int getVisibilityLevel(Player player) {
+        if (player == null) return 0;
+        return player.getData(VISIBILITY_LEVEL);
     }
 
     public static boolean isHoldingSword(Player player) {
