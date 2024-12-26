@@ -22,7 +22,7 @@ public class DetectionOverlay {
         Player player = Minecraft.getInstance().player;
         if (player == null) return;
         if (canRender(player)) {
-            if (isHidden) {
+            if (PlayerUtils.isHidden(player)) {
                 OverlayUtils.renderOverlay(event, "hackersandslashers:textures/screens/alert.png", player);
             } else {
                 OverlayUtils.renderOverlay(event, "hackersandslashers:textures/screens/hidden.png", player);

@@ -81,6 +81,7 @@ public class Stealth {
         return player.level().getEntitiesOfClass(Mob.class, new AABB(surroundings, surroundings).inflate(64))
                 .stream()
                 .anyMatch(mob -> mob.getTarget() == player);
+
     }
 
     private static boolean mobAlertChecker(Player player) {

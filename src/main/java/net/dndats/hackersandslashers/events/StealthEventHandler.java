@@ -2,7 +2,6 @@ package net.dndats.hackersandslashers.events;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.combat.mechanics.stealth.Stealth;
-import net.dndats.hackersandslashers.network.packets.PlayerDetectionStatePacket;
 import net.dndats.hackersandslashers.utils.EntityUtils;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -10,9 +9,7 @@ import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
-import static net.dndats.hackersandslashers.common.ModData.IS_HIDDEN;
-
-@EventBusSubscriber(modid = "hackersandslashers")
+@EventBusSubscriber(modid = HackersAndSlashers.MODID)
 public class StealthEventHandler {
 
     @SubscribeEvent
@@ -33,10 +30,17 @@ public class StealthEventHandler {
         }
     }
 
+    private static int scheduledTracker = 0;
     @SubscribeEvent
-    public static void triggerHiddenStatus(PlayerTickEvent.Pre event) {
+    public static void mobTargetTracker(PlayerTickEvent.Pre event) {
         try {
-            Stealth.detectBeingTargeted(event.getEntity());
+            if (event.getEntity().level().isClientSide) return;
+            scheduledTracker++;
+            if (scheduledTracker >= 20) {
+                HackersAndSlashers.LOGGER.info("Tracking alert mobs");
+                scheduledTracker = 0;
+                Stealth.detectBeingTargeted(event.getEntity());
+            }
         } catch (Exception e) {
             HackersAndSlashers.LOGGER.error("Error while trying to change player data: {}", e.getMessage());
         }

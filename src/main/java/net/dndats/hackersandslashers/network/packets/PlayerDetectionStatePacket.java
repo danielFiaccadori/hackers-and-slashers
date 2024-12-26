@@ -39,6 +39,15 @@ public record PlayerDetectionStatePacket(boolean isHidden) implements CustomPack
                 ServerPlayer player = (ServerPlayer) context.player();
                 player.setData(ModData.IS_HIDDEN, packet.isHidden);
                 player.connection.send(new PlayerDetectionStatePacket(packet.isHidden()));
+                HackersAndSlashers.LOGGER.info("Data IS_HIDDEN set to {} at serverside.", context.player().getData(ModData.IS_HIDDEN));
+            }).exceptionally(e -> {
+                context.connection().disconnect(Component.literal(e.getMessage()));
+                return null;
+            });
+        } else {
+            context.enqueueWork(() -> {
+                context.player().setData(ModData.IS_HIDDEN, packet.isHidden());
+                HackersAndSlashers.LOGGER.info("Data IS_HIDDEN set to {} at clientside.", context.player().getData(ModData.IS_HIDDEN));
             }).exceptionally(e -> {
                 context.connection().disconnect(Component.literal(e.getMessage()));
                 return null;

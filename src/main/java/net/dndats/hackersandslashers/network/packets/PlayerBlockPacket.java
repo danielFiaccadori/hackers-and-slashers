@@ -37,12 +37,22 @@ public record PlayerBlockPacket(boolean isBlocking) implements CustomPacketPaylo
             context.enqueueWork(() -> {
                 ServerPlayer player = (ServerPlayer) context.player();
                 player.setData(ModData.IS_BLOCKING, packet.isBlocking());
+                player.connection.send(new PlayerBlockPacket(packet.isBlocking()));
+                HackersAndSlashers.LOGGER.info("Data IS_BLOCKING set to {} at server side.", context.player().getData(ModData.IS_BLOCKING));
                 if (packet.isBlocking()) {
                     PlayerUtils.addSpeedModifier(player);
                     SoundEffects.playBlockSwingSound(player);
                 } else {
                     PlayerUtils.removeSpeedModifier(player);
                 }
+            }).exceptionally(e -> {
+                context.connection().disconnect(Component.literal(e.getMessage()));
+                return null;
+            });
+        } else {
+            context.enqueueWork(() -> {
+                context.player().setData(ModData.IS_BLOCKING, packet.isBlocking());
+                HackersAndSlashers.LOGGER.info("Data IS_BLOCKING set to {} at clientside.", context.player().getData(ModData.IS_BLOCKING));
             }).exceptionally(e -> {
                 context.connection().disconnect(Component.literal(e.getMessage()));
                 return null;
