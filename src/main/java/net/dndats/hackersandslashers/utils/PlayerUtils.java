@@ -1,5 +1,6 @@
 package net.dndats.hackersandslashers.utils;
 
+import net.dndats.hackersandslashers.common.ModPlayerData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -12,10 +13,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BushBlock;
 
 import java.util.Objects;
-
-import static net.dndats.hackersandslashers.common.ModData.IS_BLOCKING;
-import static net.dndats.hackersandslashers.common.ModData.VISIBILITY_LEVEL;
-
 
 // UTILITY METHODS RELATED TO PLAYERS
 public class PlayerUtils {
@@ -48,12 +45,12 @@ public class PlayerUtils {
     }
 
     public static boolean isBlocking(Player player) {
-        return player.getData(IS_BLOCKING);
+        return player.getData(ModPlayerData.IS_BLOCKING).getIsBlocking();
     }
 
-    public static int getVisibilityLevel(Player player) {
+    public static double getVisibilityLevel(Player player) {
         if (player == null) return 0;
-        return player.getData(VISIBILITY_LEVEL);
+        return player.getData(ModPlayerData.VISIBILITY_LEVEL).getVisibilityLevel();
     }
 
     public static boolean isHoldingSword(Player player) {

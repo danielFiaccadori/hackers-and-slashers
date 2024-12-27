@@ -61,7 +61,11 @@ public record PlayerAnimationPacket(String animation, int target, boolean overri
 
     @SubscribeEvent
     public static void registerMessage(FMLCommonSetupEvent event) {
-        NetworkHandler.addNetworkMessage(PlayerAnimationPacket.TYPE, PlayerAnimationPacket.STREAM_CODEC, PlayerAnimationPacket::handlePlayerAnimationPacket);
+        NetworkHandler.addNetworkMessage(
+                PlayerAnimationPacket.TYPE,
+                PlayerAnimationPacket.STREAM_CODEC,
+                PlayerAnimationPacket::handlePlayerAnimationPacket
+        );
     }
 
     @Override

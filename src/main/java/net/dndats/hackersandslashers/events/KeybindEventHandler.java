@@ -5,6 +5,7 @@ import net.dndats.hackersandslashers.client.animations.PlayerAnimator;
 import net.dndats.hackersandslashers.client.input.Keybinds;
 import net.dndats.hackersandslashers.combat.mechanics.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -17,9 +18,10 @@ public class KeybindEventHandler {
 
     // Block handler
     @SubscribeEvent
-    public static void onEntityBlock(ClientTickEvent.Pre event) {
+    public static void onEntityBlock(PlayerTickEvent.Pre event) {
         if (Keybinds.PARRY.consumeClick()) {
-            Block.triggerDefensive(5);
+            Player player = event.getEntity();
+            Block.triggerDefensive(5, player);
         }
     }
 

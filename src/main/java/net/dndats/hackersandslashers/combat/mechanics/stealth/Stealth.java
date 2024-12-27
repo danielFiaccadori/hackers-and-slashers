@@ -1,7 +1,8 @@
 package net.dndats.hackersandslashers.combat.mechanics.stealth;
 
 import net.dndats.hackersandslashers.TickScheduler;
-import net.dndats.hackersandslashers.network.packets.PlayerDetectionStatePacket;
+import net.dndats.hackersandslashers.common.ModPlayerData;
+import net.dndats.hackersandslashers.common.data.IsBlockingData;
 import net.dndats.hackersandslashers.utils.EntityUtils;
 import net.dndats.hackersandslashers.utils.PlayerUtils;
 import net.minecraft.world.entity.Mob;
@@ -68,21 +69,23 @@ public class Stealth {
 
     public static void detectBeingTargeted(Player player) {
         if (player == null) return;
+        var playerData = player.getData(ModPlayerData.VISIBILITY_LEVEL);
         if (mobAlertChecker(player)) {
             if (mobTargetChecker(player)) {
                 if (PlayerUtils.getVisibilityLevel(player) != 100) {
-                    PacketDistributor.sendToServer(new PlayerDetectionStatePacket(100));
+                    playerData.setVisibilityLevel(100);
                 }
             } else {
                 if (PlayerUtils.getVisibilityLevel(player) != 50) {
-                    PacketDistributor.sendToServer(new PlayerDetectionStatePacket(50));
+                    playerData.setVisibilityLevel(50);
                 }
             }
         } else {
             if (PlayerUtils.getVisibilityLevel(player) != 0) {
-                PacketDistributor.sendToServer(new PlayerDetectionStatePacket(0));
+                playerData.setVisibilityLevel(0);
             }
         }
+        playerData.syncData(player);
     }
 
     /**

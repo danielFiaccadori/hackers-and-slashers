@@ -6,10 +6,7 @@ import net.dndats.hackersandslashers.combat.critical.logic.BackstabLogic;
 import net.dndats.hackersandslashers.combat.critical.logic.RiposteLogic;
 import net.dndats.hackersandslashers.combat.critical.manager.CriticalAttack;
 import net.dndats.hackersandslashers.combat.critical.manager.CriticalRegistry;
-import net.dndats.hackersandslashers.common.ModData;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.player.Player;
-import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
+import net.dndats.hackersandslashers.common.ModPlayerData;
 import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
 import org.slf4j.Logger;
 import com.mojang.logging.LogUtils;
@@ -41,7 +38,7 @@ public class HackersAndSlashers {
         CriticalRegistry.registerCritical(new CriticalAttack("Riposte", new RiposteLogic(1.5F)));
 
         // Register data
-        ModData.registerData(modEventBus);
+        ModPlayerData.ATTACHMENT_TYPES.register(modEventBus);
 
         // Register assets
         ModMobEffects.register(modEventBus);

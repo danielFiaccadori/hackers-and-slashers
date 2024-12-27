@@ -3,7 +3,7 @@ package net.dndats.hackersandslashers.combat.mechanics.block;
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.TickScheduler;
 import net.dndats.hackersandslashers.client.effects.SoundEffects;
-import net.dndats.hackersandslashers.network.packets.PlayerBlockPacket;
+import net.dndats.hackersandslashers.common.ModPlayerData;
 import net.dndats.hackersandslashers.utils.AnimationUtils;
 import net.dndats.hackersandslashers.utils.ItemUtils;
 import net.dndats.hackersandslashers.utils.PlayerUtils;
@@ -11,7 +11,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.SwordItem;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 public class Block {
 
@@ -52,13 +51,18 @@ public class Block {
      * @param duration: the parameter that controls the amount of time that the player will stay in defensive mode
      */
 
-    public static void triggerDefensive(int duration) {
-        Player player = Minecraft.getInstance().player;
+    public static void triggerDefensive(int duration, Player player) {
         if (player == null) return;
         if (canBlock(player)) {
-            PacketDistributor.sendToServer(new PlayerBlockPacket(true));
+            var playerData = player.getData(ModPlayerData.IS_BLOCKING);
+            playerData.setIsBlocking(true);
+            SoundEffects.playBlockSwingSound(player);
+            playerData.syncData(player);
             AnimationUtils.playBlockAnimation(player);
-            TickScheduler.schedule(() -> PacketDistributor.sendToServer(new PlayerBlockPacket(false)), duration);
+            TickScheduler.schedule(() -> {
+                playerData.setIsBlocking(false);
+                playerData.syncData(player);
+            }, duration);
         }
     }
 
