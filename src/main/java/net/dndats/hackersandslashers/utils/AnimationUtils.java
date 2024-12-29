@@ -3,10 +3,9 @@ package net.dndats.hackersandslashers.utils;
 import net.dndats.hackersandslashers.client.animations.PlayerAnimator;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.SwordItem;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class AnimationUtils {
-
-    // Executors
 
     public static void playBlockAnimation(Player player) {
         if (player.getMainHandItem().getItem() instanceof SwordItem && player.getOffhandItem().getItem() instanceof SwordItem) {

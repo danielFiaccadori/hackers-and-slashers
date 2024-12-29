@@ -2,15 +2,18 @@ package net.dndats.hackersandslashers.combat.mechanics.block;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.TickScheduler;
+import net.dndats.hackersandslashers.client.animations.PlayerAnimator;
 import net.dndats.hackersandslashers.client.effects.SoundEffects;
 import net.dndats.hackersandslashers.common.ModPlayerData;
+import net.dndats.hackersandslashers.network.packets.PacketTriggerPlayerBlock;
 import net.dndats.hackersandslashers.utils.AnimationUtils;
 import net.dndats.hackersandslashers.utils.ItemUtils;
 import net.dndats.hackersandslashers.utils.PlayerUtils;
-import net.minecraft.client.Minecraft;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.SwordItem;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class Block {
 
@@ -56,18 +59,15 @@ public class Block {
         if (canBlock(player)) {
             var playerData = player.getData(ModPlayerData.IS_BLOCKING);
             playerData.setIsBlocking(true);
-            SoundEffects.playBlockSwingSound(player);
-            playerData.syncData(player);
+            PacketDistributor.sendToServer(new PacketTriggerPlayerBlock(playerData));
             AnimationUtils.playBlockAnimation(player);
-            TickScheduler.schedule(() -> {
-                playerData.setIsBlocking(false);
-                playerData.syncData(player);
-            }, duration);
         }
     }
 
-    public static boolean canBlock(Player player) {
-        return !PlayerUtils.isBlocking(player) && PlayerUtils.isHoldingSword(player);
+    private static boolean canBlock(Player player) {
+        return PlayerUtils.isHoldingSword(player)
+                && !player.isCrouching()
+                && !PlayerUtils.isBlocking(player);
     }
 
 }

@@ -74,18 +74,20 @@ public class Stealth {
             if (mobTargetChecker(player)) {
                 if (PlayerUtils.getVisibilityLevel(player) != 100) {
                     playerData.setVisibilityLevel(100);
+                    playerData.syncData(player);
                 }
             } else {
                 if (PlayerUtils.getVisibilityLevel(player) != 50) {
                     playerData.setVisibilityLevel(50);
+                    playerData.syncData(player);
                 }
             }
         } else {
             if (PlayerUtils.getVisibilityLevel(player) != 0) {
                 playerData.setVisibilityLevel(0);
+                playerData.syncData(player);
             }
         }
-        playerData.syncData(player);
     }
 
     /**

@@ -1,7 +1,5 @@
 package net.dndats.hackersandslashers.common.data;
 
-import net.dndats.hackersandslashers.HackersAndSlashers;
-import net.dndats.hackersandslashers.common.ModPlayerData;
 import net.dndats.hackersandslashers.network.packets.PacketTriggerPlayerBlock;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -38,7 +36,6 @@ public class IsBlockingData implements INBTSerializable<CompoundTag> {
     public void syncData(Entity entity) {
         if (entity instanceof ServerPlayer serverPlayer) {
             PacketDistributor.sendToPlayer(serverPlayer, new PacketTriggerPlayerBlock(this));
-            HackersAndSlashers.LOGGER.info("Is blocking set to {} at clientside!", serverPlayer.getData(ModPlayerData.IS_BLOCKING).isBlocking);
         }
     }
 

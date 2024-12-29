@@ -30,8 +30,13 @@ public record PacketSetPlayerVisibility(VisibilityLevelData data) implements Cus
 
     public static void handleData(final PacketSetPlayerVisibility message, final IPayloadContext context) {
         if (context.flow().isClientbound() && message.data() != null) {
-            context.enqueueWork(() -> context.player().getData(ModPlayerData.VISIBILITY_LEVEL).deserializeNBT(context.player().registryAccess(),
-                    message.data().serializeNBT(context.player().registryAccess()))).exceptionally(e -> {
+            context.enqueueWork(() -> {
+                context.player().getData(ModPlayerData.VISIBILITY_LEVEL).deserializeNBT(context.player().registryAccess(),
+                    message.data().serializeNBT(context.player().registryAccess()));
+                context.player().setData(ModPlayerData.VISIBILITY_LEVEL, message.data());
+                HackersAndSlashers.LOGGER.info("Player data VISIBILITY LEVEL set to {} at {}",
+                        context.player().getData(ModPlayerData.VISIBILITY_LEVEL).getVisibilityLevel(), context.flow().getReceptionSide());
+            }).exceptionally(e -> {
                 context.connection().disconnect(Component.literal(e.getMessage()));
                 return null;
             });
