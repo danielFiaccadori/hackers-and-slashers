@@ -1,4 +1,4 @@
-package net.dndats.hackersandslashers.combat.critical.manager;
+package net.dndats.hackersandslashers.common.combat.critical.manager;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;

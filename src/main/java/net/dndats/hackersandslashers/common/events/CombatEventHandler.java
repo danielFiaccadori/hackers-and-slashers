@@ -1,8 +1,8 @@
-package net.dndats.hackersandslashers.events;
+package net.dndats.hackersandslashers.common.events;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
-import net.dndats.hackersandslashers.combat.critical.manager.CriticalRegistry;
-import net.dndats.hackersandslashers.combat.mechanics.block.Block;
+import net.dndats.hackersandslashers.common.combat.critical.manager.CriticalRegistry;
+import net.dndats.hackersandslashers.common.combat.mechanics.block.Block;
 import net.dndats.hackersandslashers.utils.CombatUtils;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;

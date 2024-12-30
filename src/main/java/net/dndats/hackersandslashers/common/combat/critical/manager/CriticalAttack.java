@@ -1,6 +1,4 @@
-package net.dndats.hackersandslashers.combat.critical.manager;
-
-import java.util.Objects;
+package net.dndats.hackersandslashers.common.combat.critical.manager;
 
 public class CriticalAttack {
 

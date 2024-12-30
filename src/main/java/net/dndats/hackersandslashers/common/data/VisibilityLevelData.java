@@ -1,6 +1,6 @@
 package net.dndats.hackersandslashers.common.data;
 
-import net.dndats.hackersandslashers.network.packets.PacketSetPlayerVisibility;
+import net.dndats.hackersandslashers.common.network.packets.PacketSetPlayerVisibility;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;

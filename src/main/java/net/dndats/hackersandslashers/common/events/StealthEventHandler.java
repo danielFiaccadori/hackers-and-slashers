@@ -1,7 +1,7 @@
-package net.dndats.hackersandslashers.events;
+package net.dndats.hackersandslashers.common.events;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
-import net.dndats.hackersandslashers.combat.mechanics.stealth.Stealth;
+import net.dndats.hackersandslashers.common.combat.mechanics.stealth.Stealth;
 import net.dndats.hackersandslashers.utils.EntityUtils;
 import net.minecraft.network.chat.Component;
 import net.neoforged.bus.api.SubscribeEvent;

@@ -2,11 +2,13 @@ package net.dndats.hackersandslashers;
 
 import net.dndats.hackersandslashers.assets.effects.ModMobEffects;
 import net.dndats.hackersandslashers.assets.sounds.ModSounds;
-import net.dndats.hackersandslashers.combat.critical.logic.BackstabLogic;
-import net.dndats.hackersandslashers.combat.critical.logic.RiposteLogic;
-import net.dndats.hackersandslashers.combat.critical.manager.CriticalAttack;
-import net.dndats.hackersandslashers.combat.critical.manager.CriticalRegistry;
+import net.dndats.hackersandslashers.common.combat.critical.logic.BackstabLogic;
+import net.dndats.hackersandslashers.common.combat.critical.logic.RiposteLogic;
+import net.dndats.hackersandslashers.common.combat.critical.manager.CriticalAttack;
+import net.dndats.hackersandslashers.common.combat.critical.manager.CriticalRegistry;
 import net.dndats.hackersandslashers.common.ModPlayerData;
+import net.minecraft.world.effect.MobEffects;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
 import org.slf4j.Logger;
@@ -65,6 +67,13 @@ public class HackersAndSlashers {
     @SubscribeEvent
     public void removeInvulnerabilityTicks(LivingIncomingDamageEvent event) {
         event.setInvulnerabilityTicks(0);
+    }
+
+    @SubscribeEvent
+    public void removeInvisibilityPotionOnHit(LivingIncomingDamageEvent event) {
+        if (event.getEntity().hasEffect(MobEffects.INVISIBILITY)) {
+            event.getEntity().removeEffect(MobEffects.INVISIBILITY);
+        }
     }
 
     @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)

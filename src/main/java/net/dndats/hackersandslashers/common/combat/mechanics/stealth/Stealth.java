@@ -1,8 +1,7 @@
-package net.dndats.hackersandslashers.combat.mechanics.stealth;
+package net.dndats.hackersandslashers.common.combat.mechanics.stealth;
 
-import net.dndats.hackersandslashers.TickScheduler;
+import net.dndats.hackersandslashers.utils.TickScheduler;
 import net.dndats.hackersandslashers.common.ModPlayerData;
-import net.dndats.hackersandslashers.common.data.IsBlockingData;
 import net.dndats.hackersandslashers.utils.EntityUtils;
 import net.dndats.hackersandslashers.utils.PlayerUtils;
 import net.minecraft.network.chat.Component;
@@ -11,7 +10,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 // MANAGES STEALTH LOGICS
 public class Stealth {

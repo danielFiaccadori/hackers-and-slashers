@@ -53,10 +53,7 @@ public class EntityUtils {
     }
 
     public static boolean isAwareOf(Player player, LivingEntity entity) {
-        if (entity instanceof Mob mob) {
-            return mob.getLastAttacker() == player || mob.getLastHurtMob() == player;
-        }
-        return false;
+        return entity.getLastAttacker() != player;
     }
 
     public static boolean isBehind(Player source, LivingEntity target) {

@@ -1,9 +1,9 @@
-package net.dndats.hackersandslashers.combat.critical.logic;
+package net.dndats.hackersandslashers.common.combat.critical.logic;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.assets.effects.ModMobEffects;
 import net.dndats.hackersandslashers.client.effects.SoundEffects;
-import net.dndats.hackersandslashers.combat.critical.manager.ICriticalLogic;
+import net.dndats.hackersandslashers.common.combat.critical.manager.ICriticalLogic;
 import net.dndats.hackersandslashers.utils.CombatUtils;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;

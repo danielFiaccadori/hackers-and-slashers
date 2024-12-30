@@ -1,5 +1,6 @@
-package net.dndats.hackersandslashers;
+package net.dndats.hackersandslashers.utils;
 
+import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.minecraft.util.Tuple;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;

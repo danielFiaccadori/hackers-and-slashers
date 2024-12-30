@@ -1,14 +1,12 @@
-package net.dndats.hackersandslashers.combat.critical.logic;
+package net.dndats.hackersandslashers.common.combat.critical.logic;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.client.effects.SoundEffects;
-import net.dndats.hackersandslashers.combat.critical.manager.ICriticalLogic;
+import net.dndats.hackersandslashers.common.combat.critical.manager.ICriticalLogic;
 import net.dndats.hackersandslashers.utils.CombatUtils;
 import net.dndats.hackersandslashers.utils.EntityUtils;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.common.damagesource.DamageContainer;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
 // CRITICAL ATTACK OF TYPE BACKSTAB
@@ -64,7 +62,8 @@ public class BackstabLogic implements ICriticalLogic {
     @Override
     public boolean canBeApplied(Player player, LivingEntity target) {
         if (target instanceof Player) {
-            return EntityUtils.isBehind(player, target) && EntityUtils.isAwareOf(player, target);
+            return EntityUtils.isBehind(player, target)
+                    && !EntityUtils.isAwareOf(player, target);
         }
         return !EntityUtils.isBeingTargeted(player, target);
     }

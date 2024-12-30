@@ -1,15 +1,12 @@
-package net.dndats.hackersandslashers.combat.mechanics.block;
+package net.dndats.hackersandslashers.common.combat.mechanics.block;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.client.effects.SoundEffects;
 import net.dndats.hackersandslashers.common.ModPlayerData;
-import net.dndats.hackersandslashers.network.packets.PacketTriggerPlayerBlock;
+import net.dndats.hackersandslashers.common.network.packets.PacketTriggerPlayerBlock;
 import net.dndats.hackersandslashers.utils.AnimationUtils;
 import net.dndats.hackersandslashers.utils.ItemUtils;
 import net.dndats.hackersandslashers.utils.PlayerUtils;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageSources;
-import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.SwordItem;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;

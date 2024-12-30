@@ -1,4 +1,4 @@
-package net.dndats.hackersandslashers.network;
+package net.dndats.hackersandslashers.common.network;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.minecraft.network.FriendlyByteBuf;

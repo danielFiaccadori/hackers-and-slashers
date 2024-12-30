@@ -8,7 +8,7 @@ import dev.kosmx.playerAnim.api.layered.modifier.AbstractFadeModifier;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import net.dndats.hackersandslashers.HackersAndSlashers;
-import net.dndats.hackersandslashers.network.NetworkHandler;
+import net.dndats.hackersandslashers.common.network.NetworkHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.network.RegistryFriendlyByteBuf;

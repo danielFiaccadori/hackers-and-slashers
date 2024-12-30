@@ -1,8 +1,8 @@
-package net.dndats.hackersandslashers.events;
+package net.dndats.hackersandslashers.common.events;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.client.input.Keybinds;
-import net.dndats.hackersandslashers.combat.mechanics.block.Block;
+import net.dndats.hackersandslashers.common.combat.mechanics.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.neoforged.api.distmarker.Dist;
