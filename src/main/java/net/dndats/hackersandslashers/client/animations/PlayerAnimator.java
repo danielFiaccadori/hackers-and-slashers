@@ -71,14 +71,14 @@ public class PlayerAnimator {
                         animation.replaceAnimationWithFade(AbstractFadeModifier.functionalFadeIn(20, (modelName, type, value) -> value),
                                 PlayerAnimationRegistry.getAnimation(ResourceLocation.fromNamespaceAndPath(HackersAndSlashers.MODID, animationName))
                                         .playAnimation().setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL)
-                                        .setFirstPersonConfiguration(new FirstPersonConfiguration()
-                                                .setShowRightArm(false)
-                                                .setShowLeftItem(true)));
+                                        .setFirstPersonConfiguration(new FirstPersonConfiguration().setShowRightArm(false).setShowLeftItem(true)));
                     }
+                    HackersAndSlashers.LOGGER.info("Animation played at client side!");
                 }
             }
             if (!world.isClientSide()) {
                 if (entity instanceof Player)
+                    HackersAndSlashers.LOGGER.info("Animation played at server side!");
                     PacketDistributor.sendToPlayersInDimension((ServerLevel) entity.level(), new ModAnimationMessage(animationName, entity.getId(), false));
             }
 
@@ -87,7 +87,7 @@ public class PlayerAnimator {
         }
     }
 
-    @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
+    @EventBusSubscriber(modid = HackersAndSlashers.MODID, bus = EventBusSubscriber.Bus.MOD)
     public record ModPlayAnimationMessage(String animationName) implements CustomPacketPayload {
 
         public static final Type<ModPlayAnimationMessage> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(HackersAndSlashers.MODID, "play_server_animation"));
@@ -95,8 +95,7 @@ public class PlayerAnimator {
         public static final StreamCodec<RegistryFriendlyByteBuf, ModPlayAnimationMessage> STREAM_CODEC =
                 StreamCodec.of((RegistryFriendlyByteBuf buffer, ModPlayAnimationMessage message) -> {
                             buffer.writeUtf(message.animationName);
-                        },
-                        (RegistryFriendlyByteBuf buffer) -> new ModPlayAnimationMessage(buffer.readUtf()));
+                        }, (RegistryFriendlyByteBuf buffer) -> new ModPlayAnimationMessage(buffer.readUtf()));
 
         public static void handleData(final ModPlayAnimationMessage message, final IPayloadContext context) {
             if (context.flow().isServerbound()) {
@@ -132,6 +131,7 @@ public class PlayerAnimator {
      * @param override: if the animation should or not override another one
      */
 
+    @EventBusSubscriber(modid = HackersAndSlashers.MODID, bus = EventBusSubscriber.Bus.MOD)
     public record ModAnimationMessage(String animation, int target, boolean override) implements CustomPacketPayload {
 
         public static final Type<ModAnimationMessage> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(HackersAndSlashers.MODID, "player_animator"));

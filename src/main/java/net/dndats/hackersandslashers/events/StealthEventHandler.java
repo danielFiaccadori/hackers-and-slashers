@@ -3,6 +3,7 @@ package net.dndats.hackersandslashers.events;
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.combat.mechanics.stealth.Stealth;
 import net.dndats.hackersandslashers.utils.EntityUtils;
+import net.minecraft.network.chat.Component;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
@@ -35,11 +36,13 @@ public class StealthEventHandler {
     @SubscribeEvent
     public static void mobTargetTracker(PlayerTickEvent.Pre event) {
         try {
-            if (event.getEntity().level().isClientSide) return;
-            scheduledTracker++;
-            if (scheduledTracker >= 20) {
-                scheduledTracker = 0;
-                Stealth.detectBeingTargeted(event.getEntity());
+            if (!event.getEntity().level().isClientSide) {
+                scheduledTracker++;
+                if (scheduledTracker >= 20) {
+                    event.getEntity().sendSystemMessage(Component.literal("Rastreando detecção de mobs..."));
+                    scheduledTracker = 0;
+                    Stealth.detectBeingTargeted(event.getEntity());
+                }
             }
         } catch (Exception e) {
             HackersAndSlashers.LOGGER.error("Error while trying to change player data: {}", e.getMessage());

@@ -5,6 +5,7 @@ import net.dndats.hackersandslashers.common.ModPlayerData;
 import net.dndats.hackersandslashers.common.data.IsBlockingData;
 import net.dndats.hackersandslashers.utils.EntityUtils;
 import net.dndats.hackersandslashers.utils.PlayerUtils;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
@@ -75,23 +76,26 @@ public class Stealth {
                 if (PlayerUtils.getVisibilityLevel(player) != 100) {
                     playerData.setVisibilityLevel(100);
                     playerData.syncData(player);
+                    player.sendSystemMessage(Component.literal("Você está " + player.getData(ModPlayerData.VISIBILITY_LEVEL).getVisibilityLevel() + "% detected"));
                 }
             } else {
                 if (PlayerUtils.getVisibilityLevel(player) != 50) {
                     playerData.setVisibilityLevel(50);
                     playerData.syncData(player);
+                    player.sendSystemMessage(Component.literal("Você está " + player.getData(ModPlayerData.VISIBILITY_LEVEL).getVisibilityLevel() + "% detected"));
                 }
             }
         } else {
             if (PlayerUtils.getVisibilityLevel(player) != 0) {
                 playerData.setVisibilityLevel(0);
                 playerData.syncData(player);
+                player.sendSystemMessage(Component.literal("Você está " + player.getData(ModPlayerData.VISIBILITY_LEVEL).getVisibilityLevel() + "% detected"));
             }
         }
     }
 
     /**
-     * Here, both methods above are used for verifying if some mob in a determined area (default of 64) is targeting the player or is alert
+     * Here, both methods above are used for verifying if some mob in a determined area (default of 64) is targeting the player or is alert.
      * It basically iterates in all mobs around, if the check is true, it returns a boolean value
      *
      * @param player: the player in context

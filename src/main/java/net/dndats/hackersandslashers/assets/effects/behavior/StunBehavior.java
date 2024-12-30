@@ -1,5 +1,6 @@
 package net.dndats.hackersandslashers.assets.effects.behavior;
 
+import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.assets.effects.ModMobEffects;
 import net.minecraft.world.entity.Mob;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -7,7 +8,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 
-@EventBusSubscriber(modid = "hackersandslashers")
+@EventBusSubscriber(modid = HackersAndSlashers.MODID)
 public class StunBehavior {
 
     /**

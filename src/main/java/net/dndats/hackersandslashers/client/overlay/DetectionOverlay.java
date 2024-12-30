@@ -4,6 +4,8 @@ import net.dndats.hackersandslashers.utils.OverlayUtils;
 import net.dndats.hackersandslashers.utils.PlayerUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
 
 public class DetectionOverlay {

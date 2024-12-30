@@ -8,6 +8,7 @@ import net.dndats.hackersandslashers.utils.PlayerUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -22,7 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @EventBusSubscriber(modid = HackersAndSlashers.MODID, value = Dist.CLIENT)
 public class OverlayEventHandler {
 
-
+    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void renderOverlay(RenderGuiEvent.Pre event) {
         DetectionOverlay.renderDetectionOverlay(event);

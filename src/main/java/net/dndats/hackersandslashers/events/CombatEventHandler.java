@@ -9,7 +9,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
 // HANDLER: COMBAT RELATED THINGS
-@EventBusSubscriber(modid = "hackersandslashers")
+@EventBusSubscriber(modid = HackersAndSlashers.MODID)
 public class CombatEventHandler {
 
     // These methods communicate with the deeper layers, delegating the implementation of the necessary logic
