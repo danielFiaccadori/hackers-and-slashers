@@ -7,6 +7,7 @@ import net.dndats.hackersandslashers.combat.critical.logic.RiposteLogic;
 import net.dndats.hackersandslashers.combat.critical.manager.CriticalAttack;
 import net.dndats.hackersandslashers.combat.critical.manager.CriticalRegistry;
 import net.dndats.hackersandslashers.common.ModPlayerData;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
 import org.slf4j.Logger;
 import com.mojang.logging.LogUtils;
@@ -59,6 +60,11 @@ public class HackersAndSlashers {
     @SubscribeEvent
     public void removeVanillaCritical(CriticalHitEvent event) {
         event.setCriticalHit(false);
+    }
+
+    @SubscribeEvent
+    public void removeInvulnerabilityTicks(LivingIncomingDamageEvent event) {
+        event.setInvulnerabilityTicks(0);
     }
 
     @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)

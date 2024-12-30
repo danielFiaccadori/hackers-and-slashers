@@ -5,6 +5,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
+import javax.annotation.Nullable;
+
 // UTILITY METHODS RELATED TO COMBAT
 public class CombatUtils {
 
