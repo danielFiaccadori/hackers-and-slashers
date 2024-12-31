@@ -1,8 +1,7 @@
 package net.dndats.hackersandslashers;
 
 import net.dndats.hackersandslashers.assets.effects.ModMobEffects;
-import net.dndats.hackersandslashers.assets.particles.ModParticleProvider;
-import net.dndats.hackersandslashers.assets.particles.ModParticles;
+import net.dndats.hackersandslashers.assets.particles.providers.ModParticles;
 import net.dndats.hackersandslashers.assets.sounds.ModSounds;
 import net.dndats.hackersandslashers.common.combat.critical.logic.BackstabLogic;
 import net.dndats.hackersandslashers.common.combat.critical.logic.RiposteLogic;
@@ -11,7 +10,6 @@ import net.dndats.hackersandslashers.common.combat.critical.manager.CriticalRegi
 import net.dndats.hackersandslashers.common.ModPlayerData;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
 import org.slf4j.Logger;

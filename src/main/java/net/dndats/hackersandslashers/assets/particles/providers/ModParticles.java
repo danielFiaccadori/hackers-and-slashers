@@ -1,4 +1,4 @@
-package net.dndats.hackersandslashers.assets.particles;
+package net.dndats.hackersandslashers.assets.particles.providers;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.minecraft.core.particles.ParticleType;
@@ -16,6 +16,11 @@ public class ModParticles {
 
     public static final Supplier<SimpleParticleType> CRITICAL_PARTICLE = PARTICLES.register(
             "critical_particle",
+            () -> new SimpleParticleType(false)
+    );
+
+    public static final Supplier<SimpleParticleType> SMALL_CRITICAL_PARTICLE = PARTICLES.register(
+            "small_critical_particle",
             () -> new SimpleParticleType(false)
     );
 

@@ -40,8 +40,8 @@ public class BackstabLogic implements ICriticalLogic {
                 LivingEntity targetEntity = event.getEntity();
                 if (canBeApplied(player, targetEntity)) {
                     // If passes the conditional, then applies the critical
-                    CombatUtils.dealCriticalDamage(getDamageMultiplier(), event);
-                    VisualEffects.spawnCriticalParticle(targetEntity.level(), targetEntity.getX(), targetEntity.getEyeY() + 1, targetEntity.getZ());
+                    float finalAmount = CombatUtils.dealCriticalDamage(getDamageMultiplier(), event);
+                    VisualEffects.spawnCriticalParticle(targetEntity.level(), targetEntity.getX(), targetEntity.getEyeY() + 1, targetEntity.getZ(), (int) finalAmount);
                     SoundEffects.playBackstabSound(event.getEntity());
                     HackersAndSlashers.LOGGER.info("Dealt {} damage with multiplier of {}",
                             event.getAmount(),
