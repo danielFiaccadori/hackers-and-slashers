@@ -3,6 +3,7 @@ package net.dndats.hackersandslashers.common.combat.critical.logic;
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.assets.effects.ModMobEffects;
 import net.dndats.hackersandslashers.client.effects.SoundEffects;
+import net.dndats.hackersandslashers.client.effects.VisualEffects;
 import net.dndats.hackersandslashers.common.combat.critical.manager.ICriticalLogic;
 import net.dndats.hackersandslashers.utils.CombatUtils;
 import net.minecraft.world.entity.LivingEntity;
@@ -40,6 +41,7 @@ public class RiposteLogic implements ICriticalLogic {
                 if (canBeApplied(player, targetEntity)) {
                     // If passes the conditional, then applies the critical
                     CombatUtils.dealCriticalDamage(getDamageMultiplier(), event);
+                    VisualEffects.spawnCriticalParticle(targetEntity.level(), targetEntity.getX(), targetEntity.getEyeY() + 1, targetEntity.getZ());
                     SoundEffects.playRiposteSound(event.getEntity());
                     HackersAndSlashers.LOGGER.info("Dealt {} damage with multiplier of {}",
                             event.getAmount(),

@@ -1,6 +1,8 @@
 package net.dndats.hackersandslashers;
 
 import net.dndats.hackersandslashers.assets.effects.ModMobEffects;
+import net.dndats.hackersandslashers.assets.particles.ModParticleProvider;
+import net.dndats.hackersandslashers.assets.particles.ModParticles;
 import net.dndats.hackersandslashers.assets.sounds.ModSounds;
 import net.dndats.hackersandslashers.common.combat.critical.logic.BackstabLogic;
 import net.dndats.hackersandslashers.common.combat.critical.logic.RiposteLogic;
@@ -47,6 +49,7 @@ public class HackersAndSlashers {
         // Register assets
         ModMobEffects.register(modEventBus);
         ModSounds.register(modEventBus);
+        ModParticles.register(modEventBus);
 
         LOGGER.info("HackersAndSlashers mod initialized without configuration.");
     }
