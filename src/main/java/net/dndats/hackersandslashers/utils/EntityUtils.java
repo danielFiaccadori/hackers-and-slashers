@@ -52,12 +52,18 @@ public class EntityUtils {
         nbt.remove(ALERT_TAG);
     }
 
+    public static boolean canSee(Player player, LivingEntity entity) {
+        return entity.hasLineOfSight(player);
+    }
+
     public static boolean isAwareOf(Player player, LivingEntity entity) {
-        return entity.getLastAttacker() != player;
+        return entity.getLastAttacker() == player;
     }
 
     public static boolean isBehind(Player source, LivingEntity target) {
-        return source.getDirection() == target.getDirection();
+        double angle = source.getLookAngle().dot(target.getLookAngle());
+        boolean behind = angle < -0.5;
+        return behind;
     }
 
     // Modifiers

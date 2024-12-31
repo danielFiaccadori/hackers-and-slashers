@@ -8,6 +8,7 @@ import net.dndats.hackersandslashers.common.combat.critical.manager.CriticalAtta
 import net.dndats.hackersandslashers.common.combat.critical.manager.CriticalRegistry;
 import net.dndats.hackersandslashers.common.ModPlayerData;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
@@ -66,7 +67,9 @@ public class HackersAndSlashers {
 
     @SubscribeEvent
     public void removeInvulnerabilityTicks(LivingIncomingDamageEvent event) {
-        event.setInvulnerabilityTicks(0);
+        if (event.getSource().getEntity() instanceof Player player) {
+            event.setInvulnerabilityTicks(0);
+        }
     }
 
     @SubscribeEvent

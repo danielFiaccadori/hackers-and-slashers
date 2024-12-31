@@ -3,7 +3,8 @@ package net.dndats.hackersandslashers.common.events;
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.common.combat.mechanics.stealth.Stealth;
 import net.dndats.hackersandslashers.utils.EntityUtils;
-import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
@@ -39,9 +40,10 @@ public class StealthEventHandler {
             if (!event.getEntity().level().isClientSide) {
                 scheduledTracker++;
                 if (scheduledTracker >= 20) {
-                    event.getEntity().sendSystemMessage(Component.literal("Rastreando detecção de mobs..."));
                     scheduledTracker = 0;
-                    Stealth.detectBeingTargeted(event.getEntity());
+                    for (Player player : event.getEntity().level().players()) {
+                        Stealth.detectBeingTargeted(player);
+                    }
                 }
             }
         } catch (Exception e) {

@@ -31,8 +31,8 @@ public class Stealth {
 
             if (!EntityUtils.hasAlertTag(mob)) {
                 // If the mob is not alert, enters here
-                if (isAtObfuscatedPlace(player) && (!isStealthy(player)) && !EntityUtils.isAwareOf(player, mob)) {
-                    // If the target (player) is at a place of hard vision but not stealthy and not in combat with the mob, then enters here
+                if (PlayerUtils.isAtDarkPlace(player) && (!isStealthy(player)) && !EntityUtils.isAwareOf(player, mob)) {
+                    // If the target (player) is at a place of difficult vision but not stealthy and not in combat with the mob, then enters here
                     EntityUtils.addAlertTag(mob, 50);
                     TickScheduler.schedule(() -> {
                         // After some seconds, enters here
@@ -60,7 +60,7 @@ public class Stealth {
     }
 
     /**
-     * This is a complex method who changes the visibility level data attachment of the player (I spent a lot of time in it ;-;)
+     * This is a method that changes the visibility level data attachment of the player
      * The data attachment is purely used for a visual feedback of the detection overlay, although it needs a server side behavior too
      *
      * @param player: the player in context
@@ -115,10 +115,6 @@ public class Stealth {
         return player.level().getEntitiesOfClass(Mob.class, new AABB(surroundings, surroundings).inflate(64))
                 .stream()
                 .anyMatch(EntityUtils::hasAlertTag);
-    }
-
-    private static boolean isAtObfuscatedPlace(Player player) {
-        return PlayerUtils.isAtDarkPlace(player);
     }
 
     private static boolean isStealthy(Player player) {

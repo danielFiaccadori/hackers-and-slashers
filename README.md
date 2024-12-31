@@ -2,6 +2,7 @@
             margin-right: 10%;
             margin-left: 10%;
             margin-top: 10%;
+            text-align: justify;
             ">
 <div style="
             max-width: fit-content;
@@ -110,7 +111,7 @@ Stealthiness is represented by three visibility levels:
 
 <div style = "
             background-color: #181818;
-            padding: 20px;
+            padding: 10px;
             border-radius: 2px;
             margin-top: 5%;
             margin-bottom: 5%;
@@ -124,7 +125,7 @@ Stealthiness is represented by three visibility levels:
 
 <div style = "
             background-color: #181818;
-            padding: 20px;
+            padding: 10px;
             border-radius: 2px;
             margin-top: 5%;
             margin-bottom: 5%;
@@ -140,7 +141,7 @@ change either to alert or stealth during the next 3 seconds.
 
 <div style = "
             background-color: #181818;
-            padding: 20px;
+            padding: 10px;
             border-radius: 2px;
             margin-top: 5%;
             margin-bottom: 5%;
@@ -154,8 +155,13 @@ change either to alert or stealth during the next 3 seconds.
 
 </div>
 
+---
+
+For an even better combat experience, I highly recommend the mod <a href="https://www.curseforge.com/minecraft/mc-mods/better-combat-by-daedelus">BetterCombat</a>, that
+adds new incredible animations for weapons!
+
 </div>
 
----
+
 
 
