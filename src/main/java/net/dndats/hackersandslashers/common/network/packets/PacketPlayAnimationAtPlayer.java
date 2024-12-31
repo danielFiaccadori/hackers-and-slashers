@@ -51,7 +51,7 @@ public record PacketPlayAnimationAtPlayer(String animationName, Integer entityId
                                 .fromNamespaceAndPath(HackersAndSlashers.MODID, "player_animations"));
                         if (associatedData instanceof ModifierLayer<?> modifierLayer) {
                             @SuppressWarnings("unchecked")
-                            ModifierLayer<IAnimation> animation = (ModifierLayer<IAnimation>) modifierLayer;
+                            var animation = (ModifierLayer<IAnimation>) modifierLayer;
                             animation.replaceAnimationWithFade(
                                     AbstractFadeModifier.functionalFadeIn(20, (modelName, type, value) -> value),
                                     Objects.requireNonNull(PlayerAnimationRegistry.getAnimation(ResourceLocation.fromNamespaceAndPath(HackersAndSlashers.MODID, message.animationName())))

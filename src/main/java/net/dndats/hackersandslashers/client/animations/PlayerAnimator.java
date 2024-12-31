@@ -6,6 +6,7 @@ import dev.kosmx.playerAnim.api.layered.IAnimation;
 import dev.kosmx.playerAnim.api.layered.ModifierLayer;
 import dev.kosmx.playerAnim.api.layered.modifier.AbstractFadeModifier;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
+import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationFactory;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.common.network.packets.PacketPlayAnimationAtPlayer;
@@ -33,12 +34,14 @@ public class PlayerAnimator {
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
-        PlayerAnimationAccess.REGISTER_ANIMATION_EVENT.register(((player, animationStack) -> {
-            ModifierLayer<IAnimation> layer = new ModifierLayer<>();
-            animationStack.addAnimLayer(69, layer);
-            PlayerAnimationAccess.getPlayerAssociatedData(player)
-                    .set(ResourceLocation.fromNamespaceAndPath("hackersandslashers", "player_animations"), layer);
-        }));
+        PlayerAnimationFactory.ANIMATION_DATA_FACTORY.registerFactory(
+                ResourceLocation.fromNamespaceAndPath(HackersAndSlashers.MODID, "player_animations"),
+                42,
+                PlayerAnimator::registerPlayerAnimation);
+    }
+
+    private static IAnimation registerPlayerAnimation(AbstractClientPlayer player) {
+        return new ModifierLayer<>();
     }
 
     /**
@@ -59,7 +62,7 @@ public class PlayerAnimator {
                             .fromNamespaceAndPath(HackersAndSlashers.MODID, "player_animations"));
                     if (associatedData instanceof ModifierLayer<?> modifierLayer) {
                         @SuppressWarnings("unchecked")
-                        ModifierLayer<IAnimation> animation = (ModifierLayer<IAnimation>) modifierLayer;
+                        var animation = (ModifierLayer<IAnimation>) modifierLayer;
                         if (!animation.isActive()) {
                             animation.replaceAnimationWithFade(
                                     AbstractFadeModifier.functionalFadeIn(20, (modelName, type, value) -> value),

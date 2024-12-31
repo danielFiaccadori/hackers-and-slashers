@@ -1,7 +1,7 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"block_one_handed": {
+		"parry_variation2": {
 			"animation_length": 0.4167,
 			"bones": {
 				"torso": {
@@ -12,11 +12,14 @@
 						},
 						"0.0833": {
 							"vector": [0, -5, 0],
-							"easing": "easeOutQuint",
-							"easingArgs": []
+							"easing": "linear"
 						},
 						"0.25": {
 							"vector": [0, -5, 0],
+							"easing": "linear"
+						},
+						"0.4167": {
+							"vector": [0, 0, 0],
 							"easing": "linear"
 						}
 					}
@@ -27,11 +30,11 @@
 							"vector": [0, 0, 0],
 							"easing": "linear"
 						},
-						"0.2083": {
+						"0.125": {
 							"vector": [-86, -6.5, 60],
-							"easing": "easeOutQuint"
+							"easing": "linear"
 						},
-						"0.25": {
+						"0.2917": {
 							"vector": [-86, -6.5, 60],
 							"easing": "linear"
 						}
@@ -44,25 +47,11 @@
 							"easing": "linear"
 						},
 						"0.125": {
-							"vector": [2.45, 0.435, -10],
+							"vector": [-86, 6.5, -60],
 							"easing": "linear"
 						},
-						"0.25": {
-							"vector": [2.45, 0.435, -10],
-							"easing": "linear"
-						}
-					},
-					"position": {
-						"0.0": {
-							"vector": [0, 0, 0],
-							"easing": "linear"
-						},
-						"0.0833": {
-							"vector": [0, 0, 0.5],
-							"easing": "linear"
-						},
-						"0.25": {
-							"vector": [0, 0, 0.5],
+						"0.2917": {
+							"vector": [-86, 6.5, -60],
 							"easing": "linear"
 						}
 					}
@@ -73,25 +62,13 @@
 							"vector": [0, 0, 0],
 							"easing": "linear"
 						},
-						"0.2083": {
-							"vector": [0, -7.5, 0],
-							"easing": "easeOutQuint"
-						},
-						"0.25": {
-							"vector": [0, -7.5, 0],
-							"easing": "linear"
-						}
-					}
-				},
-				"rightItem": {
-					"rotation": {
-						"0.0": {
-							"vector": [0, 0, 0],
+						"0.125": {
+							"vector": [0, 2.5, 0],
 							"easing": "linear"
 						},
-						"0.0833": {
-							"vector": [12.5, 0, 0],
-							"easing": "easeInExpo"
+						"0.2917": {
+							"vector": [0, 2.5, 0],
+							"easing": "linear"
 						}
 					}
 				}

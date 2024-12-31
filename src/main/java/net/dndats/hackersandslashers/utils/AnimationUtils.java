@@ -13,11 +13,11 @@ public class AnimationUtils {
     @OnlyIn(Dist.CLIENT)
     public static void playBlockAnimation(Player player) {
         if (player.getMainHandItem().getItem() instanceof SwordItem && player.getOffhandItem().getItem() instanceof SwordItem) {
-            PlayerAnimator.playAnimation(player.level(), player, "block_two_handed");
-            PacketDistributor.sendToServer(new PacketServerPlayAnimation("block_two_handed"));
+            PlayerAnimator.playAnimation(player.level(), player, "parry_variation2");
+            PacketDistributor.sendToServer(new PacketServerPlayAnimation("parry_variation2"));
         } else {
-            PlayerAnimator.playAnimation(player.level(), player, "block_one_handed");
-            PacketDistributor.sendToServer(new PacketServerPlayAnimation("block_one_handed"));
+            PlayerAnimator.playAnimation(player.level(), player, "parry_variation1");
+            PacketDistributor.sendToServer(new PacketServerPlayAnimation("parry_variation1"));
         }
     }
 
