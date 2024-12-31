@@ -12,7 +12,7 @@
 						},
 						"0.0833": {
 							"vector": [0, -5, 0],
-							"easing": "easeInOutBack",
+							"easing": "easeOutQuint",
 							"easingArgs": []
 						},
 						"0.25": {
@@ -29,7 +29,7 @@
 						},
 						"0.2083": {
 							"vector": [-86, -6.5, 60],
-							"easing": "easeOutCirc"
+							"easing": "easeOutQuint"
 						},
 						"0.25": {
 							"vector": [-86, -6.5, 60],
