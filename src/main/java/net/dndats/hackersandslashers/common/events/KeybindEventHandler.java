@@ -20,7 +20,7 @@ public class KeybindEventHandler {
         if (Keybinds.PARRY.consumeClick()) {
             LocalPlayer player = Minecraft.getInstance().player;
             if (player == null) return;
-            Block.triggerDefensive(10, player);
+            Block.triggerDefensive(15, player);
         }
     }
 

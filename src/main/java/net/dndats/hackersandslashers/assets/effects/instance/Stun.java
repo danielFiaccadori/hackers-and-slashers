@@ -28,7 +28,7 @@ public class Stun extends MobEffect {
     @Override
     public boolean applyEffectTick(LivingEntity entity, int amplifier) {
         if (entity instanceof Player player) {
-            player.setDeltaMovement(0, player.getDeltaMovement().y, 0);
+            player.setDeltaMovement(0, 0, 0);
         }
         return true;
     }

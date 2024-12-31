@@ -1,7 +1,7 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"parry_variation2": {
+		"block_two_handed": {
 			"animation_length": 0.4167,
 			"bones": {
 				"torso": {
