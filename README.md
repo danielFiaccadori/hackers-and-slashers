@@ -12,7 +12,7 @@
 
 ## Welcome to my mod repository :D
 
-**Hackers 'n Slashers** is a simple and fun Minecraft mod that reimagines combat strategies adds new combat strategies and mechanics, rework critical hits and overall combat logic to make the game more engaging and dynamic.
+**Hackers 'n Slashers** is a simple and fun Minecraft mod that reimagines combat strategies and mechanics, rework critical hits and refactors the overall combat logic to make the game more engaging and dynamic.
 
 ---
 
