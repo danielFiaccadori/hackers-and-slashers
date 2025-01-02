@@ -12,13 +12,6 @@ public class SoundEffects {
      * @param entity Every method takes an Entity to play the sound.
      */
 
-    public static void playStrongAttackSound(LivingEntity entity) {
-        entity.level().playSound(null,
-                entity.blockPosition(),
-                SoundEvents.PLAYER_ATTACK_STRONG,
-                SoundSource.PLAYERS, 1.0F, 1.0F);
-    }
-
     public static void playCriticalSound(LivingEntity entity) {
         entity.level().playSound(null,
                 entity.blockPosition(),

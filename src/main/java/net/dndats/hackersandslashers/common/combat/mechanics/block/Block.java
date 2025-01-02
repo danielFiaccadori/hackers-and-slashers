@@ -2,12 +2,14 @@ package net.dndats.hackersandslashers.common.combat.mechanics.block;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.client.effects.SoundEffects;
+import net.dndats.hackersandslashers.client.effects.VisualEffects;
 import net.dndats.hackersandslashers.common.ModPlayerData;
 import net.dndats.hackersandslashers.common.network.packets.PacketTriggerPlayerBlock;
 import net.dndats.hackersandslashers.utils.AnimationUtils;
 import net.dndats.hackersandslashers.utils.ItemUtils;
 import net.dndats.hackersandslashers.utils.PlayerUtils;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SwordItem;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -26,6 +28,10 @@ public class Block {
             if (event.getEntity() instanceof Player player) {
                 if (PlayerUtils.isBlocking(player)) {
                     SoundEffects.playBlockSound(player);
+                    VisualEffects.spawnBlockParticles(player.level(),
+                            player.getX(),
+                            player.getY() + 0.1 + player.getBbHeight() / 2,
+                            player.getZ());
                     if (event.getEntity().getOffhandItem().getItem() instanceof SwordItem &&
                             event.getEntity().getMainHandItem().getItem() instanceof SwordItem) {
                         ItemUtils.damageAndDistribute(event.getEntity().level(),

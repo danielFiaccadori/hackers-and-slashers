@@ -84,4 +84,24 @@ public class VisualEffects {
         }
     }
 
+    public static void spawnBlockParticles(Level level, double x, double y, double z) {
+        if (level instanceof ServerLevel serverLevel) {
+            serverLevel.sendParticles(
+                    ModParticles.BLOCK_SPARK.get(),
+                    x, y, z,
+                    10,
+                    0, 0, 0,
+                    0.5
+            );
+        }
+        for (int i = 0; i < 10; i++) {
+            level.addParticle(
+                    ModParticles.BLOCK_SPARK.get(),
+                    x, y, z,
+                    (level.random.nextDouble() - 0.5) * 0.5,
+                    (level.random.nextDouble() - 0.5) * 0.5,
+                    (level.random.nextDouble() - 0.5) * 0.5
+            );
+        }
+    }
 }

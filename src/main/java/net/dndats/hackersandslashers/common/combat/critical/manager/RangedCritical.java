@@ -6,8 +6,8 @@ import net.dndats.hackersandslashers.common.combat.critical.interfaces.ICritical
 public class RangedCritical implements ICritical {
 
     /*
-      This class is a base for the creation of ranged Critical Attacks
-      To create a new Crit, instantiate a new RangedCritical, passing the name and the logic as arguments.
+      This class is an abstraction layer for the creation of melee critical types.
+      To create a new Crit, instantiate a new RangedCritical, providing a name and the logic as arguments.
     */
 
     private final String NAME;

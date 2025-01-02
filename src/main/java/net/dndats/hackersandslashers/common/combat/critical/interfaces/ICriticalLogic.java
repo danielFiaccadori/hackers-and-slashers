@@ -5,9 +5,9 @@ import net.minecraft.world.entity.LivingEntity;
 
 public interface ICriticalLogic {
 
-    /*
+    /**
       This interface holds all the logic of a critical hit.
-      New critical types NEED to implement this interface for organization purposes.
+      New critical types implements this interface.
     */
 
     boolean canBeApplied(Entity source, LivingEntity target);

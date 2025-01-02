@@ -14,7 +14,7 @@ public class ModParticles {
     public static final DeferredRegister<ParticleType<?>> PARTICLES =
             DeferredRegister.create(Registries.PARTICLE_TYPE, HackersAndSlashers.MODID);
 
-    // GENERIC CRITICAL PARTICLE
+    // CRITICAL HIT PARTICLES
 
     public static final Supplier<SimpleParticleType> CRIT_GENERIC = PARTICLES.register(
             "crit_generic",
@@ -26,8 +26,6 @@ public class ModParticles {
             () -> new SimpleParticleType(false)
     );
 
-    // MAGIC CRITICAL PARTICLE
-
     public static final Supplier<SimpleParticleType> CRIT_MAGIC = PARTICLES.register(
             "crit_magic",
             () -> new SimpleParticleType(false)
@@ -35,6 +33,13 @@ public class ModParticles {
 
     public static final Supplier<SimpleParticleType> CRIT_MAGIC_SMALL = PARTICLES.register(
             "crit_magic_small",
+            () -> new SimpleParticleType(false)
+    );
+
+    // EFFECT PARTICLES
+
+    public static final Supplier<SimpleParticleType> BLOCK_SPARK = PARTICLES.register(
+            "block_spark",
             () -> new SimpleParticleType(false)
     );
 
