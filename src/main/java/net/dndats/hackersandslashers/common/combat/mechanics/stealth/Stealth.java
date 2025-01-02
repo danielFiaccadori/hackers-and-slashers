@@ -14,7 +14,7 @@ import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
 // MANAGES STEALTH LOGICS
 public class Stealth {
 
-    private static final int DETECTION_WAIT_TIME = 60;
+    private static final int DETECTION_WAIT_TIME = 60; // TICKS
 
     /**
      * This class represents the stealth mechanic behavior
@@ -74,20 +74,17 @@ public class Stealth {
                 if (PlayerUtils.getVisibilityLevel(player) != 100) {
                     playerData.setVisibilityLevel(100);
                     playerData.syncData(player);
-                    player.sendSystemMessage(Component.literal("Você está " + player.getData(ModPlayerData.VISIBILITY_LEVEL).getVisibilityLevel() + "% detected"));
                 }
             } else {
                 if (PlayerUtils.getVisibilityLevel(player) != 50) {
                     playerData.setVisibilityLevel(50);
                     playerData.syncData(player);
-                    player.sendSystemMessage(Component.literal("Você está " + player.getData(ModPlayerData.VISIBILITY_LEVEL).getVisibilityLevel() + "% detected"));
                 }
             }
         } else {
             if (PlayerUtils.getVisibilityLevel(player) != 0) {
                 playerData.setVisibilityLevel(0);
                 playerData.syncData(player);
-                player.sendSystemMessage(Component.literal("Você está " + player.getData(ModPlayerData.VISIBILITY_LEVEL).getVisibilityLevel() + "% detected"));
             }
         }
     }

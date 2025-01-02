@@ -41,7 +41,7 @@ public class RiposteLogic implements ICriticalLogic {
                 if (canBeApplied(player, targetEntity)) {
                     // If passes the conditional, then applies the critical
                     float finalAmount = CombatUtils.dealCriticalDamage(getDamageMultiplier(), event);
-                    VisualEffects.spawnCriticalParticle(targetEntity.level(), targetEntity.getX(), targetEntity.getEyeY() + 1, targetEntity.getZ(), (int) finalAmount);
+                    VisualEffects.spawnCriticalParticle(targetEntity.level(), targetEntity.getX(), targetEntity.getEyeY() + 1, targetEntity.getZ(), (int) finalAmount, event.getSource());
                     SoundEffects.playRiposteSound(event.getEntity());
                     HackersAndSlashers.LOGGER.info("Dealt {} damage with multiplier of {}",
                             event.getAmount(),

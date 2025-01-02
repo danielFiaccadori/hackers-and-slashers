@@ -1,6 +1,7 @@
-package net.dndats.hackersandslashers.assets.particles.providers;
+package net.dndats.hackersandslashers.assets.particles.critical.type.magic.providers;
 
-import net.dndats.hackersandslashers.assets.particles.instance.CriticalParticle;
+import net.dndats.hackersandslashers.assets.particles.ModParticles;
+import net.dndats.hackersandslashers.assets.particles.critical.type.magic.instance.CritMagic;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
@@ -10,25 +11,26 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class CriticalParticleProvider implements ParticleProvider<SimpleParticleType> {
+public class CritMagicProvider implements ParticleProvider<SimpleParticleType> {
 
     private final SpriteSet spriteSet;
 
-    public CriticalParticleProvider(SpriteSet spriteSet) {
+    public CritMagicProvider(SpriteSet spriteSet) {
         this.spriteSet = spriteSet;
     }
 
     @Override
-    public @Nullable Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        return new CriticalParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
+    public @Nullable Particle createParticle(@NotNull SimpleParticleType typeIn, @NotNull ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        return new CritMagic(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
     }
 
     @SubscribeEvent
     public static void register(RegisterParticleProvidersEvent event) {
-        event.registerSpriteSet(ModParticles.CRITICAL_PARTICLE.get(), CriticalParticleProvider::new);
+        event.registerSpriteSet(ModParticles.CRIT_MAGIC.get(), CritMagicProvider::new);
     }
 
 }

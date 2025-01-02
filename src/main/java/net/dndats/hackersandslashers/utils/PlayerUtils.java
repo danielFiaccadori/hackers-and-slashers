@@ -31,7 +31,7 @@ public class PlayerUtils {
     public static boolean isAtDarkPlace(Player player) {
         Level level = player.level();
         BlockPos position = player.blockPosition();
-        boolean isObfuscated = level.isRainingAt(position) && level.isNight();
+        boolean isObfuscated = (level.isRainingAt(position) || level.isThundering()) && level.isNight();
         int lightLevel = Math.max(
                 level.getBrightness(LightLayer.SKY, position),
                 level.getBrightness(LightLayer.BLOCK, position)

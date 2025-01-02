@@ -4,7 +4,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 
 // KEYBINDING REGISTERER
-public class Keybinds {
+public class ModKeybinds {
 
     /**
      * This class is responsible for registering the mod keybindings.

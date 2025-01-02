@@ -61,9 +61,7 @@ public class EntityUtils {
     }
 
     public static boolean isBehind(Player source, LivingEntity target) {
-        double angle = source.getLookAngle().dot(target.getLookAngle());
-        boolean behind = angle < -0.5;
-        return behind;
+        return source.getDirection() == target.getDirection();
     }
 
     // Modifiers

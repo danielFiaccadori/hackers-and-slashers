@@ -1,7 +1,7 @@
 package net.dndats.hackersandslashers.common.events;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
-import net.dndats.hackersandslashers.client.input.Keybinds;
+import net.dndats.hackersandslashers.client.input.ModKeybinds;
 import net.dndats.hackersandslashers.common.combat.mechanics.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -17,7 +17,7 @@ public class KeybindEventHandler {
     // Block handler
     @SubscribeEvent
     public static void onEntityBlock(ClientTickEvent.Pre event) {
-        if (Keybinds.PARRY.consumeClick()) {
+        if (ModKeybinds.PARRY.consumeClick()) {
             LocalPlayer player = Minecraft.getInstance().player;
             if (player == null) return;
             Block.triggerDefensive(15, player);

@@ -1,7 +1,7 @@
 package net.dndats.hackersandslashers;
 
 import net.dndats.hackersandslashers.assets.effects.ModMobEffects;
-import net.dndats.hackersandslashers.assets.particles.providers.ModParticles;
+import net.dndats.hackersandslashers.assets.particles.ModParticles;
 import net.dndats.hackersandslashers.assets.sounds.ModSounds;
 import net.dndats.hackersandslashers.common.combat.critical.logic.BackstabLogic;
 import net.dndats.hackersandslashers.common.combat.critical.logic.RiposteLogic;

@@ -1,7 +1,7 @@
 package net.dndats.hackersandslashers.common.events;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
-import net.dndats.hackersandslashers.client.input.Keybinds;
+import net.dndats.hackersandslashers.client.input.ModKeybinds;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -13,7 +13,7 @@ public class ClientEventHandler {
 
     @SubscribeEvent
     public static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {
-        event.register(Keybinds.PARRY);
+        event.register(ModKeybinds.PARRY);
     }
 
 }
