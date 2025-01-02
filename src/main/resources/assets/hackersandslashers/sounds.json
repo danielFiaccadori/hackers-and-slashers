@@ -1,14 +1,8 @@
 {
-  "backstab_critical": {
-    "subtitle": "sounds.hackersandslashers.backstab_critical",
+  "player_critical": {
+    "subtitle": "sounds.hackersandslashers.player_critical",
     "sounds": [
-      "hackersandslashers:backstab_critical"
-    ]
-  },
-  "riposte_critical": {
-    "subtitle": "sounds.hackersandslashers.riposte_critical",
-    "sounds": [
-      "hackersandslashers:riposte_critical"
+      "hackersandslashers:player_critical"
     ]
   }
 }

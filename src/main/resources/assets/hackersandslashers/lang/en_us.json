@@ -1,5 +1,9 @@
 {
   "key.hackersandslashers.parry": "Parry",
+
   "key.categories.hackersandslashers": "Hackers 'n Slashers",
-  "effect.hackersandslashers.stun": "Stun"
+
+  "effect.hackersandslashers.stun": "Stun",
+
+  "enchantment.hackersandslashers.hearts_edge": "Heart's Edge"
 }

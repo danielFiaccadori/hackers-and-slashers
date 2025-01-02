@@ -18,7 +18,7 @@ public class CombatEventHandler {
     @SubscribeEvent
     public static void blockReduceDamage(LivingIncomingDamageEvent event) {
         try {
-            Block.blockDamage(25, event);
+            Block.blockDamage(15, event);
         } catch (Exception e) {
             HackersAndSlashers.LOGGER.error("Error while trying to block damage: {}", e.getMessage());
         }

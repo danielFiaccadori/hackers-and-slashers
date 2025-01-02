@@ -1,10 +1,12 @@
 package net.dndats.hackersandslashers.common.combat.critical.manager;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
+import net.dndats.hackersandslashers.assets.effects.ModMobEffects;
 import net.dndats.hackersandslashers.client.effects.SoundEffects;
 import net.dndats.hackersandslashers.client.effects.VisualEffects;
 import net.dndats.hackersandslashers.common.combat.critical.interfaces.ICritical;
 import net.dndats.hackersandslashers.utils.CombatUtils;
+import net.minecraft.client.resources.sounds.Sound;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
@@ -44,17 +46,19 @@ public class CriticalRegistry {
             for (ICritical critical : criticalTypes) {
                 if (critical instanceof RangedCritical rangedCritical) {
                     if (rangedCritical.getLogic().canBeApplied(event.getSource().getDirectEntity(), event.getEntity())) {
-                        player.sendSystemMessage(Component.literal("Also is headshot!"));
                         totalDamageMultiplier += rangedCritical.getLogic().getDamageMultiplier();
                     }
                 }
                 if (critical.getLogic().canBeApplied(player, event.getEntity())) {
                     totalDamageMultiplier += critical.getLogic().getDamageMultiplier();
+                    if (event.getEntity().hasEffect(ModMobEffects.STUN)) {
+                        event.getEntity().removeEffect(ModMobEffects.STUN);
+                    }
                 }
             }
             if (totalDamageMultiplier > 0) {
                 float finalAmount = CombatUtils.dealCriticalDamage(totalDamageMultiplier, event);
-                SoundEffects.playRiposteSound(event.getEntity());
+                SoundEffects.playCriticalSound(event.getEntity());
                 VisualEffects.spawnCriticalParticle(event.getEntity().level(),
                         event.getEntity().getX(),
                         event.getEntity().getEyeY() + 1,

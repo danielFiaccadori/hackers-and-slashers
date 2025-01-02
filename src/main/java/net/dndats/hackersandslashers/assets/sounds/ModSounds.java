@@ -16,8 +16,7 @@ public class ModSounds {
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS =
             DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, HackersAndSlashers.MODID);
 
-    public static final Supplier<SoundEvent> BACKSTAB_CRITICAL = registerSoundEvent("backstab_critical");
-    public static final Supplier<SoundEvent> RIPOSTE_CRITICAL = registerSoundEvent("riposte_critical");
+    public static final Supplier<SoundEvent> PLAYER_CRITICAL = registerSoundEvent("player_critical");
 
     private static Supplier<SoundEvent> registerSoundEvent(String name) {
         ResourceLocation id = ResourceLocation.fromNamespaceAndPath(HackersAndSlashers.MODID, name);
