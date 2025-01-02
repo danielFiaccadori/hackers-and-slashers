@@ -18,7 +18,7 @@ public class CritMagic extends TextureSheetParticle {
         this.spriteSet = spriteSet;
         this.setSize(2f, 2f);
         this.quadSize *= 2;
-        this.lifetime = 30;
+        this.lifetime = 40;
         this.gravity = -0.1f;
         this.hasPhysics = false;
         this.xd = vx * 1;

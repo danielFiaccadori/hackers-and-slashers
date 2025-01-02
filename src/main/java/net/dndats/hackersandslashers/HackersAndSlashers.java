@@ -4,10 +4,12 @@ import net.dndats.hackersandslashers.assets.effects.ModMobEffects;
 import net.dndats.hackersandslashers.assets.particles.ModParticles;
 import net.dndats.hackersandslashers.assets.sounds.ModSounds;
 import net.dndats.hackersandslashers.common.combat.critical.logic.BackstabLogic;
+import net.dndats.hackersandslashers.common.combat.critical.logic.HeadshotLogic;
 import net.dndats.hackersandslashers.common.combat.critical.logic.RiposteLogic;
-import net.dndats.hackersandslashers.common.combat.critical.manager.CriticalAttack;
+import net.dndats.hackersandslashers.common.combat.critical.manager.MeleeCritical;
 import net.dndats.hackersandslashers.common.combat.critical.manager.CriticalRegistry;
 import net.dndats.hackersandslashers.common.ModPlayerData;
+import net.dndats.hackersandslashers.common.combat.critical.manager.RangedCritical;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
@@ -38,8 +40,9 @@ public class HackersAndSlashers {
         NeoForge.EVENT_BUS.register(this);
 
         // Register Critical types
-        CriticalRegistry.registerCritical(new CriticalAttack("Backstab", new BackstabLogic(3.0F)));
-        CriticalRegistry.registerCritical(new CriticalAttack("Riposte", new RiposteLogic(1.5F)));
+        CriticalRegistry.registerCritical(new MeleeCritical("Backstab", new BackstabLogic(3.0F)));
+        CriticalRegistry.registerCritical(new MeleeCritical("Riposte", new RiposteLogic(1.5F)));
+        CriticalRegistry.registerCritical(new RangedCritical("Headshot", new HeadshotLogic(2.0F)));
 
         // Register data
         ModPlayerData.ATTACHMENT_TYPES.register(modEventBus);

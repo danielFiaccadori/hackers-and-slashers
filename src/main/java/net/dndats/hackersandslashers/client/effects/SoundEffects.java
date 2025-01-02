@@ -23,6 +23,14 @@ public class SoundEffects {
         );
     }
 
+    public static void playHeadshotSound(LivingEntity entity) {
+        entity.level().playSound(null,
+                entity.blockPosition(),
+                SoundEvents.PLAYER_ATTACK_CRIT,
+                SoundSource.PLAYERS, 1.0F, 1.0F
+        );
+    }
+
     public static void playRiposteSound(LivingEntity entity) {
         entity.level().playSound(null,
                 entity.blockPosition(),
