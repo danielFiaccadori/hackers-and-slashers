@@ -38,11 +38,6 @@ public class ModParticles {
             () -> new SimpleParticleType(false)
     );
 
-    public static final Supplier<SimpleParticleType> HEARTS_EDGE_EXECUTE = PARTICLES.register(
-            "hearts_edge_execute",
-            () -> new SimpleParticleType(false)
-    );
-
     public static void register(IEventBus eventBus) {
         PARTICLES.register(eventBus);
     }

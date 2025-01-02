@@ -19,7 +19,6 @@ public record HeartsEdgeEnchantmentEffect() implements EnchantmentEntityEffect {
         if (entity instanceof LivingEntity livingEntity) {
             if (livingEntity.getHealth() < livingEntity.getMaxHealth() * ((float) enchantmentLevel / 10)) {
                 livingEntity.kill();
-                VisualEffects.spawnHeartsEdgeExecuteEffect(serverLevel, entity.getX(), entity.getY() + entity.getBbHeight()/2, entity.getZ());
             }
         }
     }

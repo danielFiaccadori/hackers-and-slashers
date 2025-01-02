@@ -17,14 +17,6 @@ public class VisualEffects {
                     0, 0, 0,
                     0
             );
-        } else {
-            level.addParticle(
-                    ModParticles.HEARTS_EDGE_EXECUTE.get(),
-                    x, y, z,
-                    0,
-                    0,
-                    0
-            );
         }
     }
 
