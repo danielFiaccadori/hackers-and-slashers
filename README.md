@@ -12,14 +12,7 @@
 
 ## Welcome to my mod repository :D
 
-**Hackers 'n Slashers** is a simple and fun Minecraft mod that reimagines combat strategies, critical hits, and overall combat logic to make the game more engaging and dynamic.
-
-## ✨ Features
-- **Dynamic Critical System**: A rework of Minecraft's critical hit mechanics for a more engaging experience.
-- **Enhanced Combat Logic**: Improved minor details to make combat more fluid and intuitive.
-- **New Strategies**:
-    - **Stealth**: Improved the default sneaking to something more consistent.
-    - **Parry**: Added a block and parry mechanic;
+**Hackers 'n Slashers** is a simple and fun Minecraft mod that reimagines combat strategies adds new combat strategies and mechanics, rework critical hits and overall combat logic to make the game more engaging and dynamic.
 
 ---
 
