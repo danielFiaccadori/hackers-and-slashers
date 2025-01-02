@@ -17,9 +17,10 @@ public class CritMagicSmall extends TextureSheetParticle {
         super(world, x, y, z);
         this.spriteSet = spriteSet;
         this.setSize(0.1f, 0.1f);
+        this.quadSize = 0.25F;
         this.lifetime = 20;
         this.gravity = -0.1f;
-        this.hasPhysics = true;
+        this.hasPhysics = false;
         double spread = 0.25;
         this.xd = (this.random.nextDouble() - 0.5) * spread;
         this.yd = (this.random.nextDouble() - 0.5) * spread;

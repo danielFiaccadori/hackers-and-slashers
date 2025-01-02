@@ -29,7 +29,7 @@ public class CritGenericSmallProvider implements ParticleProvider<SimpleParticle
 
     @SubscribeEvent
     public static void register(RegisterParticleProvidersEvent event) {
-        event.registerSpriteSet(ModParticles.CRIT_GENERIC_SMALL.get(), CritGenericProvider::new);
+        event.registerSpriteSet(ModParticles.CRIT_GENERIC_SMALL.get(), CritGenericSmallProvider::new);
     }
 
 }

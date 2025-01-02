@@ -1,6 +1,8 @@
 package net.dndats.hackersandslashers.client.effects;
 
 import net.dndats.hackersandslashers.assets.particles.ModParticles;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -46,7 +48,7 @@ public class VisualEffects {
                     );
                 }
             }
-        } else if (damageSource.type().toString().contains("spell") || damageSource.type().toString().contains("magic")) {
+        } else if (damageSource.getClass().getSimpleName().contains("Spell")) {
             if (level instanceof ServerLevel serverLevel) {
                 serverLevel.sendParticles(
                         ModParticles.CRIT_MAGIC.get(),

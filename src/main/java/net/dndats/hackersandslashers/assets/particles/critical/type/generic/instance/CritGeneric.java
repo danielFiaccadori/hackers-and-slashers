@@ -4,6 +4,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
@@ -17,7 +18,7 @@ public class CritGeneric extends TextureSheetParticle {
         this.spriteSet = spriteSet;
         this.setSize(2f, 2f);
         this.quadSize *= 2;
-        this.lifetime = 20;
+        this.lifetime = 30;
         this.gravity = -0.1f;
         this.hasPhysics = false;
         this.xd = vx * 1;
