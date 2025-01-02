@@ -5,5 +5,7 @@
 
   "effect.hackersandslashers.stun": "Stun",
 
-  "enchantment.hackersandslashers.hearts_edge": "Heart's Edge"
+  "enchantment.hackersandslashers.hearts_edge": "Heart's Edge",
+  "enchantment.hackersandslashers.hearts_edge.desc": "Executes enemies when their health is low"
+
 }

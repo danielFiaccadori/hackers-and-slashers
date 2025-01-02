@@ -1,7 +1,7 @@
 package net.dndats.hackersandslashers.assets.enchantment.custom;
 
 import com.mojang.serialization.MapCodec;
-import net.dndats.hackersandslashers.client.effects.SoundEffects;
+import net.dndats.hackersandslashers.client.effects.VisualEffects;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,6 +19,7 @@ public record HeartsEdgeEnchantmentEffect() implements EnchantmentEntityEffect {
         if (entity instanceof LivingEntity livingEntity) {
             if (livingEntity.getHealth() < livingEntity.getMaxHealth() * ((float) enchantmentLevel / 10)) {
                 livingEntity.kill();
+                VisualEffects.spawnHeartsEdgeExecuteEffect(serverLevel, entity.getX(), entity.getY() + entity.getBbHeight()/2, entity.getZ());
             }
         }
     }

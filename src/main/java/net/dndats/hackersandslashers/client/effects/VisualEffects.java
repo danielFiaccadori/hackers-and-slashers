@@ -1,14 +1,32 @@
 package net.dndats.hackersandslashers.client.effects;
 
 import net.dndats.hackersandslashers.assets.particles.ModParticles;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.level.Level;
 
 public class VisualEffects {
+
+    public static void spawnHeartsEdgeExecuteEffect(Level level,  double x, double y, double z) {
+        if (level instanceof ServerLevel serverLevel) {
+            serverLevel.sendParticles(
+                    ModParticles.HEARTS_EDGE_EXECUTE.get(),
+                    x, y, z,
+                    1,
+                    0, 0, 0,
+                    0
+            );
+        } else {
+            level.addParticle(
+                    ModParticles.HEARTS_EDGE_EXECUTE.get(),
+                    x, y, z,
+                    0,
+                    0,
+                    0
+            );
+        }
+    }
 
     public static void spawnCriticalParticle(Level level, double x, double y, double z, int damageAmount, DamageSource damageSource) {
         if (damageSource.is(DamageTypes.GENERIC)
