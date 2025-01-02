@@ -8,18 +8,6 @@ import net.minecraft.world.level.Level;
 
 public class VisualEffects {
 
-    public static void spawnHeartsEdgeExecuteEffect(Level level,  double x, double y, double z) {
-        if (level instanceof ServerLevel serverLevel) {
-            serverLevel.sendParticles(
-                    ModParticles.HEARTS_EDGE_EXECUTE.get(),
-                    x, y, z,
-                    1,
-                    0, 0, 0,
-                    0
-            );
-        }
-    }
-
     public static void spawnCriticalParticle(Level level, double x, double y, double z, int damageAmount, DamageSource damageSource) {
         if (damageSource.is(DamageTypes.GENERIC)
                 || damageSource.is(DamageTypes.PLAYER_ATTACK)

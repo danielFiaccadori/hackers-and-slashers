@@ -6,8 +6,6 @@ import net.dndats.hackersandslashers.client.effects.SoundEffects;
 import net.dndats.hackersandslashers.client.effects.VisualEffects;
 import net.dndats.hackersandslashers.common.combat.critical.interfaces.ICritical;
 import net.dndats.hackersandslashers.utils.CombatUtils;
-import net.minecraft.client.resources.sounds.Sound;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
@@ -68,7 +66,7 @@ public class CriticalRegistry {
                 HackersAndSlashers.LOGGER.info("Dealt {} damage with a total multiplier of {}",
                         finalAmount,
                         totalDamageMultiplier);
-            }
+                }
             }
         } catch (Exception e) {
             HackersAndSlashers.LOGGER.error("Error while trying to process critical: {}", e.getMessage());
