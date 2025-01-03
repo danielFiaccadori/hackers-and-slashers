@@ -1,7 +1,7 @@
 package net.dndats.hackersandslashers.common.combat.critical.logic;
 
 import net.dndats.hackersandslashers.assets.effects.ModMobEffects;
-import net.dndats.hackersandslashers.common.combat.critical.interfaces.ICriticalLogic;
+import net.dndats.hackersandslashers.api.interfaces.ICriticalLogic;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 

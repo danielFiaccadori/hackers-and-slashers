@@ -1,7 +1,7 @@
-package net.dndats.hackersandslashers.common.combat.critical.manager;
+package net.dndats.hackersandslashers.api.manager;
 
-import net.dndats.hackersandslashers.common.combat.critical.interfaces.ICritical;
-import net.dndats.hackersandslashers.common.combat.critical.interfaces.ICriticalLogic;
+import net.dndats.hackersandslashers.api.interfaces.ICritical;
+import net.dndats.hackersandslashers.api.interfaces.ICriticalLogic;
 
 public class MeleeCritical implements ICritical {
 

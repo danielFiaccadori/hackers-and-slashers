@@ -1,10 +1,8 @@
-package net.dndats.hackersandslashers.common.combat.critical.manager;
+package net.dndats.hackersandslashers.api.manager;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.assets.effects.ModMobEffects;
-import net.dndats.hackersandslashers.client.effects.SoundEffects;
-import net.dndats.hackersandslashers.client.effects.VisualEffects;
-import net.dndats.hackersandslashers.common.combat.critical.interfaces.ICritical;
+import net.dndats.hackersandslashers.api.interfaces.ICritical;
 import net.dndats.hackersandslashers.common.combat.critical.logic.BackstabLogic;
 import net.dndats.hackersandslashers.utils.CombatUtils;
 import net.minecraft.world.entity.ai.attributes.Attributes;

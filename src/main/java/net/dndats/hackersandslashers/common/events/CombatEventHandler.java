@@ -3,13 +3,12 @@ package net.dndats.hackersandslashers.common.events;
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.client.effects.SoundEffects;
 import net.dndats.hackersandslashers.client.effects.VisualEffects;
-import net.dndats.hackersandslashers.common.combat.critical.manager.CriticalManager;
+import net.dndats.hackersandslashers.api.manager.CriticalManager;
 import net.dndats.hackersandslashers.common.combat.mechanics.block.Block;
 import net.dndats.hackersandslashers.utils.CombatUtils;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
-import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 
 // HANDLER: COMBAT RELATED THINGS
 @EventBusSubscriber(modid = HackersAndSlashers.MODID)

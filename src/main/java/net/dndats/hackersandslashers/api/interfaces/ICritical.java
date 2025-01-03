@@ -1,4 +1,4 @@
-package net.dndats.hackersandslashers.common.combat.critical.interfaces;
+package net.dndats.hackersandslashers.api.interfaces;
 
 public interface ICritical {
 
