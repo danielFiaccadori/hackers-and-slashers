@@ -19,7 +19,8 @@
 ## 🚀 Next Goals
 I'm actively working on:
 - Adding configuration files for enhanced customization.
-- Implementation of weapon type based parry animations
+- Implementation of weapon type based parry animations.
+- Custom behavior for mobs reacting to stealth players.
 - Introducing features to support mod developers.
 
 
