@@ -21,8 +21,8 @@ public class ModParticles {
             () -> new SimpleParticleType(false)
     );
 
-    public static final Supplier<SimpleParticleType> CRIT_GENERIC_SMALL = PARTICLES.register(
-            "crit_generic_small",
+    public static final Supplier<SimpleParticleType> ATTACK_SPARK_CRIT_GENERIC = PARTICLES.register(
+            "attack_spark_crit_generic",
             () -> new SimpleParticleType(false)
     );
 
@@ -31,15 +31,15 @@ public class ModParticles {
             () -> new SimpleParticleType(false)
     );
 
-    public static final Supplier<SimpleParticleType> CRIT_MAGIC_SMALL = PARTICLES.register(
-            "crit_magic_small",
+    public static final Supplier<SimpleParticleType> ATTACK_SPARK_CRIT_MAGIC = PARTICLES.register(
+            "attack_spark_crit_magic",
             () -> new SimpleParticleType(false)
     );
 
     // EFFECT PARTICLES
 
-    public static final Supplier<SimpleParticleType> BLOCK_SPARK = PARTICLES.register(
-            "block_spark",
+    public static final Supplier<SimpleParticleType> ATTACK_SPARK = PARTICLES.register(
+            "attack_spark",
             () -> new SimpleParticleType(false)
     );
 

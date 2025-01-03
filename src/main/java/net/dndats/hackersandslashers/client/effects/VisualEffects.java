@@ -8,7 +8,7 @@ import net.minecraft.world.level.Level;
 
 public class VisualEffects {
 
-    public static void spawnCriticalParticle(Level level, double x, double y, double z, int damageAmount, DamageSource damageSource) {
+    public static void spawnCriticalParticle(Level level, double x, double y, double z, DamageSource damageSource) {
         if (damageSource.is(DamageTypes.GENERIC)
                 || damageSource.is(DamageTypes.PLAYER_ATTACK)
                 || damageSource.is(DamageTypes.ARROW)) {
@@ -20,13 +20,6 @@ public class VisualEffects {
                         0, 0, 0,
                         0
                 );
-                serverLevel.sendParticles(
-                        ModParticles.CRIT_GENERIC_SMALL.get(),
-                        x, y, z,
-                        5 + damageAmount,
-                        0, 0, 0,
-                        0.5
-                );
             } else {
                 level.addParticle(
                         ModParticles.CRIT_GENERIC.get(),
@@ -35,16 +28,6 @@ public class VisualEffects {
                         0,
                         0
                 );
-
-                for (int i = 0; i < 5 + damageAmount; i++) {
-                    level.addParticle(
-                            ModParticles.CRIT_GENERIC_SMALL.get(),
-                            x, y, z,
-                            (level.random.nextDouble() - 0.5) * 0.5,
-                            (level.random.nextDouble() - 0.5) * 0.5,
-                            (level.random.nextDouble() - 0.5) * 0.5
-                    );
-                }
             }
         } else if (damageSource.getClass().getSimpleName().contains("Spell")) {
             if (level instanceof ServerLevel serverLevel) {
@@ -55,13 +38,6 @@ public class VisualEffects {
                         0, 0, 0,
                         0
                 );
-                serverLevel.sendParticles(
-                        ModParticles.CRIT_MAGIC_SMALL.get(),
-                        x, y, z,
-                        5 + damageAmount,
-                        0, 0, 0,
-                        0.5
-                );
             } else {
                 level.addParticle(
                         ModParticles.CRIT_MAGIC.get(),
@@ -70,33 +46,23 @@ public class VisualEffects {
                         0,
                         0
                 );
-
-                for (int i = 0; i < 5 + damageAmount; i++) {
-                    level.addParticle(
-                            ModParticles.CRIT_MAGIC_SMALL.get(),
-                            x, y, z,
-                            (level.random.nextDouble() - 0.5) * 0.5,
-                            (level.random.nextDouble() - 0.5) * 0.5,
-                            (level.random.nextDouble() - 0.5) * 0.5
-                    );
-                }
             }
         }
     }
 
-    public static void spawnBlockParticles(Level level, double x, double y, double z) {
+    public static void spawnAttackParticles(Level level, double x, double y, double z) {
         if (level instanceof ServerLevel serverLevel) {
             serverLevel.sendParticles(
-                    ModParticles.BLOCK_SPARK.get(),
+                    ModParticles.ATTACK_SPARK.get(),
                     x, y, z,
                     10,
                     0, 0, 0,
-                    0.5
+                    1
             );
         }
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             level.addParticle(
-                    ModParticles.BLOCK_SPARK.get(),
+                    ModParticles.ATTACK_SPARK.get(),
                     x, y, z,
                     (level.random.nextDouble() - 0.5) * 0.5,
                     (level.random.nextDouble() - 0.5) * 0.5,
@@ -104,4 +70,47 @@ public class VisualEffects {
             );
         }
     }
+
+    public static void spawnAttackCritParticles(Level level, double x, double y, double z) {
+        if (level instanceof ServerLevel serverLevel) {
+            serverLevel.sendParticles(
+                    ModParticles.ATTACK_SPARK_CRIT_GENERIC.get(),
+                    x, y, z,
+                    10,
+                    0, 0, 0,
+                    1
+            );
+        }
+        for (int i = 0; i < 5; i++) {
+            level.addParticle(
+                    ModParticles.ATTACK_SPARK_CRIT_GENERIC.get(),
+                    x, y, z,
+                    (level.random.nextDouble() - 0.5) * 0.5,
+                    (level.random.nextDouble() - 0.5) * 0.5,
+                    (level.random.nextDouble() - 0.5) * 0.5
+            );
+        }
+    }
+
+    public static void spawnAttackCritMagicParticles(Level level, double x, double y, double z) {
+        if (level instanceof ServerLevel serverLevel) {
+            serverLevel.sendParticles(
+                    ModParticles.ATTACK_SPARK_CRIT_MAGIC.get(),
+                    x, y, z,
+                    10,
+                    0, 0, 0,
+                    1
+            );
+        }
+        for (int i = 0; i < 5; i++) {
+            level.addParticle(
+                    ModParticles.ATTACK_SPARK_CRIT_MAGIC.get(),
+                    x, y, z,
+                    (level.random.nextDouble() - 0.5) * 0.5,
+                    (level.random.nextDouble() - 0.5) * 0.5,
+                    (level.random.nextDouble() - 0.5) * 0.5
+            );
+        }
+    }
+
 }

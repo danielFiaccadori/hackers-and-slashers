@@ -1,7 +1,7 @@
-package net.dndats.hackersandslashers.assets.particles.critical.type.generic.providers;
+package net.dndats.hackersandslashers.assets.particles.critical.type.providers;
 
 import net.dndats.hackersandslashers.assets.particles.ModParticles;
-import net.dndats.hackersandslashers.assets.particles.critical.type.generic.instance.CritGeneric;
+import net.dndats.hackersandslashers.assets.particles.critical.type.instance.CritGeneric;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;

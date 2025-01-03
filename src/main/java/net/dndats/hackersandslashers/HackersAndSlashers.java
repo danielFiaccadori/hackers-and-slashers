@@ -7,7 +7,7 @@ import net.dndats.hackersandslashers.common.combat.critical.logic.BackstabLogic;
 import net.dndats.hackersandslashers.common.combat.critical.logic.HeadshotLogic;
 import net.dndats.hackersandslashers.common.combat.critical.logic.RiposteLogic;
 import net.dndats.hackersandslashers.common.combat.critical.manager.MeleeCritical;
-import net.dndats.hackersandslashers.common.combat.critical.manager.CriticalRegistry;
+import net.dndats.hackersandslashers.common.combat.critical.manager.CriticalManager;
 import net.dndats.hackersandslashers.common.ModPlayerData;
 import net.dndats.hackersandslashers.common.combat.critical.manager.RangedCritical;
 import net.minecraft.world.effect.MobEffects;
@@ -40,9 +40,9 @@ public class HackersAndSlashers {
         NeoForge.EVENT_BUS.register(this);
 
         // Register Critical types
-        CriticalRegistry.registerCritical(new MeleeCritical("Backstab", new BackstabLogic(3.0F)));
-        CriticalRegistry.registerCritical(new MeleeCritical("Riposte", new RiposteLogic(1.5F)));
-        CriticalRegistry.registerCritical(new RangedCritical("Headshot", new HeadshotLogic(2.0F)));
+        CriticalManager.registerCritical(new MeleeCritical("Backstab", new BackstabLogic(3.0F)));
+        CriticalManager.registerCritical(new MeleeCritical("Riposte", new RiposteLogic(1.5F)));
+        CriticalManager.registerCritical(new RangedCritical("Headshot", new HeadshotLogic(2.0F)));
 
         // Register data
         ModPlayerData.ATTACHMENT_TYPES.register(modEventBus);

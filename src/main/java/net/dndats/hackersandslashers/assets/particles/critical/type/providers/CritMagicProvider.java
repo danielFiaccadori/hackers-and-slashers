@@ -1,6 +1,7 @@
-package net.dndats.hackersandslashers.assets.particles.effects.block;
+package net.dndats.hackersandslashers.assets.particles.critical.type.providers;
 
 import net.dndats.hackersandslashers.assets.particles.ModParticles;
+import net.dndats.hackersandslashers.assets.particles.critical.type.instance.CritMagic;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
@@ -14,22 +15,22 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class BlockSparkProvider implements ParticleProvider<SimpleParticleType> {
+public class CritMagicProvider implements ParticleProvider<SimpleParticleType> {
 
     private final SpriteSet spriteSet;
 
-    public BlockSparkProvider(SpriteSet spriteSet) {
+    public CritMagicProvider(SpriteSet spriteSet) {
         this.spriteSet = spriteSet;
     }
 
     @Override
     public @Nullable Particle createParticle(@NotNull SimpleParticleType typeIn, @NotNull ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        return new BlockSpark(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
+        return new CritMagic(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
     }
 
     @SubscribeEvent
     public static void register(RegisterParticleProvidersEvent event) {
-        event.registerSpriteSet(ModParticles.BLOCK_SPARK.get(), BlockSparkProvider::new);
+        event.registerSpriteSet(ModParticles.CRIT_MAGIC.get(), CritMagicProvider::new);
     }
 
 }

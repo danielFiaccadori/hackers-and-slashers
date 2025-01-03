@@ -1,7 +1,7 @@
-package net.dndats.hackersandslashers.assets.particles.critical.type.generic.providers;
+package net.dndats.hackersandslashers.assets.particles.effects.attack.providers;
 
 import net.dndats.hackersandslashers.assets.particles.ModParticles;
-import net.dndats.hackersandslashers.assets.particles.critical.type.generic.instance.CritGenericSmall;
+import net.dndats.hackersandslashers.assets.particles.effects.attack.instance.AttackSparkCritGeneric;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
@@ -14,22 +14,22 @@ import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import org.jetbrains.annotations.Nullable;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class CritGenericSmallProvider implements ParticleProvider<SimpleParticleType> {
+public class AttackSparkCritGenericProvider implements ParticleProvider<SimpleParticleType> {
 
     private final SpriteSet spriteSet;
 
-    public CritGenericSmallProvider(SpriteSet spriteSet) {
+    public AttackSparkCritGenericProvider(SpriteSet spriteSet) {
         this.spriteSet = spriteSet;
     }
 
     @Override
     public @Nullable Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        return new CritGenericSmall(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
+        return new AttackSparkCritGeneric(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
     }
 
     @SubscribeEvent
     public static void register(RegisterParticleProvidersEvent event) {
-        event.registerSpriteSet(ModParticles.CRIT_GENERIC_SMALL.get(), CritGenericSmallProvider::new);
+        event.registerSpriteSet(ModParticles.ATTACK_SPARK_CRIT_GENERIC.get(), AttackSparkCritGenericProvider::new);
     }
 
 }

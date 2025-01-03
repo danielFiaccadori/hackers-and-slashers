@@ -28,10 +28,6 @@ public class Block {
             if (event.getEntity() instanceof Player player) {
                 if (PlayerUtils.isBlocking(player)) {
                     SoundEffects.playBlockSound(player);
-                    VisualEffects.spawnBlockParticles(player.level(),
-                            player.getX(),
-                            player.getY() + 0.1 + player.getBbHeight() / 2,
-                            player.getZ());
                     if (event.getEntity().getOffhandItem().getItem() instanceof SwordItem &&
                             event.getEntity().getMainHandItem().getItem() instanceof SwordItem) {
                         ItemUtils.damageAndDistribute(event.getEntity().level(),

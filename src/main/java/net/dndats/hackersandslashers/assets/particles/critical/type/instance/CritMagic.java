@@ -1,4 +1,4 @@
-package net.dndats.hackersandslashers.assets.particles.critical.type.generic.instance;
+package net.dndats.hackersandslashers.assets.particles.critical.type.instance;
 
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleRenderType;
@@ -9,24 +9,23 @@ import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
-public class CritGenericSmall extends TextureSheetParticle {
+public class CritMagic extends TextureSheetParticle {
 
     private final SpriteSet spriteSet;
 
-    public CritGenericSmall(ClientLevel world, double x, double y, double z, double vx, double vy, double vz, SpriteSet spriteSet) {
+    public CritMagic(ClientLevel world, double x, double y, double z, double vx, double vy, double vz, SpriteSet spriteSet) {
         super(world, x, y, z);
         this.spriteSet = spriteSet;
-        this.setSize(0.1f, 0.1f);
-        this.quadSize = 0.25F;
-        this.lifetime = 20;
+        this.setSize(2f, 2f);
+        this.quadSize *= 2;
+        this.lifetime = 40;
         this.gravity = -0.1f;
         this.hasPhysics = false;
-        double spread = 0.25;
-        this.xd = (this.random.nextDouble() - 0.5) * spread;
-        this.yd = (this.random.nextDouble() - 0.5) * spread;
-        this.zd = (this.random.nextDouble() - 0.5) * spread;
+        this.xd = vx * 1;
+        this.yd = vy * 1;
+        this.zd = vz * 1;
         this.rCol = 1;
-        this.gCol = 1;
+        this.gCol = 0.5F;
         this.bCol = 1;
         this.pickSprite(spriteSet);
     }
@@ -47,13 +46,8 @@ public class CritGenericSmall extends TextureSheetParticle {
     @Override
     public void tick() {
         super.tick();
-        if (this.age < this.lifetime / 2) {
-            this.xd *= 1.05;
-            this.yd *= 1.05;
-            this.zd *= 1.05;
-        }
         if (this.age < this.lifetime) {
-            this.quadSize *= 1f - ((float) this.age / (float) this.lifetime);
+            this.quadSize *= 1.0f - ((float) this.age / (float) this.lifetime);
         }
     }
 

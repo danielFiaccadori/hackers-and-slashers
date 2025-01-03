@@ -1,4 +1,4 @@
-package net.dndats.hackersandslashers.assets.particles.effects.block;
+package net.dndats.hackersandslashers.assets.particles.effects.attack.instance;
 
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleRenderType;
@@ -9,25 +9,25 @@ import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
-public class BlockSpark extends TextureSheetParticle {
+public class AttackSparkCritGeneric extends TextureSheetParticle {
 
     private final SpriteSet spriteSet;
 
-    public BlockSpark(ClientLevel world, double x, double y, double z, double vx, double vy, double vz, SpriteSet spriteSet) {
+    public AttackSparkCritGeneric(ClientLevel world, double x, double y, double z, double vx, double vy, double vz, SpriteSet spriteSet) {
         super(world, x, y, z);
         this.spriteSet = spriteSet;
         this.setSize(0.1F, 0.1F);
-        this.quadSize = 0.20F;
-        this.lifetime = 20;
-        this.gravity = 0.5F;
+        this.quadSize = 0.2F;
+        this.lifetime = 15;
+        this.gravity = 0.1F;
         this.hasPhysics = false;
-        double spread = 0.25;
+        double spread = 0.5;
         this.xd = (this.random.nextDouble() - 0.5) * spread;
         this.yd = (this.random.nextDouble() - 0.5) * spread;
         this.zd = (this.random.nextDouble() - 0.5) * spread;
-        this.rCol = 1;
-        this.gCol = 1;
-        this.bCol = 0;
+        this.rCol = 0.9F;
+        this.gCol = 0.9F;
+        this.bCol = 1;
         this.pickSprite(spriteSet);
     }
 
@@ -47,6 +47,11 @@ public class BlockSpark extends TextureSheetParticle {
     @Override
     public void tick() {
         super.tick();
+        if (this.age < this.lifetime / 2) {
+            this.xd *= 1.05;
+            this.yd *= 1.05;
+            this.zd *= 1.05;
+        }
         if (this.age < this.lifetime) {
             this.quadSize *= 1f - ((float) this.age / (float) this.lifetime);
             float progress = (float) this.age / (float) this.lifetime;

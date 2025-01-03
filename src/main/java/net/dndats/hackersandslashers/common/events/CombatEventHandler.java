@@ -1,12 +1,15 @@
 package net.dndats.hackersandslashers.common.events;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
-import net.dndats.hackersandslashers.common.combat.critical.manager.CriticalRegistry;
+import net.dndats.hackersandslashers.client.effects.SoundEffects;
+import net.dndats.hackersandslashers.client.effects.VisualEffects;
+import net.dndats.hackersandslashers.common.combat.critical.manager.CriticalManager;
 import net.dndats.hackersandslashers.common.combat.mechanics.block.Block;
 import net.dndats.hackersandslashers.utils.CombatUtils;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 
 // HANDLER: COMBAT RELATED THINGS
 @EventBusSubscriber(modid = HackersAndSlashers.MODID)
@@ -29,7 +32,16 @@ public class CombatEventHandler {
     public static void dealCriticalHit(LivingIncomingDamageEvent event) {
         try {
             //Apply critical hit
-            CriticalRegistry.processCriticalHit(event);
+            boolean isCritical = CriticalManager.processCriticalHit(event);
+            CombatUtils.spawnCombatParticles(event, isCritical);
+            if (isCritical) {
+                SoundEffects.playCriticalSound(event.getEntity());
+                VisualEffects.spawnCriticalParticle(event.getEntity().level(),
+                        event.getEntity().getX(),
+                        event.getEntity().getEyeY() + 1,
+                        event.getEntity().getZ(),
+                        event.getSource());
+            }
         } catch (Exception e) {
             HackersAndSlashers.LOGGER.error("Error while trying to apply a critical hit: {}", e.getMessage());
         }

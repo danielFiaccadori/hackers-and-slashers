@@ -1,7 +1,7 @@
-package net.dndats.hackersandslashers.assets.particles.critical.type.magic.providers;
+package net.dndats.hackersandslashers.assets.particles.effects.attack.providers;
 
 import net.dndats.hackersandslashers.assets.particles.ModParticles;
-import net.dndats.hackersandslashers.assets.particles.critical.type.magic.instance.CritMagic;
+import net.dndats.hackersandslashers.assets.particles.effects.attack.instance.AttackSparkCritMagic;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
@@ -11,26 +11,25 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class CritMagicProvider implements ParticleProvider<SimpleParticleType> {
+public class AttackSparkCritMagicProvider implements ParticleProvider<SimpleParticleType> {
 
     private final SpriteSet spriteSet;
 
-    public CritMagicProvider(SpriteSet spriteSet) {
+    public AttackSparkCritMagicProvider(SpriteSet spriteSet) {
         this.spriteSet = spriteSet;
     }
 
     @Override
-    public @Nullable Particle createParticle(@NotNull SimpleParticleType typeIn, @NotNull ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        return new CritMagic(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
+    public @Nullable Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        return new AttackSparkCritMagic(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
     }
 
     @SubscribeEvent
     public static void register(RegisterParticleProvidersEvent event) {
-        event.registerSpriteSet(ModParticles.CRIT_MAGIC.get(), CritMagicProvider::new);
+        event.registerSpriteSet(ModParticles.ATTACK_SPARK_CRIT_MAGIC.get(), AttackSparkCritMagicProvider::new);
     }
 
 }

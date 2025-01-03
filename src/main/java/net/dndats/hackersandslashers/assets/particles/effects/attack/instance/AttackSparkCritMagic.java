@@ -1,4 +1,4 @@
-package net.dndats.hackersandslashers.assets.particles.critical.type.magic.instance;
+package net.dndats.hackersandslashers.assets.particles.effects.attack.instance;
 
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleRenderType;
@@ -9,19 +9,19 @@ import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
-public class CritMagicSmall extends TextureSheetParticle {
+public class AttackSparkCritMagic extends TextureSheetParticle {
 
     private final SpriteSet spriteSet;
 
-    public CritMagicSmall(ClientLevel world, double x, double y, double z, double vx, double vy, double vz, SpriteSet spriteSet) {
+    public AttackSparkCritMagic(ClientLevel world, double x, double y, double z, double vx, double vy, double vz, SpriteSet spriteSet) {
         super(world, x, y, z);
         this.spriteSet = spriteSet;
-        this.setSize(0.1f, 0.1f);
-        this.quadSize = 0.25F;
-        this.lifetime = 20;
-        this.gravity = -0.1f;
+        this.setSize(0.1F, 0.1F);
+        this.quadSize = 0.2F;
+        this.lifetime = 15;
+        this.gravity = 0.1F;
         this.hasPhysics = false;
-        double spread = 0.25;
+        double spread = 0.5;
         this.xd = (this.random.nextDouble() - 0.5) * spread;
         this.yd = (this.random.nextDouble() - 0.5) * spread;
         this.zd = (this.random.nextDouble() - 0.5) * spread;
@@ -54,6 +54,11 @@ public class CritMagicSmall extends TextureSheetParticle {
         }
         if (this.age < this.lifetime) {
             this.quadSize *= 1f - ((float) this.age / (float) this.lifetime);
+            float progress = (float) this.age / (float) this.lifetime;
+            float initialRollSpeed = 10F;
+            float finalRollSpeed = 5F;
+            float currentRollSpeed = initialRollSpeed + (finalRollSpeed - initialRollSpeed) * progress;
+            this.roll += (float) Math.toRadians(currentRollSpeed);
         }
     }
 
