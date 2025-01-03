@@ -31,11 +31,6 @@ public class ModParticles {
             () -> new SimpleParticleType(false)
     );
 
-    public static final Supplier<SimpleParticleType> ATTACK_SPARK_CRIT_MAGIC = PARTICLES.register(
-            "attack_spark_crit_magic",
-            () -> new SimpleParticleType(false)
-    );
-
     // EFFECT PARTICLES
 
     public static final Supplier<SimpleParticleType> ATTACK_SPARK = PARTICLES.register(

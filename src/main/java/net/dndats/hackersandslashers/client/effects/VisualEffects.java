@@ -92,25 +92,4 @@ public class VisualEffects {
         }
     }
 
-    public static void spawnAttackCritMagicParticles(Level level, double x, double y, double z) {
-        if (level instanceof ServerLevel serverLevel) {
-            serverLevel.sendParticles(
-                    ModParticles.ATTACK_SPARK_CRIT_MAGIC.get(),
-                    x, y, z,
-                    10,
-                    0, 0, 0,
-                    1
-            );
-        }
-        for (int i = 0; i < 5; i++) {
-            level.addParticle(
-                    ModParticles.ATTACK_SPARK_CRIT_MAGIC.get(),
-                    x, y, z,
-                    (level.random.nextDouble() - 0.5) * 0.5,
-                    (level.random.nextDouble() - 0.5) * 0.5,
-                    (level.random.nextDouble() - 0.5) * 0.5
-            );
-        }
-    }
-
 }

@@ -53,7 +53,6 @@ public class Stealth {
                         mob.setTarget(player);
                     }
                 }
-
             }
 
         }
@@ -69,10 +68,15 @@ public class Stealth {
     public static void detectBeingTargeted(Player player) {
         if (player == null) return;
         var playerData = player.getData(ModPlayerData.VISIBILITY_LEVEL);
-        if (mobAlertChecker(player)) {
-            if (mobTargetChecker(player)) {
+        if (mobAlertChecker(player) || mobLastAttackerChecker(player) || mobSightChecker(player)) {
+            if (mobTargetChecker(player) || mobLastAttackerChecker(player)) {
                 if (PlayerUtils.getVisibilityLevel(player) != 100) {
                     playerData.setVisibilityLevel(100);
+                    playerData.syncData(player);
+                }
+            } else if (mobSightChecker(player)){
+                if (PlayerUtils.getVisibilityLevel(player) != 50) {
+                    playerData.setVisibilityLevel(50);
                     playerData.syncData(player);
                 }
             } else {
@@ -94,7 +98,7 @@ public class Stealth {
      * It basically iterates in all mobs around, if the check is true, it returns a boolean value
      *
      * @param player: the player in context
-     * @return: after tracking, returns the waited boolean value
+     * @return after tracking, the waited boolean value
      */
 
     private static boolean mobTargetChecker(Player player) {
@@ -114,9 +118,24 @@ public class Stealth {
                 .anyMatch(EntityUtils::hasAlertTag);
     }
 
+    private static boolean mobLastAttackerChecker(Player player) {
+        if (player == null) return false;
+        final Vec3 surroundings = new Vec3(player.getX(), player.getY(), player.getZ());
+        return player.level().getEntitiesOfClass(Mob.class, new AABB(surroundings, surroundings).inflate(64))
+                .stream()
+                .anyMatch(mob -> mob.getLastAttacker() == player);
+    }
+
+    private static boolean mobSightChecker(Player player) {
+        if (player == null) return false;
+        final Vec3 surroundings = new Vec3(player.getX(), player.getY(), player.getZ());
+        return player.level().getEntitiesOfClass(Mob.class, new AABB(surroundings, surroundings).inflate(64))
+                .stream()
+                .anyMatch(mob -> mob.hasLineOfSight(player));
+    }
+
     private static boolean isStealthy(Player player) {
         return (PlayerUtils.isOnBush(player) || PlayerUtils.isAtDarkPlace(player)) &&
                 (player.isCrouching() || player.isInvisible());
     }
-
 }

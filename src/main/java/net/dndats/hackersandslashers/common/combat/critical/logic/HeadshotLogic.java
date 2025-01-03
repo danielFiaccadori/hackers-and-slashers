@@ -23,7 +23,7 @@ public class HeadshotLogic implements ICriticalLogic {
 
     /**
      * Verifies if the headshot can be applied based on the position of the projectile related to the eye height of the entity.
-     * @param source (important) the PROJECTILE attempting the headshot.
+     * @param directSourceEntity (important) the PROJECTILE attempting the headshot.
      * @param target The target entity.
      * @return True if the headshot can be applied, false otherwise.
      */

@@ -8,6 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
@@ -47,12 +48,13 @@ public class CombatUtils {
     public static void spawnCombatParticles(LivingIncomingDamageEvent event, Boolean isCritical) {
         LivingEntity target = event.getEntity();
         Entity source = event.getSource().getEntity();
+
         if (!isCritical) {
             if (event.getSource().getWeaponItem().getItem() instanceof SwordItem) {
                 VisualEffects.spawnAttackParticles(
                         target.level(),
                         target.getX(),
-                        target.getY() + target.getBbHeight() / 2,
+                        target.getY() + 0.25 + target.getBbHeight() / 2,
                         target.getZ()
                 );
             } else if (event.getSource().getDirectEntity() instanceof Projectile projectile) {
@@ -68,7 +70,7 @@ public class CombatUtils {
                 VisualEffects.spawnAttackCritParticles(
                         target.level(),
                         target.getX(),
-                        target.getY() + target.getBbHeight() / 2,
+                        target.getY() + 0.25 + target.getBbHeight() / 2,
                         target.getZ()
                 );
             } else if (event.getSource().getDirectEntity() instanceof Projectile projectile) {

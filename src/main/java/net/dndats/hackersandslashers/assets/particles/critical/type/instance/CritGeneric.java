@@ -23,8 +23,8 @@ public class CritGeneric extends TextureSheetParticle {
         this.xd = vx * 1;
         this.yd = vy * 1;
         this.zd = vz * 1;
-        this.rCol = 0.9F;
-        this.gCol = 0.9F;
+        this.rCol = 0.85F;
+        this.gCol = 0.85F;
         this.bCol = 1;
         this.pickSprite(spriteSet);
     }
