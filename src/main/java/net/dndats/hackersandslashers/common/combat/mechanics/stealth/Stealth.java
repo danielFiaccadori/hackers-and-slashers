@@ -5,6 +5,7 @@ import net.dndats.hackersandslashers.common.ModPlayerData;
 import net.dndats.hackersandslashers.utils.EntityUtils;
 import net.dndats.hackersandslashers.utils.PlayerUtils;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
@@ -121,7 +122,7 @@ public class Stealth {
     private static boolean mobLastAttackerChecker(Player player) {
         if (player == null) return false;
         final Vec3 surroundings = new Vec3(player.getX(), player.getY(), player.getZ());
-        return player.level().getEntitiesOfClass(Mob.class, new AABB(surroundings, surroundings).inflate(64))
+        return player.level().getEntitiesOfClass(LivingEntity.class, new AABB(surroundings, surroundings).inflate(64))
                 .stream()
                 .anyMatch(mob -> mob.getLastAttacker() == player);
     }
@@ -129,7 +130,7 @@ public class Stealth {
     private static boolean mobSightChecker(Player player) {
         if (player == null) return false;
         final Vec3 surroundings = new Vec3(player.getX(), player.getY(), player.getZ());
-        return player.level().getEntitiesOfClass(Mob.class, new AABB(surroundings, surroundings).inflate(64))
+        return player.level().getEntitiesOfClass(LivingEntity.class, new AABB(surroundings, surroundings).inflate(64))
                 .stream()
                 .anyMatch(mob -> mob.hasLineOfSight(player));
     }
