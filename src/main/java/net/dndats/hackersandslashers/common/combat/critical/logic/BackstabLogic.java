@@ -4,12 +4,18 @@ import net.dndats.hackersandslashers.api.interfaces.ICriticalLogic;
 import net.dndats.hackersandslashers.utils.EntityUtils;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+
+import java.util.Objects;
 
 // CRITICAL ATTACK OF TYPE BACKSTAB
 public class BackstabLogic implements ICriticalLogic {
 
     private final float DAMAGE_MULTIPLIER;
+    private static final float BACKSTAB_MODIFIER_MULTIPLIER = 0.25F;
 
     /**
      * When created in main class, specify the amount of damage that this critical hit does.
@@ -40,6 +46,34 @@ public class BackstabLogic implements ICriticalLogic {
         } else {
             return !EntityUtils.isBeingTargeted(player, target);
         }
+    }
+
+    @Override
+    public boolean hasAdditionalModifiers() {
+        return true;
+    }
+
+    @Override
+    public float getAdditionalModifiers(LivingIncomingDamageEvent event) {
+        ItemStack usedItem = event.getSource().getWeaponItem();
+        if (usedItem == null) return 0;
+        if (event.getSource().getEntity() instanceof Player player) {
+            for (var entry : usedItem.getAttributeModifiers().modifiers()) {
+                if (entry.attribute() == Attributes.ATTACK_SPEED) {
+                    double modifierValue = entry.modifier().amount();
+                    double baseAttackSpeed = Objects.requireNonNull(
+                            player.getAttribute(Attributes.ATTACK_SPEED)).getBaseValue();
+                    double finalModifier = baseAttackSpeed + modifierValue;
+                    return  (float) (finalModifier * BACKSTAB_MODIFIER_MULTIPLIER);
+                }
+            }
+        }
+        return 0;
+    }
+
+    @Override
+    public void applyOnHitFunction(LivingIncomingDamageEvent event) {
+
     }
 
     @Override

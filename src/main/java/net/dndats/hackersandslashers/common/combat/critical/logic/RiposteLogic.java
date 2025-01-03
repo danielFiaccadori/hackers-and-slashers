@@ -4,6 +4,7 @@ import net.dndats.hackersandslashers.assets.effects.ModMobEffects;
 import net.dndats.hackersandslashers.api.interfaces.ICriticalLogic;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
 // CRITICAL ATTACK OF TYPE RIPOSTE
 public class RiposteLogic implements ICriticalLogic {
@@ -32,6 +33,23 @@ public class RiposteLogic implements ICriticalLogic {
     @Override
     public boolean canBeApplied(Entity source, LivingEntity target) {
         return target.hasEffect(ModMobEffects.STUN);
+    }
+
+    @Override
+    public boolean hasAdditionalModifiers() {
+        return false;
+    }
+
+    @Override
+    public float getAdditionalModifiers(LivingIncomingDamageEvent event) {
+        return 0;
+    }
+
+    @Override
+    public void applyOnHitFunction(LivingIncomingDamageEvent event) {
+        if (event.getEntity().hasEffect(ModMobEffects.STUN)) {
+            event.getEntity().removeEffect(ModMobEffects.STUN);
+        }
     }
 
     @Override

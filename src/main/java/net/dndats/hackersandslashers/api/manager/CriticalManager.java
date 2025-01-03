@@ -16,9 +16,8 @@ import java.util.List;
 // MANAGES CRITICAL TYPES REGISTERED
 public class CriticalManager {
 
-    /**
-     * This class is a register and manager for the critical types, registering them at the list above:
-     */
+    /// To add a new critical hit, create a new logic and an object. After that, register in the mod constructor.
+    /// This class is a register and manager for the critical types, registering them at the list above:
 
     private static final List<ICritical> criticalTypes = new ArrayList<>();
 
@@ -37,10 +36,10 @@ public class CriticalManager {
      * @param event Holds an attack event
      */
 
-    public static boolean processCriticalHit(LivingIncomingDamageEvent event) {
+    public static boolean applyCriticalHit(LivingIncomingDamageEvent event) {
         try {
             if (event.getSource().getEntity() instanceof Player player) {
-                float totalDamageMultiplier = calculateTotalDamageMultiplier(event, player);
+                float totalDamageMultiplier = processCriticalHit(event, player);
                 if (totalDamageMultiplier > 0) {
                     float finalAmount = CombatUtils.dealCriticalDamage(totalDamageMultiplier, event);
                     HackersAndSlashers.LOGGER.info("Dealt {} damage with a total multiplier of {}",
@@ -64,7 +63,7 @@ public class CriticalManager {
      * @return the final value of the multiplier
      */
 
-    private static float calculateTotalDamageMultiplier(LivingIncomingDamageEvent event, Player player) {
+    private static float processCriticalHit(LivingIncomingDamageEvent event, Player player) {
         float totalDamageMultiplier = 0;
         for (ICritical critical : criticalTypes) {
             if (critical instanceof RangedCritical rangedCritical) {
@@ -74,40 +73,13 @@ public class CriticalManager {
             }
             if (critical.getLogic().canBeApplied(player, event.getEntity())) {
                 totalDamageMultiplier += critical.getLogic().getDamageMultiplier();
-                if (critical.getLogic() instanceof BackstabLogic) {
-                    totalDamageMultiplier += getBackstabAdditionalModifier(event);
+                if (critical.getLogic().hasAdditionalModifiers()) {
+                    totalDamageMultiplier += critical.getLogic().getAdditionalModifiers(event);
                 }
-                if (event.getEntity().hasEffect(ModMobEffects.STUN)) {
-                    event.getEntity().removeEffect(ModMobEffects.STUN);
-                }
+                critical.getLogic().applyOnHitFunction(event);
             }
         }
         return totalDamageMultiplier;
-    }
-
-    private static final float BACKSTAB_MODIFIER_MULTIPLIER = 0.25F;
-
-    /**
-     * The helper method below is used to calculate the additional damage to the backstab, that increases based on attack speed
-     *
-     * @param event: the damage event
-     * @return the additional amount based on 25% of the attack speed modifier
-     */
-
-    private static float getBackstabAdditionalModifier(LivingIncomingDamageEvent event) {
-        ItemStack usedItem = event.getSource().getWeaponItem();
-        if (usedItem == null) return 0;
-        if (event.getSource().getEntity() instanceof Player player) {
-            for (var entry : usedItem.getAttributeModifiers().modifiers()) {
-                if (entry.attribute() == Attributes.ATTACK_SPEED) {
-                    double modifierValue = entry.modifier().amount();
-                    double baseAttackSpeed = player.getAttribute(Attributes.ATTACK_SPEED).getBaseValue();
-                    double finalModifier = baseAttackSpeed + modifierValue;
-                    return  (float) (finalModifier * BACKSTAB_MODIFIER_MULTIPLIER);
-                }
-            }
-        }
-        return 0;
     }
 
 }

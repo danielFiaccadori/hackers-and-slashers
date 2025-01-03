@@ -4,6 +4,7 @@ import net.dndats.hackersandslashers.api.interfaces.ICriticalLogic;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
 public class HeadshotLogic implements ICriticalLogic {
 
@@ -38,6 +39,21 @@ public class HeadshotLogic implements ICriticalLogic {
                     projectile.position().y <= (targetEyeYCenter + tolerance);
         }
         return false;
+    }
+
+    @Override
+    public boolean hasAdditionalModifiers() {
+        return false;
+    }
+
+    @Override
+    public float getAdditionalModifiers(LivingIncomingDamageEvent event) {
+        return 0;
+    }
+
+    @Override
+    public void applyOnHitFunction(LivingIncomingDamageEvent event) {
+
     }
 
     @Override

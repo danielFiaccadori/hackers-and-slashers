@@ -31,7 +31,7 @@ public class CombatEventHandler {
     public static void dealCriticalHit(LivingIncomingDamageEvent event) {
         try {
             //Apply critical hit
-            boolean isCritical = CriticalManager.processCriticalHit(event);
+            boolean isCritical = CriticalManager.applyCriticalHit(event);
             CombatUtils.spawnCombatParticles(event, isCritical);
             if (isCritical) {
                 SoundEffects.playCriticalSound(event.getEntity());
