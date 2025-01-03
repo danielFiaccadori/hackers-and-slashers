@@ -132,7 +132,12 @@ public class Stealth {
         final Vec3 surroundings = new Vec3(player.getX(), player.getY(), player.getZ());
         return player.level().getEntitiesOfClass(LivingEntity.class, new AABB(surroundings, surroundings).inflate(64))
                 .stream()
-                .anyMatch(mob -> mob.hasLineOfSight(player));
+                .anyMatch(entity -> {
+                    if (!PlayerUtils.isOnBush(player) || !PlayerUtils.isAtDarkPlace(player)) {
+                        return entity.hasLineOfSight(player) && entity != player;
+                    }
+                    return false;
+                });
     }
 
     private static boolean isStealthy(Player player) {
