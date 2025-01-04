@@ -26,16 +26,6 @@ I'm actively working on:
 
 ---
 
-## 🤝 Contributing
-
-I appreciate your contribution! Here's how you can get involved:
-1. Fork the repository.
-2. Create a new branch (`feature/new-feature`).
-3. Commit your changes and push to your branch.
-4. Open a pull request for review.
-
----
-
 ## 📜 License
 
 This project is licensed under the **GPL-3.0 License**. See the [LICENSE](LICENSE) file for details.
