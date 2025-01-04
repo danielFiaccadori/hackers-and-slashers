@@ -8,8 +8,7 @@ import net.minecraft.world.entity.player.Player;
 
 public class Stun extends MobEffect {
 
-    /*
-    * STUN EFFECT
+    /**
     * This class represents the stun effect and it's basic logic
     */
 

@@ -27,7 +27,7 @@ public class AttackSparkCritGeneric extends TextureSheetParticle {
         this.zd = (this.random.nextDouble() - 0.5) * spread;
         this.rCol = 0.85F;
         this.gCol = 0.85F;
-        this.bCol = 1;
+        this.bCol = 1.0F;
         this.pickSprite(spriteSet);
     }
 

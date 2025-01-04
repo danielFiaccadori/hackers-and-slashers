@@ -17,7 +17,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 public class Block {
 
     /**
-     * This class represents the block mechanic behavior
+     * This method represents the block mechanic behavior
      *
      * @param percentage: the damage percentage reduced when blocked an attack
      * @param event: the event that is responsible by applying the block effect

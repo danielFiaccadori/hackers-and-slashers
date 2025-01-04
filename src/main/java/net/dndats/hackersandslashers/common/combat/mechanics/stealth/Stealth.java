@@ -18,7 +18,7 @@ public class Stealth {
     private static final int DETECTION_WAIT_TIME = 60; // TICKS
 
     /**
-     * This class represents the stealth mechanic behavior
+     * This method represents the stealth mechanic behavior
      *
      * @param event: the event responsible by changing the behavior of aware mobs
      */

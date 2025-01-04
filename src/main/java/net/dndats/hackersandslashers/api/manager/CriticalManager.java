@@ -12,8 +12,8 @@ import java.util.List;
 // MANAGES CRITICAL TYPES REGISTERED
 public class CriticalManager {
 
-    /// To add a new critical hit, create a new logic and an object. After that, register in the mod constructor.
-    /// This class is a register and manager for the critical types, registering them at the list above:
+    /// To add a new critical hit, create a new logic and an object. After that, register it in the mod constructor.
+    /// This class is a registerer and manager for the critical types, putting them at the list above:
 
     private static final List<ICritical> criticalTypes = new ArrayList<>();
 
@@ -28,8 +28,8 @@ public class CriticalManager {
 
     /**
      * This method is important! It intermediates the critical to the list.
-     * It searches for all critical types applicable on that condition and call the applier of the respective critical types.
-     * @param event Holds an attack event
+     * It searches for all critical types applicable on that condition and call the applier of the respective critical type.
+     * @param event Triggers at a damage event
      */
 
     public static boolean applyCriticalHit(LivingIncomingDamageEvent event) {
@@ -55,7 +55,7 @@ public class CriticalManager {
      * This helper method is used to calculate the total damage multiplier of the critical hits.
      *
      * @param event: the damage event
-     * @param player: the player attempting to backstab
+     * @param player: the player attempting to deal a critical
      * @return the final value of the multiplier
      */
 
@@ -69,9 +69,7 @@ public class CriticalManager {
             }
             if (critical.getLogic().canBeApplied(player, event.getEntity())) {
                 totalDamageMultiplier += critical.getLogic().getDamageMultiplier();
-                if (critical.getLogic().hasAdditionalModifiers()) {
-                    totalDamageMultiplier += critical.getLogic().getAdditionalModifiers(event);
-                }
+                totalDamageMultiplier += critical.getLogic().getAdditionalModifiers(event);
                 critical.getLogic().applyOnHitFunction(event);
             }
         }

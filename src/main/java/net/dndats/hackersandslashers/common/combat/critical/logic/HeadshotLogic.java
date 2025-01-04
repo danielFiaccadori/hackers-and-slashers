@@ -42,11 +42,6 @@ public class HeadshotLogic implements ICriticalLogic {
     }
 
     @Override
-    public boolean hasAdditionalModifiers() {
-        return false;
-    }
-
-    @Override
     public float getAdditionalModifiers(LivingIncomingDamageEvent event) {
         return 0;
     }

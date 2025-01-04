@@ -13,6 +13,10 @@ import net.neoforged.neoforge.client.event.RenderGuiEvent;
 @EventBusSubscriber(modid = HackersAndSlashers.MODID, value = Dist.CLIENT)
 public class OverlayEventHandler {
 
+    /**
+     * Handles all events related to overlays
+     */
+
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void renderOverlay(RenderGuiEvent.Pre event) {

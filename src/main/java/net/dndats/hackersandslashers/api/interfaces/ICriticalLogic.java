@@ -13,10 +13,13 @@ public interface ICriticalLogic {
       New critical logics should implement this interface.
     */
 
+    // verifies if the critical can be applied
     boolean canBeApplied(Entity source, LivingEntity target);
-    boolean hasAdditionalModifiers();
+    // Adds additional modifiers (ex: backstab attack speed scaling)
     float getAdditionalModifiers(LivingIncomingDamageEvent event);
+    // Apply a function when the critical is dealt
     void applyOnHitFunction(LivingIncomingDamageEvent event);
+    // Gets the base damage multiplier without additional modifiers
     float getDamageMultiplier();
 
 }

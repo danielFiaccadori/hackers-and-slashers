@@ -9,7 +9,11 @@ import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 
 // HANDLER : CLIENT RELATED THINGS
 @EventBusSubscriber(modid = HackersAndSlashers.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class ClientEventHandler {
+public class ClientRegistererEventHandler {
+
+    /**
+     * Handles all events related to the clientside registers
+     */
 
     @SubscribeEvent
     public static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {

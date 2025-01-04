@@ -14,9 +14,10 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 @EventBusSubscriber(modid = HackersAndSlashers.MODID)
 public class CombatEventHandler {
 
-    // These methods communicate with the deeper layers, delegating the implementation of the necessary logic
+    /**
+     * Handles all events related to combat
+     */
 
-    // Block logic implementation
     @SubscribeEvent
     public static void blockReduceDamage(LivingIncomingDamageEvent event) {
         try {
@@ -26,7 +27,6 @@ public class CombatEventHandler {
         }
     }
 
-    // Critical hit handler
     @SubscribeEvent
     public static void dealCriticalHit(LivingIncomingDamageEvent event) {
         try {

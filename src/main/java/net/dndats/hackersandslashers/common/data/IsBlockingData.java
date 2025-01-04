@@ -11,6 +11,10 @@ import org.jetbrains.annotations.UnknownNullability;
 
 public class IsBlockingData implements INBTSerializable<CompoundTag> {
 
+    /**
+     * This class stores the data related to the blocking mechanic
+     */
+
     private boolean isBlocking = false;
 
     public boolean getIsBlocking() {

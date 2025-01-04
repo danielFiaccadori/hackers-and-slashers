@@ -16,11 +16,11 @@ public class ModSounds {
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS =
             DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, HackersAndSlashers.MODID);
 
-    public static final Supplier<SoundEvent> PLAYER_CRITICAL = registerSoundEvent("player_critical");
+    public static final Supplier<SoundEvent> PLAYER_CRITICAL = registerSoundEvent();
 
-    private static Supplier<SoundEvent> registerSoundEvent(String name) {
-        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(HackersAndSlashers.MODID, name);
-        return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(id));
+    private static Supplier<SoundEvent> registerSoundEvent() {
+        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(HackersAndSlashers.MODID, "player_critical");
+        return SOUND_EVENTS.register("player_critical", () -> SoundEvent.createVariableRangeEvent(id));
     }
 
     public static void register(IEventBus eventBus) {

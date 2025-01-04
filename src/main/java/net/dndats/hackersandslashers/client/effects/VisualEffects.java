@@ -8,6 +8,10 @@ import net.minecraft.world.level.Level;
 
 public class VisualEffects {
 
+    /**
+     * These methods are responsible to call particle effects easier.
+     */
+
     public static void spawnCriticalParticle(Level level, double x, double y, double z, DamageSource damageSource) {
         if (damageSource.is(DamageTypes.GENERIC)
                 || damageSource.is(DamageTypes.PLAYER_ATTACK)

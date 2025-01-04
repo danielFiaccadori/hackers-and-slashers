@@ -5,9 +5,9 @@ import net.dndats.hackersandslashers.api.interfaces.ICriticalLogic;
 
 public class MeleeCritical implements ICritical {
 
-    /*
+    /**
       This class is an abstraction layer for the creation of melee critical types.
-      To create a new Crit, instantiate a new RangedCritical, providing a name and the logic as arguments.
+      To create a new Crit, instantiate a new MeleeCritical, providing a name and the logic as arguments.
     */
 
     private final String NAME;

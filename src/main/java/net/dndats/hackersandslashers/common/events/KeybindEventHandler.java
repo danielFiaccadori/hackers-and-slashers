@@ -14,7 +14,10 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 @EventBusSubscriber(modid = HackersAndSlashers.MODID, value = Dist.CLIENT)
 public class KeybindEventHandler {
 
-    // Block handler
+    /**
+     * Handles all events related to keybind press
+     */
+
     @SubscribeEvent
     public static void onEntityBlock(ClientTickEvent.Pre event) {
         if (ModKeybinds.PARRY.consumeClick()) {

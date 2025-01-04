@@ -52,11 +52,6 @@ public class BackstabLogic implements ICriticalLogic {
     }
 
     @Override
-    public boolean hasAdditionalModifiers() {
-        return true;
-    }
-
-    @Override
     public float getAdditionalModifiers(LivingIncomingDamageEvent event) {
         ItemStack usedItem = event.getSource().getWeaponItem();
         if (usedItem == null) return 0;

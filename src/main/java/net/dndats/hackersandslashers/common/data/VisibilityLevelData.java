@@ -11,6 +11,10 @@ import org.jetbrains.annotations.UnknownNullability;
 
 public class VisibilityLevelData implements INBTSerializable<CompoundTag> {
 
+    /**
+     * This class stores the data related to the stealth mechanic, specifically the visibility
+     */
+
     private int visibilityLevel = 0;
 
     public int getVisibilityLevel() {
