@@ -1,7 +1,10 @@
 package net.dndats.hackersandslashers.common.combat.critical.logic;
 
 import net.dndats.hackersandslashers.api.interfaces.ICriticalLogic;
+import net.dndats.hackersandslashers.assets.effects.ModMobEffects;
 import net.dndats.hackersandslashers.utils.EntityUtils;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -73,7 +76,16 @@ public class BackstabLogic implements ICriticalLogic {
 
     @Override
     public void applyOnHitFunction(LivingIncomingDamageEvent event) {
+        Player player = (Player) event.getSource().getEntity();
+        LivingEntity target = event.getEntity();
+        if (EntityUtils.isBehind(player, target)) {
+            target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,
+                    20,
+                    1,
+                    false,
+                    false));
 
+        }
     }
 
     @Override

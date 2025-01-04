@@ -124,7 +124,7 @@ public class Stealth {
         final Vec3 surroundings = new Vec3(player.getX(), player.getY(), player.getZ());
         return player.level().getEntitiesOfClass(LivingEntity.class, new AABB(surroundings, surroundings).inflate(64))
                 .stream()
-                .anyMatch(mob -> mob.getLastAttacker() == player);
+                .anyMatch(mob -> mob.getLastAttacker() == player && mob.getHealth() > 0);
     }
 
     private static boolean mobSightChecker(Player player) {

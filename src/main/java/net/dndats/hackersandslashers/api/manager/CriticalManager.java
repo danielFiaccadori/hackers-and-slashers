@@ -1,13 +1,9 @@
 package net.dndats.hackersandslashers.api.manager;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
-import net.dndats.hackersandslashers.assets.effects.ModMobEffects;
 import net.dndats.hackersandslashers.api.interfaces.ICritical;
-import net.dndats.hackersandslashers.common.combat.critical.logic.BackstabLogic;
 import net.dndats.hackersandslashers.utils.CombatUtils;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
 import java.util.ArrayList;
