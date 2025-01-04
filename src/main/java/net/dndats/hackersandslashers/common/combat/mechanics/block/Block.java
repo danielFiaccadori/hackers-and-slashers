@@ -66,7 +66,8 @@ public class Block {
     private static boolean canBlock(Player player) {
         return PlayerUtils.isHoldingSword(player)
                 && !player.isCrouching()
-                && !PlayerUtils.isBlocking(player);
+                && !PlayerUtils.isBlocking(player)
+                && !PlayerUtils.isPointingAtBlockEntity(player);
     }
 
 }
