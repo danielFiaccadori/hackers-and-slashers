@@ -40,7 +40,7 @@ public class HackersAndSlashers {
         NeoForge.EVENT_BUS.register(this);
 
         // Register Critical types
-        CriticalManager.registerCritical(new MeleeCritical("Backstab", new BackstabLogic(3.0F)));
+        CriticalManager.registerCritical(new MeleeCritical("Backstab", new BackstabLogic(2.0F)));
         CriticalManager.registerCritical(new MeleeCritical("Riposte", new RiposteLogic(1.5F)));
         CriticalManager.registerCritical(new RangedCritical("Headshot", new HeadshotLogic(2.0F)));
 

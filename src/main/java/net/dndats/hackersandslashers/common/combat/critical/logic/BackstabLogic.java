@@ -62,7 +62,7 @@ public class BackstabLogic implements ICriticalLogic {
                     double baseAttackSpeed = Objects.requireNonNull(
                             player.getAttribute(Attributes.ATTACK_SPEED)).getBaseValue();
                     double finalModifier = baseAttackSpeed + modifierValue;
-                    return  (float) (finalModifier * BACKSTAB_MODIFIER_MULTIPLIER);
+                    return  (float) (finalModifier * BACKSTAB_MODIFIER_MULTIPLIER) * 2;
                 }
             }
         }
