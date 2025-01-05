@@ -14,7 +14,6 @@
 
 **Hackers 'n Slashers** is a simple and fun Minecraft mod that reimagines combat strategies and mechanics, rework critical hits and refactors the overall combat logic to make the game more engaging and dynamic.
 
----
 
 ## 🚀 Next Goals
 I'm actively working on:
@@ -24,13 +23,11 @@ I'm actively working on:
 - Introducing features to support mod developers.
 
 
----
 
 ## 📜 License
 
 This project is licensed under the **GPL-3.0 License**. See the [LICENSE](LICENSE) file for details.
 
----
 
 <div align="center">
   Made with ❤ and ☕.
