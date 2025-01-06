@@ -17,10 +17,6 @@
 						"0.25": {
 							"vector": [0, -5, 0],
 							"easing": "linear"
-						},
-						"0.4167": {
-							"vector": [0, 0, 0],
-							"easing": "linear"
 						}
 					}
 				},
@@ -32,9 +28,9 @@
 						},
 						"0.125": {
 							"vector": [-86, -6.5, 60],
-							"easing": "linear"
+							"easing": "easeOutQuint"
 						},
-						"0.2917": {
+						"0.1667": {
 							"vector": [-86, -6.5, 60],
 							"easing": "linear"
 						}
@@ -48,9 +44,9 @@
 						},
 						"0.125": {
 							"vector": [-86, 6.5, -60],
-							"easing": "linear"
+							"easing": "easeOutQuint"
 						},
-						"0.2917": {
+						"0.1667": {
 							"vector": [-86, 6.5, -60],
 							"easing": "linear"
 						}
