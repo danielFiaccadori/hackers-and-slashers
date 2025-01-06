@@ -1,18 +1,15 @@
 package net.dndats.hackersandslashers.common.combat.critical.logic;
 
 import net.dndats.hackersandslashers.api.interfaces.ICriticalLogic;
-import net.dndats.hackersandslashers.assets.effects.ModMobEffects;
 import net.dndats.hackersandslashers.utils.EntityUtils;
+import net.dndats.hackersandslashers.utils.ItemUtils;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
-
-import java.util.Objects;
 
 // CRITICAL ATTACK OF TYPE BACKSTAB
 public class BackstabLogic implements ICriticalLogic {
@@ -56,15 +53,8 @@ public class BackstabLogic implements ICriticalLogic {
         ItemStack usedItem = event.getSource().getWeaponItem();
         if (usedItem == null) return 0;
         if (event.getSource().getEntity() instanceof Player player) {
-            for (var entry : usedItem.getAttributeModifiers().modifiers()) {
-                if (entry.attribute() == Attributes.ATTACK_SPEED) {
-                    double modifierValue = entry.modifier().amount();
-                    double baseAttackSpeed = Objects.requireNonNull(
-                            player.getAttribute(Attributes.ATTACK_SPEED)).getBaseValue();
-                    double finalModifier = baseAttackSpeed + modifierValue;
-                    return  (float) (finalModifier * BACKSTAB_MODIFIER_MULTIPLIER) * 2;
-                }
-            }
+            float modifierValue = ItemUtils.getAttackSpeed(usedItem, player);
+            return (modifierValue * BACKSTAB_MODIFIER_MULTIPLIER) * 2;
         }
         return 0;
     }
@@ -72,6 +62,7 @@ public class BackstabLogic implements ICriticalLogic {
     @Override
     public void applyOnHitFunction(LivingIncomingDamageEvent event) {
         Player player = (Player) event.getSource().getEntity();
+        if (player == null) return;
         LivingEntity target = event.getEntity();
         if (EntityUtils.isBehind(player, target)) {
             target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,
