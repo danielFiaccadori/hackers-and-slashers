@@ -19,18 +19,23 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
+import java.util.Objects;
+
 @EventBusSubscriber(modid = HackersAndSlashers.MODID, bus = EventBusSubscriber.Bus.MOD)
-public record PacketTriggerPlayerBlock(IsBlockingData data) implements CustomPacketPayload {
+public record PacketTriggerPlayerBlock(IsBlockingData data, int duration) implements CustomPacketPayload {
 
     public static final Type<PacketTriggerPlayerBlock> TYPE =
             new Type<>(ResourceLocation.fromNamespaceAndPath(HackersAndSlashers.MODID, "player_block_sync"));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, PacketTriggerPlayerBlock> STREAM_CODEC = StreamCodec
-            .of((RegistryFriendlyByteBuf buffer, PacketTriggerPlayerBlock packet) ->
-                    buffer.writeNbt(packet.data().serializeNBT(buffer.registryAccess())), (RegistryFriendlyByteBuf buffer) -> {
-                        PacketTriggerPlayerBlock message = new PacketTriggerPlayerBlock(new IsBlockingData());
-                        message.data().deserializeNBT(buffer.registryAccess(), buffer.readNbt());
-                        return message;
+            .of((RegistryFriendlyByteBuf buffer, PacketTriggerPlayerBlock packet) -> {
+                buffer.writeNbt(packet.data().serializeNBT(buffer.registryAccess()));
+                buffer.writeInt(packet.duration());
+            }, (RegistryFriendlyByteBuf buffer) -> {
+                IsBlockingData data = new IsBlockingData();
+                data.deserializeNBT(buffer.registryAccess(), Objects.requireNonNull(buffer.readNbt()));
+                int duration = buffer.readInt();
+                return new PacketTriggerPlayerBlock(data, duration);
             });
 
     public static void handleData(final PacketTriggerPlayerBlock message, final IPayloadContext context) {
@@ -46,11 +51,11 @@ public record PacketTriggerPlayerBlock(IsBlockingData data) implements CustomPac
                             context.player().getData(ModPlayerData.IS_BLOCKING).getIsBlocking(), context.flow().getReceptionSide(), context.player().getDisplayName());
                     TickScheduler.schedule(() -> {
                         PlayerUtils.removeSpeedModifier(context.player());
-                        context.player().setData(ModPlayerData.IS_BLOCKING, message.data()).setIsBlocking(false);
+                        Objects.requireNonNull(context.player().setData(ModPlayerData.IS_BLOCKING, message.data())).setIsBlocking(false);
                         context.player().getData(ModPlayerData.IS_BLOCKING).syncData(context.player());
                         HackersAndSlashers.LOGGER.info("Now, player data IS BLOCKING has been set to {} at {} for player {}",
                                 context.player().getData(ModPlayerData.IS_BLOCKING).getIsBlocking(), context.flow().getReceptionSide(), context.player().getDisplayName());
-                    }, 5);
+                    }, message.duration());
                 }
             }).exceptionally(e -> {
                 context.connection().disconnect(Component.literal(e.getMessage()));

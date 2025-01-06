@@ -12,10 +12,11 @@ import org.jetbrains.annotations.UnknownNullability;
 public class IsBlockingData implements INBTSerializable<CompoundTag> {
 
     /**
-     * This class stores the data related to the blocking mechanic
+     * This class stores the data related to the blocking mechanic, including the duration.
      */
 
     private boolean isBlocking = false;
+    private int duration = 0;
 
     public boolean getIsBlocking() {
         return isBlocking;
@@ -25,22 +26,32 @@ public class IsBlockingData implements INBTSerializable<CompoundTag> {
         this.isBlocking = isBlocking;
     }
 
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
     @Override
     public @UnknownNullability CompoundTag serializeNBT(HolderLookup.Provider provider) {
         CompoundTag tag = new CompoundTag();
         tag.putBoolean("isBlocking", isBlocking);
+        tag.putInt("duration", duration);
         return tag;
     }
+
 
     @Override
     public void deserializeNBT(HolderLookup.Provider provider, CompoundTag tag) {
         isBlocking = tag.getBoolean("isBlocking");
+        duration = tag.getInt("duration");
     }
 
     public void syncData(Entity entity) {
         if (entity instanceof ServerPlayer serverPlayer) {
-            PacketDistributor.sendToPlayer(serverPlayer, new PacketTriggerPlayerBlock(this));
+            PacketDistributor.sendToPlayer(serverPlayer, new PacketTriggerPlayerBlock(this, duration));
         }
     }
-
 }
