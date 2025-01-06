@@ -54,8 +54,8 @@ public class BackstabLogic implements ICriticalLogic {
         if (event.getSource().getEntity() instanceof Player player) {
             float baseDamage = usedItem.getDamageValue();
             float attackSpeed = ItemUtils.getAttackSpeed(usedItem, player);
-            float alpha = 2.0f;
-            float beta = 0.5f;
+            float alpha = 2.5f;
+            float beta = 1f;
             float adjustmentFactor = 1.5f;
             float additionalDamage = (float) (Math.pow(attackSpeed, alpha) * adjustmentFactor - (baseDamage * beta));
             return Math.max(additionalDamage, 0);
