@@ -22,13 +22,6 @@ I'm actively working on:
 - Custom behavior for mobs reacting to stealthy players.
 - Introducing features to support mod developers.
 
-
-
-## 📜 License
-
-This project is licensed under the **GPL-3.0 License**. See the [LICENSE](LICENSE) file for details.
-
-
 <div align="center">
   Made with ❤ and ☕.
 </div>
