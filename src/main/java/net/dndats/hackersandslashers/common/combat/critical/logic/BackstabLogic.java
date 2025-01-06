@@ -15,7 +15,6 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 public class BackstabLogic implements ICriticalLogic {
 
     private final float DAMAGE_MULTIPLIER;
-    private static final float BACKSTAB_MODIFIER_MULTIPLIER = 2;
 
     /**
      * When created in main class, specify the amount of damage that this critical hit does.
@@ -53,8 +52,13 @@ public class BackstabLogic implements ICriticalLogic {
         ItemStack usedItem = event.getSource().getWeaponItem();
         if (usedItem == null) return 0;
         if (event.getSource().getEntity() instanceof Player player) {
-            float modifierValue = ItemUtils.getAttackSpeed(usedItem, player);
-            return (modifierValue * BACKSTAB_MODIFIER_MULTIPLIER);
+            float baseDamage = usedItem.getDamageValue();
+            float attackSpeed = ItemUtils.getAttackSpeed(usedItem, player);
+            float alpha = 2.0f;
+            float beta = 0.5f;
+            float adjustmentFactor = 1.5f;
+            float additionalDamage = (float) (Math.pow(attackSpeed, alpha) * adjustmentFactor - (baseDamage * beta));
+            return Math.max(additionalDamage, 0);
         }
         return 0;
     }
