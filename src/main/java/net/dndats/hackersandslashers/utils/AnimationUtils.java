@@ -2,14 +2,11 @@ package net.dndats.hackersandslashers.utils;
 
 import net.dndats.hackersandslashers.client.animations.PlayerAnimator;
 import net.dndats.hackersandslashers.common.network.packets.PacketServerPlayAnimation;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.SwordItem;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.PacketDistributor;
-
-import java.util.Objects;
 
 public class AnimationUtils {
 

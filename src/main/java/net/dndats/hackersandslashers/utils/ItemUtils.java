@@ -42,4 +42,14 @@ public class ItemUtils {
         return 0;
     }
 
+    public static float getAttackDamage(ItemStack item, Player player) {
+        if (item == null) return 0;
+        for (var entry : item.getAttributeModifiers().modifiers()) {
+            if (entry.attribute() == Attributes.ATTACK_DAMAGE) {
+                return (float) entry.modifier().amount();
+            }
+        }
+        return 0;
+    }
+
 }
