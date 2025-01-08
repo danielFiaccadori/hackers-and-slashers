@@ -2,9 +2,10 @@ package net.dndats.hackersandslashers.api.combat.mechanics.block;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.client.effects.SoundEffects;
-import net.dndats.hackersandslashers.common.ModPlayerData;
+import net.dndats.hackersandslashers.common.setup.ModPlayerData;
 import net.dndats.hackersandslashers.common.network.packets.PacketTriggerPlayerBlock;
 import net.dndats.hackersandslashers.utils.AnimationHelper;
+import net.dndats.hackersandslashers.utils.CombatHelper;
 import net.dndats.hackersandslashers.utils.ItemHelper;
 import net.dndats.hackersandslashers.utils.PlayerHelper;
 import net.minecraft.resources.ResourceKey;
@@ -19,6 +20,10 @@ import java.util.HashSet;
 
 public class Block {
 
+    /**
+     * This set stores all damage types that can be blocked
+     */
+
     private static final HashSet<ResourceKey<DamageType>> damageSourcesAccepted = new HashSet<>(
             Arrays.asList(
                     DamageTypes.PLAYER_ATTACK,
@@ -32,18 +37,23 @@ public class Block {
     /**
      * This method represents the block mechanic behavior
      *
-     * @param percentage: the damage percentage reduced when blocked an attack
+     * @param damageReduction: the damage damageReduction reduced when blocked an attack
      * @param event: the event that is responsible by applying the block effect
      */
 
-    public static void reduceIncomingDamage(float percentage, LivingIncomingDamageEvent event) {
+    public static void blockBehavior(float damageReduction, LivingIncomingDamageEvent event) {
         try {
             if (event.getEntity() instanceof Player player) {
-                if (PlayerHelper.isBlocking(player)) {
-                    SoundEffects.playBlockSound(player);
-                    ItemHelper.damageBlockWeapon(player, (int) event.getAmount());
-                    float totalReducedDamage = event.getAmount() * (percentage / 100);
-                    event.setAmount(totalReducedDamage);
+                if (damageSourcesAccepted.stream().anyMatch(event.getSource()::is)) {
+                    if (PlayerHelper.isBlocking(player)) {
+                        SoundEffects.playBlockSound(player);
+                        ItemHelper.damageBlockWeapon(player, (int) event.getAmount());
+                        float totalReducedDamage = event.getAmount() * (damageReduction / 100);
+                        event.setAmount(totalReducedDamage);
+                        if (!event.getSource().isDirect()) {
+                            CombatHelper.stunAttackingEntity(event);
+                        }
+                    }
                 }
             }
         } catch (Exception e) {

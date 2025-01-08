@@ -1,6 +1,6 @@
 package net.dndats.hackersandslashers.utils;
 
-import net.dndats.hackersandslashers.common.ModPlayerData;
+import net.dndats.hackersandslashers.common.setup.ModPlayerData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;

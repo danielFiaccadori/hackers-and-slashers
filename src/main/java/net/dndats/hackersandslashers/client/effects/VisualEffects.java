@@ -78,8 +78,9 @@ public class VisualEffects {
     }
 
     public static void spawnAttackCritParticles(Level level, double x, double y, double z, int damageAmount) {
+        // Limit particle spawn limit
         if (damageAmount > 20) damageAmount = 20;
-        if (damageAmount < 5) damageAmount = 5;
+        if (damageAmount < 10) damageAmount = 10;
         if (level instanceof ServerLevel serverLevel) {
             serverLevel.sendParticles(
                     ModParticles.ATTACK_SPARK_CRIT_GENERIC.get(),

@@ -1,4 +1,4 @@
-package net.dndats.hackersandslashers.common;
+package net.dndats.hackersandslashers.common.setup;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.common.data.IsBlockingData;

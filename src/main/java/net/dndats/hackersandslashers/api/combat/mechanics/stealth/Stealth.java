@@ -1,11 +1,14 @@
 package net.dndats.hackersandslashers.api.combat.mechanics.stealth;
 
+import net.dndats.hackersandslashers.api.combat.mechanics.stealth.ai.SearchLostPlayerGoal;
 import net.dndats.hackersandslashers.utils.TickScheduler;
-import net.dndats.hackersandslashers.common.ModPlayerData;
+import net.dndats.hackersandslashers.common.setup.ModPlayerData;
 import net.dndats.hackersandslashers.utils.EntityHelper;
 import net.dndats.hackersandslashers.utils.PlayerHelper;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.monster.warden.Warden;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -22,11 +25,17 @@ public class Stealth {
      * @param event: the event responsible by changing the behavior of aware mobs
      */
 
-    public static void mobsIgnoreStealthyTarget(LivingChangeTargetEvent event) {
+    public static void stealthBehavior(LivingChangeTargetEvent event) {
         if (event.getEntity() instanceof Mob mob && event.getNewAboutToBeSetTarget() instanceof Player player) {
 
             if (EntityHelper.getMobAlertLevel(mob) == 50) {
                 event.setNewAboutToBeSetTarget(null);
+            }
+
+            if (mob.goalSelector.getAvailableGoals().stream()
+                    .noneMatch(goal -> goal.getGoal() instanceof SearchLostPlayerGoal)
+                    && !(mob instanceof Warden)) {
+                mob.goalSelector.addGoal(5, new SearchLostPlayerGoal(mob));
             }
 
             if (!EntityHelper.hasAlertTag(mob)) {
@@ -42,6 +51,7 @@ public class Stealth {
                         } else {
                             EntityHelper.addAlertTag(mob, 100);
                             mob.setTarget(player);
+                            player.sendSystemMessage(Component.literal("Gotcha!"));
                         }
                     }, DETECTION_WAIT_TIME);
                 } else {
@@ -51,6 +61,7 @@ public class Stealth {
                     } else {
                         EntityHelper.addAlertTag(mob, 100);
                         mob.setTarget(player);
+                        player.sendSystemMessage(Component.literal("Gotcha! With no excitation!"));
                     }
                 }
             }

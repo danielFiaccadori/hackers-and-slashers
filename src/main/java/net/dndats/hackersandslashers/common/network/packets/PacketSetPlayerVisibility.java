@@ -1,7 +1,7 @@
 package net.dndats.hackersandslashers.common.network.packets;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
-import net.dndats.hackersandslashers.common.ModPlayerData;
+import net.dndats.hackersandslashers.common.setup.ModPlayerData;
 import net.dndats.hackersandslashers.common.data.VisibilityLevelData;
 import net.dndats.hackersandslashers.common.network.NetworkHandler;
 import net.minecraft.network.RegistryFriendlyByteBuf;
