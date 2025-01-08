@@ -50,7 +50,7 @@ public class Block {
                         ItemHelper.damageBlockWeapon(player, (int) event.getAmount());
                         float totalReducedDamage = event.getAmount() * (damageReduction / 100);
                         event.setAmount(totalReducedDamage);
-                        if (!event.getSource().isDirect()) {
+                        if (event.getSource().isDirect()) {
                             CombatHelper.stunAttackingEntity(event);
                         }
                     }
