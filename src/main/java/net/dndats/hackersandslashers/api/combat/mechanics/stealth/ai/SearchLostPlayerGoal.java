@@ -38,8 +38,6 @@ public class SearchLostPlayerGoal extends Goal {
         Player mostProbableTarget = mob.level().getNearestPlayer(mob, 20);
         if (PlayerHelper.getVisibilityLevel(mostProbableTarget) == 50 && mostProbableTarget != null) {
             target = mostProbableTarget;
-            mob.lookAt(mostProbableTarget, 1, 1);
-            target.sendSystemMessage(Component.literal("I saw something..."));
         }
         if (target != null) {
             RandomSource random = mob.getRandom();

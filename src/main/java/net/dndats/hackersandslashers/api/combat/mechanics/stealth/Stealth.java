@@ -5,6 +5,7 @@ import net.dndats.hackersandslashers.utils.TickScheduler;
 import net.dndats.hackersandslashers.common.setup.ModPlayerData;
 import net.dndats.hackersandslashers.utils.EntityHelper;
 import net.dndats.hackersandslashers.utils.PlayerHelper;
+import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -35,6 +36,8 @@ public class Stealth {
             if (mob.goalSelector.getAvailableGoals().stream()
                     .noneMatch(goal -> goal.getGoal() instanceof SearchLostPlayerGoal)
                     && !(mob instanceof Warden)) {
+                mob.lookAt(EntityAnchorArgument.Anchor.EYES, player.position());
+                player.sendSystemMessage(Component.literal("I saw something..."));
                 mob.goalSelector.addGoal(5, new SearchLostPlayerGoal(mob));
             }
 
@@ -53,7 +56,7 @@ public class Stealth {
                             mob.setTarget(player);
                             player.sendSystemMessage(Component.literal("Gotcha!"));
                         }
-                    }, DETECTION_WAIT_TIME);
+                    }, DETECTION_WAIT_TIME - Math.max(player.getArmorValue(), 0));
                 } else {
                     if (isStealthy(player) && !EntityHelper.isAwareOf(player, mob)) {
                         EntityHelper.removeAlertTag(mob);
