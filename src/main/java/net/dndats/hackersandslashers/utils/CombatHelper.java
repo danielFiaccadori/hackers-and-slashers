@@ -50,14 +50,16 @@ public class CombatHelper {
                         target.level(),
                         target.getX(),
                         target.getY() + 0.25 + target.getBbHeight() / 2,
-                        target.getZ()
+                        target.getZ(),
+                        (int)event.getAmount()
                 );
             } else if (event.getSource().getDirectEntity() instanceof Projectile projectile) {
                 VisualEffects.spawnAttackParticles(
                         projectile.level(),
                         projectile.getX(),
                         projectile.getY(),
-                        projectile.getZ()
+                        projectile.getZ(),
+                        (int)event.getAmount()
                 );
             }
         } else {
@@ -66,14 +68,16 @@ public class CombatHelper {
                         target.level(),
                         target.getX(),
                         target.getY() + 0.25 + target.getBbHeight() / 2,
-                        target.getZ()
+                        target.getZ(),
+                        (int)event.getAmount()
                 );
             } else if (event.getSource().getDirectEntity() instanceof Projectile projectile) {
                 VisualEffects.spawnAttackCritParticles(
                         projectile.level(),
                         projectile.getX(),
                         projectile.getY(),
-                        projectile.getZ()
+                        projectile.getZ(),
+                        (int)event.getAmount()
                 );
             }
         }

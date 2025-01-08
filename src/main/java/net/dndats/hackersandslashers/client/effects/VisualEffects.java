@@ -54,12 +54,12 @@ public class VisualEffects {
         }
     }
 
-    public static void spawnAttackParticles(Level level, double x, double y, double z) {
+    public static void spawnAttackParticles(Level level, double x, double y, double z, int damageAmount) {
         if (level instanceof ServerLevel serverLevel) {
             serverLevel.sendParticles(
                     ModParticles.ATTACK_SPARK.get(),
                     x, y, z,
-                    10,
+                    damageAmount,
                     0, 0, 0,
                     1
             );
@@ -75,12 +75,12 @@ public class VisualEffects {
         }
     }
 
-    public static void spawnAttackCritParticles(Level level, double x, double y, double z) {
+    public static void spawnAttackCritParticles(Level level, double x, double y, double z, int damageAmount) {
         if (level instanceof ServerLevel serverLevel) {
             serverLevel.sendParticles(
                     ModParticles.ATTACK_SPARK_CRIT_GENERIC.get(),
                     x, y, z,
-                    10,
+                    damageAmount,
                     0, 0, 0,
                     1
             );
