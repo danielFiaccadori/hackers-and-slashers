@@ -26,11 +26,11 @@
 							"vector": [0, 0, 0],
 							"easing": "linear"
 						},
-						"0.125": {
+						"0.2083": {
 							"vector": [-86, -6.5, 60],
 							"easing": "easeOutQuint"
 						},
-						"0.1667": {
+						"0.25": {
 							"vector": [-86, -6.5, 60],
 							"easing": "linear"
 						}
@@ -42,11 +42,11 @@
 							"vector": [0, 0, 0],
 							"easing": "linear"
 						},
-						"0.125": {
+						"0.2083": {
 							"vector": [-86, 6.5, -60],
 							"easing": "easeOutQuint"
 						},
-						"0.1667": {
+						"0.25": {
 							"vector": [-86, 6.5, -60],
 							"easing": "linear"
 						}

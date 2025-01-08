@@ -46,7 +46,7 @@ public record PacketTriggerPlayerBlock(IsBlockingData data, int duration) implem
                 context.player().setData(ModPlayerData.IS_BLOCKING, message.data());
                 if (message.data.getIsBlocking()) {
                     SoundEffects.playBlockSwingSound(context.player());
-                    PlayerHelper.addSpeedModifier(context.player());
+                    PlayerHelper.addSpeedModifier(context.player(), context.player().getMainHandItem());
                     HackersAndSlashers.LOGGER.info("Player data IS BLOCKING set to {} at {} for player {}",
                             context.player().getData(ModPlayerData.IS_BLOCKING).getIsBlocking(), context.flow().getReceptionSide(), context.player().getDisplayName());
                     TickScheduler.schedule(() -> {

@@ -6,6 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
@@ -20,12 +21,27 @@ import java.util.Objects;
 // UTILITY METHODS RELATED TO PLAYERS
 public class PlayerHelper {
 
-    private static final ResourceLocation MOVESPEED_ATTRIBUTE_MODIFIER_LOCATION =
-            ResourceLocation.fromNamespaceAndPath("hackersandslashers", "parry_movespeed_modifier");
-
-    private static final AttributeModifier MOVESPEED_ATTRIBUTE_MODIFIER = new AttributeModifier(
-            MOVESPEED_ATTRIBUTE_MODIFIER_LOCATION,
+    private static final ResourceLocation PARRY_HEAVY_MODIFIER_LOCATION =
+            ResourceLocation.fromNamespaceAndPath("hackersandslashers", "parry_heavy_modifier");
+    private static final AttributeModifier PARRY_HEAVY_MODIFIER = new AttributeModifier(
+            PARRY_HEAVY_MODIFIER_LOCATION,
             -0.075,
+            AttributeModifier.Operation.ADD_VALUE
+    );
+
+    private static final ResourceLocation PARRY_GENERIC_MODIFIER_LOCATION =
+            ResourceLocation.fromNamespaceAndPath("hackersandslashers", "parry_generic_modifier");
+    private static final AttributeModifier PARRY_GENERIC_MODIFIER = new AttributeModifier(
+            PARRY_GENERIC_MODIFIER_LOCATION,
+            -0.050,
+            AttributeModifier.Operation.ADD_VALUE
+    );
+
+    private static final ResourceLocation PARRY_LIGHT_MODIFIER_LOCATION =
+            ResourceLocation.fromNamespaceAndPath("hackersandslashers", "parry_light_modifier");
+    private static final AttributeModifier PARRY_LIGHT_MODIFIER = new AttributeModifier(
+            PARRY_LIGHT_MODIFIER_LOCATION,
+            -0.025,
             AttributeModifier.Operation.ADD_VALUE
     );
 
@@ -74,21 +90,38 @@ public class PlayerHelper {
 
     // Modifiers
 
-    public static void addSpeedModifier(Player player) {
+    public static void addSpeedModifier(Player player, ItemStack item) {
         if (!player.level().isClientSide) {
-            if (!Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED)).hasModifier(MOVESPEED_ATTRIBUTE_MODIFIER_LOCATION)) {
-                Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED)).addTransientModifier(MOVESPEED_ATTRIBUTE_MODIFIER);
+            double attackSpeed = ItemHelper.getAttackSpeed(item, player);
+            if (attackSpeed <= 1.4) {
+                applyModifier(player, PARRY_HEAVY_MODIFIER, PARRY_HEAVY_MODIFIER_LOCATION);
+            } else if (attackSpeed >= 1.9) {
+                applyModifier(player, PARRY_LIGHT_MODIFIER, PARRY_LIGHT_MODIFIER_LOCATION);
             } else {
-                Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED)).removeModifier(MOVESPEED_ATTRIBUTE_MODIFIER);
+                applyModifier(player, PARRY_GENERIC_MODIFIER, PARRY_GENERIC_MODIFIER_LOCATION);
             }
         }
     }
 
     public static void removeSpeedModifier(Player player) {
         if (!player.level().isClientSide) {
-            if (Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED)).hasModifier(MOVESPEED_ATTRIBUTE_MODIFIER_LOCATION)) {
-                Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED)).removeModifier(MOVESPEED_ATTRIBUTE_MODIFIER);
-            }
+            removeModifier(player, PARRY_HEAVY_MODIFIER_LOCATION);
+            removeModifier(player, PARRY_GENERIC_MODIFIER_LOCATION);
+            removeModifier(player, PARRY_LIGHT_MODIFIER_LOCATION);
+        }
+    }
+
+    private static void applyModifier(Player player, AttributeModifier modifier, ResourceLocation location) {
+        var attribute = Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED));
+        if (!attribute.hasModifier(location)) {
+            attribute.addTransientModifier(modifier);
+        }
+    }
+
+    private static void removeModifier(Player player, ResourceLocation location) {
+        var attribute = Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED));
+        if (attribute.hasModifier(location)) {
+            attribute.removeModifier(location);
         }
     }
 
