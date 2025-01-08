@@ -6,6 +6,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.SwordItem;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.Arrays;
@@ -40,16 +41,20 @@ public class AnimationHelper {
 
     @OnlyIn(Dist.CLIENT)
     public static void playBlockAnimation(Player player) {
-        String mainHandName = ItemHelper.getRegistryName(player.getMainHandItem());
-        String weaponCategory = getWeaponCategory(mainHandName);
+        if (ModList.get().isLoaded("bettercombat")) {
+            String mainHandName = ItemHelper.getRegistryName(player.getMainHandItem());
+            String weaponCategory = getWeaponCategory(mainHandName);
 
-        if (player.getMainHandItem().getItem() instanceof SwordItem
-                && player.getOffhandItem().getItem() instanceof SwordItem) {
-            playAnimation(player, weaponCategory + "_dh");
-        } else if (player.getMainHandItem().getItem() instanceof SwordItem) {
-            playAnimation(player, weaponCategory + "_oh");
+            if (player.getMainHandItem().getItem() instanceof SwordItem
+                    && player.getOffhandItem().getItem() instanceof SwordItem) {
+                playAnimation(player, weaponCategory + "_dh");
+            } else if (player.getMainHandItem().getItem() instanceof SwordItem) {
+                playAnimation(player, weaponCategory + "_oh");
+            } else {
+                playAnimation(player, weaponCategory + "_oh");
+            }
         } else {
-            playAnimation(player, weaponCategory + "_oh");
+            playAnimation(player, "parry_generic_oh");
         }
     }
 
