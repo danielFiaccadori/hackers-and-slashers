@@ -8,9 +8,9 @@ import net.dndats.hackersandslashers.common.combat.mechanics.block.Block;
 import net.dndats.hackersandslashers.utils.CombatUtils;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.living.LivingDestroyBlockEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
-// HANDLER: COMBAT RELATED THINGS
 @EventBusSubscriber(modid = HackersAndSlashers.MODID)
 public class CombatEventHandler {
 

@@ -26,7 +26,7 @@ public class PlayerUtils {
 
     private static final AttributeModifier MOVESPEED_ATTRIBUTE_MODIFIER = new AttributeModifier(
             MOVESPEED_ATTRIBUTE_MODIFIER_LOCATION,
-            -0.05,
+            -0.075,
             AttributeModifier.Operation.ADD_VALUE
     );
 

@@ -78,7 +78,7 @@ configurations {
 
 dependencies {
 
-    implementation 'dev.kosmx.player-anim:player-animation-lib-forge:2.0.1+1.21.1'
+    implementation("dev.kosmx.player-anim:player-animation-lib-forge:${project.player_anim_version}")
 
 }
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {

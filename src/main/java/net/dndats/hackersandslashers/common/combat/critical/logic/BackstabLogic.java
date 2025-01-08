@@ -1,24 +1,20 @@
 package net.dndats.hackersandslashers.common.combat.critical.logic;
 
 import net.dndats.hackersandslashers.api.interfaces.ICriticalLogic;
-import net.dndats.hackersandslashers.assets.effects.ModMobEffects;
 import net.dndats.hackersandslashers.utils.EntityUtils;
+import net.dndats.hackersandslashers.utils.ItemUtils;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
-
-import java.util.Objects;
 
 // CRITICAL ATTACK OF TYPE BACKSTAB
 public class BackstabLogic implements ICriticalLogic {
 
     private final float DAMAGE_MULTIPLIER;
-    private static final float BACKSTAB_MODIFIER_MULTIPLIER = 0.25F;
 
     /**
      * When created in main class, specify the amount of damage that this critical hit does.
@@ -56,15 +52,13 @@ public class BackstabLogic implements ICriticalLogic {
         ItemStack usedItem = event.getSource().getWeaponItem();
         if (usedItem == null) return 0;
         if (event.getSource().getEntity() instanceof Player player) {
-            for (var entry : usedItem.getAttributeModifiers().modifiers()) {
-                if (entry.attribute() == Attributes.ATTACK_SPEED) {
-                    double modifierValue = entry.modifier().amount();
-                    double baseAttackSpeed = Objects.requireNonNull(
-                            player.getAttribute(Attributes.ATTACK_SPEED)).getBaseValue();
-                    double finalModifier = baseAttackSpeed + modifierValue;
-                    return  (float) (finalModifier * BACKSTAB_MODIFIER_MULTIPLIER) * 2;
-                }
-            }
+            float baseDamage = ItemUtils.getAttackDamage(usedItem, player);
+            float attackSpeed = ItemUtils.getAttackSpeed(usedItem, player);
+            float alpha = 2.5f;
+            float beta = 1f;
+            float adjustmentFactor = 1.5f;
+            float additionalDamage = (float) (Math.pow(attackSpeed, alpha) * adjustmentFactor - (baseDamage * beta));
+            return Math.max(additionalDamage, 0);
         }
         return 0;
     }
@@ -72,6 +66,7 @@ public class BackstabLogic implements ICriticalLogic {
     @Override
     public void applyOnHitFunction(LivingIncomingDamageEvent event) {
         Player player = (Player) event.getSource().getEntity();
+        if (player == null) return;
         LivingEntity target = event.getEntity();
         if (EntityUtils.isBehind(player, target)) {
             target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,

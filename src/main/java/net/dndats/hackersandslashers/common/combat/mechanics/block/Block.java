@@ -59,7 +59,7 @@ public class Block {
             AnimationUtils.playBlockAnimation(player);
             var playerData = player.getData(ModPlayerData.IS_BLOCKING);
             playerData.setIsBlocking(true);
-            PacketDistributor.sendToServer(new PacketTriggerPlayerBlock(playerData));
+            PacketDistributor.sendToServer(new PacketTriggerPlayerBlock(playerData, duration));
         }
     }
 

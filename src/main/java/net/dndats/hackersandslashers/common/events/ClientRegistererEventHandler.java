@@ -7,7 +7,6 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 
-// HANDLER : CLIENT RELATED THINGS
 @EventBusSubscriber(modid = HackersAndSlashers.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientRegistererEventHandler {
 
