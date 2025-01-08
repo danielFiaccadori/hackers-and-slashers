@@ -11,7 +11,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
 
 @EventBusSubscriber(modid = HackersAndSlashers.MODID, value = Dist.CLIENT)
-public class OverlayEventHandler {
+public class OverlayHandler {
 
     /**
      * Handles all events related to overlays

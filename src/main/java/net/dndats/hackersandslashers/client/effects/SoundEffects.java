@@ -1,6 +1,5 @@
 package net.dndats.hackersandslashers.client.effects;
 
-import net.dndats.hackersandslashers.assets.sounds.ModSounds;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;

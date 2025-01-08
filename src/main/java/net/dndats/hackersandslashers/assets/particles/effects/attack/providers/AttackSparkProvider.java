@@ -1,6 +1,6 @@
 package net.dndats.hackersandslashers.assets.particles.effects.attack.providers;
 
-import net.dndats.hackersandslashers.assets.particles.ModParticles;
+import net.dndats.hackersandslashers.common.setup.ModParticles;
 import net.dndats.hackersandslashers.assets.particles.effects.attack.instance.AttackSpark;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;

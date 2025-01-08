@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 @EventBusSubscriber(modid = HackersAndSlashers.MODID)
 public class TickScheduler {
 
-    /*
+    /**
     This class is a scheduler, to provide a function to wait, in ticks.
     */
 

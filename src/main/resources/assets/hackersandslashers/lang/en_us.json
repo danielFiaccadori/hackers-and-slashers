@@ -3,11 +3,6 @@
 
   "key.categories.hackersandslashers": "Hackers 'n Slashers",
 
-  "effect.hackersandslashers.stun": "Stun",
-
-  "enchantment.hackersandslashers.hearts_edge": "Heart's Edge",
-  "enchantment.hackersandslashers.hearts_edge.desc": "Executes enemies when their health is low",
-  "enchantment.hackersandslashers.bravery": "Bravery",
-  "enchantment.hackersandslashers.bravery.desc": "Heals in every riposte"
+  "effect.hackersandslashers.stun": "Stun"
 
 }

@@ -6,7 +6,7 @@ import net.dndats.hackersandslashers.client.effects.SoundEffects;
 import net.dndats.hackersandslashers.common.ModPlayerData;
 import net.dndats.hackersandslashers.common.data.IsBlockingData;
 import net.dndats.hackersandslashers.common.network.NetworkHandler;
-import net.dndats.hackersandslashers.utils.PlayerUtils;
+import net.dndats.hackersandslashers.utils.PlayerHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -46,11 +46,11 @@ public record PacketTriggerPlayerBlock(IsBlockingData data, int duration) implem
                 context.player().setData(ModPlayerData.IS_BLOCKING, message.data());
                 if (message.data.getIsBlocking()) {
                     SoundEffects.playBlockSwingSound(context.player());
-                    PlayerUtils.addSpeedModifier(context.player());
+                    PlayerHelper.addSpeedModifier(context.player());
                     HackersAndSlashers.LOGGER.info("Player data IS BLOCKING set to {} at {} for player {}",
                             context.player().getData(ModPlayerData.IS_BLOCKING).getIsBlocking(), context.flow().getReceptionSide(), context.player().getDisplayName());
                     TickScheduler.schedule(() -> {
-                        PlayerUtils.removeSpeedModifier(context.player());
+                        PlayerHelper.removeSpeedModifier(context.player());
                         Objects.requireNonNull(context.player().setData(ModPlayerData.IS_BLOCKING, message.data())).setIsBlocking(false);
                         context.player().getData(ModPlayerData.IS_BLOCKING).syncData(context.player());
                         HackersAndSlashers.LOGGER.info("Now, player data IS BLOCKING has been set to {} at {} for player {}",

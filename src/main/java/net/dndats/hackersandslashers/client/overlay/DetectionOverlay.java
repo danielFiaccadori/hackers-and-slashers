@@ -1,11 +1,9 @@
 package net.dndats.hackersandslashers.client.overlay;
 
-import net.dndats.hackersandslashers.utils.OverlayUtils;
-import net.dndats.hackersandslashers.utils.PlayerUtils;
+import net.dndats.hackersandslashers.utils.OverlayHelper;
+import net.dndats.hackersandslashers.utils.PlayerHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
 
 public class DetectionOverlay {
@@ -19,12 +17,12 @@ public class DetectionOverlay {
         Player player = Minecraft.getInstance().player;
         if (player == null) return;
         if (canRender(player)) {
-            if (PlayerUtils.getVisibilityLevel(player) == 100) {
-                OverlayUtils.renderOverlay(event, "hackersandslashers:textures/screens/alert.png", player);
-            } else if (PlayerUtils.getVisibilityLevel(player) == 50) {
-                OverlayUtils.renderOverlay(event, "hackersandslashers:textures/screens/suspect.png", player);
+            if (PlayerHelper.getVisibilityLevel(player) == 100) {
+                OverlayHelper.renderOverlay(event, "hackersandslashers:textures/screens/alert.png", player);
+            } else if (PlayerHelper.getVisibilityLevel(player) == 50) {
+                OverlayHelper.renderOverlay(event, "hackersandslashers:textures/screens/suspect.png", player);
             } else {
-                OverlayUtils.renderOverlay(event, "hackersandslashers:textures/screens/hidden.png", player);
+                OverlayHelper.renderOverlay(event, "hackersandslashers:textures/screens/hidden.png", player);
             }
         }
     }

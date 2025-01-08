@@ -1,13 +1,12 @@
-package net.dndats.hackersandslashers.common.combat.critical.logic;
+package net.dndats.hackersandslashers.api.combat.critical.logic;
 
-import net.dndats.hackersandslashers.assets.effects.ModMobEffects;
 import net.dndats.hackersandslashers.api.interfaces.ICriticalLogic;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
-// CRITICAL ATTACK OF TYPE RIPOSTE
-public class RiposteLogic implements ICriticalLogic {
+public class HeadshotLogic implements ICriticalLogic {
 
     private final float DAMAGE_MULTIPLIER;
 
@@ -16,7 +15,7 @@ public class RiposteLogic implements ICriticalLogic {
      * @param damageMultiplier The multiplier of this critical hit.
      */
 
-    public RiposteLogic(float damageMultiplier) {
+    public HeadshotLogic(float damageMultiplier) {
         if (damageMultiplier <= 0) {
             throw new IllegalArgumentException("Damage multiplier must be greater than 0");
         }
@@ -24,15 +23,22 @@ public class RiposteLogic implements ICriticalLogic {
     }
 
     /**
-     * Verifies if the riposte can be applied if an entity has the Stun effect.
-     * @param source The player attempting the riposte.
+     * Verifies if the headshot can be applied based on the position of the projectile related to the eye height of the entity.
+     * @param directSourceEntity (important) the PROJECTILE attempting the headshot.
      * @param target The target entity.
-     * @return True if the riposte can be applied, false otherwise.
+     * @return True if the headshot can be applied, false otherwise.
      */
 
     @Override
-    public boolean canBeApplied(Entity source, LivingEntity target) {
-        return target.hasEffect(ModMobEffects.STUN);
+    public boolean canBeApplied(Entity directSourceEntity, LivingEntity target) {
+        if (directSourceEntity instanceof Projectile projectile) {
+            double targetEyeHeight = target.getEyeHeight();
+            double targetEyeYCenter = target.getY() + targetEyeHeight;
+            double tolerance = 0.5;
+            return projectile.position().y >= (targetEyeYCenter - tolerance) &&
+                    projectile.position().y <= (targetEyeYCenter + tolerance);
+        }
+        return false;
     }
 
     @Override
@@ -42,9 +48,7 @@ public class RiposteLogic implements ICriticalLogic {
 
     @Override
     public void applyOnHitFunction(LivingIncomingDamageEvent event) {
-        if (event.getEntity().hasEffect(ModMobEffects.STUN)) {
-            event.getEntity().removeEffect(ModMobEffects.STUN);
-        }
+
     }
 
     @Override

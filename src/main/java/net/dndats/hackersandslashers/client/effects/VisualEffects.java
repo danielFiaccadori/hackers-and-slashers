@@ -1,6 +1,6 @@
 package net.dndats.hackersandslashers.client.effects;
 
-import net.dndats.hackersandslashers.assets.particles.ModParticles;
+import net.dndats.hackersandslashers.common.setup.ModParticles;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;

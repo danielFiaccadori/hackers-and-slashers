@@ -1,8 +1,8 @@
 package net.dndats.hackersandslashers.common.events;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
-import net.dndats.hackersandslashers.client.input.ModKeybinds;
-import net.dndats.hackersandslashers.common.combat.mechanics.block.Block;
+import net.dndats.hackersandslashers.common.setup.ModKeybinds;
+import net.dndats.hackersandslashers.api.combat.mechanics.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.neoforged.api.distmarker.Dist;
@@ -11,7 +11,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 
 @EventBusSubscriber(modid = HackersAndSlashers.MODID, value = Dist.CLIENT)
-public class KeybindEventHandler {
+public class KeybindHandler {
 
     /**
      * Handles all events related to keybind press

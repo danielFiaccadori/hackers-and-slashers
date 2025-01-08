@@ -7,6 +7,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import net.neoforged.neoforge.network.PacketDistributor;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.UnknownNullability;
 
 public class IsBlockingData implements INBTSerializable<CompoundTag> {
@@ -35,7 +36,7 @@ public class IsBlockingData implements INBTSerializable<CompoundTag> {
     }
 
     @Override
-    public @UnknownNullability CompoundTag serializeNBT(HolderLookup.Provider provider) {
+    public @UnknownNullability CompoundTag serializeNBT(HolderLookup.@NotNull Provider provider) {
         CompoundTag tag = new CompoundTag();
         tag.putBoolean("isBlocking", isBlocking);
         tag.putInt("duration", duration);
@@ -44,7 +45,7 @@ public class IsBlockingData implements INBTSerializable<CompoundTag> {
 
 
     @Override
-    public void deserializeNBT(HolderLookup.Provider provider, CompoundTag tag) {
+    public void deserializeNBT(HolderLookup.@NotNull Provider provider, CompoundTag tag) {
         isBlocking = tag.getBoolean("isBlocking");
         duration = tag.getInt("duration");
     }

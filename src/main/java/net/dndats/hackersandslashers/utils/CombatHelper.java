@@ -10,7 +10,7 @@ import net.minecraft.world.item.SwordItem;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
 // UTILITY METHODS RELATED TO COMBAT
-public class CombatUtils {
+public class CombatHelper {
 
     // Modifiers
 
@@ -29,8 +29,8 @@ public class CombatUtils {
         try {
             if (event.getSource().getEntity() instanceof LivingEntity target && event.getEntity() instanceof Player player) {
                 if (target.getHealth() < player.getHealth()) {
-                    if (PlayerUtils.isBlocking(player)) {
-                        EntityUtils.stunTarget(target);
+                    if (PlayerHelper.isBlocking(player)) {
+                        EntityHelper.stunTarget(target);
                     }
                 }
             }

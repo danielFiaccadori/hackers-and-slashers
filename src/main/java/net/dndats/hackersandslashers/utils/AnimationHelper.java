@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class AnimationUtils {
+public class AnimationHelper {
 
     private static final Set<String> lightWeapons = new HashSet<>(
             Arrays.asList("dagger", "knife", "sai")
@@ -40,7 +40,7 @@ public class AnimationUtils {
 
     @OnlyIn(Dist.CLIENT)
     public static void playBlockAnimation(Player player) {
-        String mainHandName = ItemUtils.getRegistryName(player.getMainHandItem());
+        String mainHandName = ItemHelper.getRegistryName(player.getMainHandItem());
         String weaponCategory = getWeaponCategory(mainHandName);
 
         if (player.getMainHandItem().getItem() instanceof SwordItem

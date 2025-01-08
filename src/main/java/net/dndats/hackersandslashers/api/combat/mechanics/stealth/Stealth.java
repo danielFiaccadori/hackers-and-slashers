@@ -1,10 +1,9 @@
-package net.dndats.hackersandslashers.common.combat.mechanics.stealth;
+package net.dndats.hackersandslashers.api.combat.mechanics.stealth;
 
 import net.dndats.hackersandslashers.utils.TickScheduler;
 import net.dndats.hackersandslashers.common.ModPlayerData;
-import net.dndats.hackersandslashers.utils.EntityUtils;
-import net.dndats.hackersandslashers.utils.PlayerUtils;
-import net.minecraft.network.chat.Component;
+import net.dndats.hackersandslashers.utils.EntityHelper;
+import net.dndats.hackersandslashers.utils.PlayerHelper;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
@@ -26,31 +25,31 @@ public class Stealth {
     public static void mobsIgnoreStealthyTarget(LivingChangeTargetEvent event) {
         if (event.getEntity() instanceof Mob mob && event.getNewAboutToBeSetTarget() instanceof Player player) {
 
-            if (EntityUtils.getMobAlertLevel(mob) == 50) {
+            if (EntityHelper.getMobAlertLevel(mob) == 50) {
                 event.setNewAboutToBeSetTarget(null);
             }
 
-            if (!EntityUtils.hasAlertTag(mob)) {
+            if (!EntityHelper.hasAlertTag(mob)) {
                 // If the mob is not alert, enters here
-                if (PlayerUtils.isAtDarkPlace(player) && (!isStealthy(player)) && !EntityUtils.isAwareOf(player, mob)) {
+                if (PlayerHelper.isAtDarkPlace(player) && (!isStealthy(player)) && !EntityHelper.isAwareOf(player, mob)) {
                     // If the target (player) is at a place of difficult vision but not stealthy and not in combat with the mob, then enters here
-                    EntityUtils.addAlertTag(mob, 50);
+                    EntityHelper.addAlertTag(mob, 50);
                     TickScheduler.schedule(() -> {
                         // After some seconds, enters here
-                        if (isStealthy(player) && !EntityUtils.isAwareOf(player, mob)) {
-                            EntityUtils.removeAlertTag(mob);
+                        if (isStealthy(player) && !EntityHelper.isAwareOf(player, mob)) {
+                            EntityHelper.removeAlertTag(mob);
                             event.setNewAboutToBeSetTarget(null);
                         } else {
-                            EntityUtils.addAlertTag(mob, 100);
+                            EntityHelper.addAlertTag(mob, 100);
                             mob.setTarget(player);
                         }
                     }, DETECTION_WAIT_TIME);
                 } else {
-                    if (isStealthy(player) && !EntityUtils.isAwareOf(player, mob)) {
-                        EntityUtils.removeAlertTag(mob);
+                    if (isStealthy(player) && !EntityHelper.isAwareOf(player, mob)) {
+                        EntityHelper.removeAlertTag(mob);
                         event.setNewAboutToBeSetTarget(null);
                     } else {
-                        EntityUtils.addAlertTag(mob, 100);
+                        EntityHelper.addAlertTag(mob, 100);
                         mob.setTarget(player);
                     }
                 }
@@ -71,23 +70,23 @@ public class Stealth {
         var playerData = player.getData(ModPlayerData.VISIBILITY_LEVEL);
         if (mobAlertChecker(player) || mobLastAttackerChecker(player) || mobSightChecker(player)) {
             if (mobTargetChecker(player) || mobLastAttackerChecker(player)) {
-                if (PlayerUtils.getVisibilityLevel(player) != 100) {
+                if (PlayerHelper.getVisibilityLevel(player) != 100) {
                     playerData.setVisibilityLevel(100);
                     playerData.syncData(player);
                 }
             } else if (mobSightChecker(player)){
-                if (PlayerUtils.getVisibilityLevel(player) != 50) {
+                if (PlayerHelper.getVisibilityLevel(player) != 50) {
                     playerData.setVisibilityLevel(50);
                     playerData.syncData(player);
                 }
             } else {
-                if (PlayerUtils.getVisibilityLevel(player) != 50) {
+                if (PlayerHelper.getVisibilityLevel(player) != 50) {
                     playerData.setVisibilityLevel(50);
                     playerData.syncData(player);
                 }
             }
         } else {
-            if (PlayerUtils.getVisibilityLevel(player) != 0) {
+            if (PlayerHelper.getVisibilityLevel(player) != 0) {
                 playerData.setVisibilityLevel(0);
                 playerData.syncData(player);
             }
@@ -116,7 +115,7 @@ public class Stealth {
         final Vec3 surroundings = new Vec3(player.getX(), player.getY(), player.getZ());
         return player.level().getEntitiesOfClass(Mob.class, new AABB(surroundings, surroundings).inflate(64))
                 .stream()
-                .anyMatch(EntityUtils::hasAlertTag);
+                .anyMatch(EntityHelper::hasAlertTag);
     }
 
     private static boolean mobLastAttackerChecker(Player player) {
@@ -133,7 +132,7 @@ public class Stealth {
         return player.level().getEntitiesOfClass(LivingEntity.class, new AABB(surroundings, surroundings).inflate(64))
                 .stream()
                 .anyMatch(entity -> {
-                    if (!PlayerUtils.isOnBush(player) || !PlayerUtils.isAtDarkPlace(player)) {
+                    if (!PlayerHelper.isOnBush(player) || !PlayerHelper.isAtDarkPlace(player)) {
                         return entity.hasLineOfSight(player) && entity != player;
                     }
                     return false;
@@ -141,7 +140,7 @@ public class Stealth {
     }
 
     private static boolean isStealthy(Player player) {
-        return (PlayerUtils.isOnBush(player) || PlayerUtils.isAtDarkPlace(player)) &&
+        return (PlayerHelper.isOnBush(player) || PlayerHelper.isAtDarkPlace(player)) &&
                 (player.isCrouching() || player.isInvisible());
     }
 }

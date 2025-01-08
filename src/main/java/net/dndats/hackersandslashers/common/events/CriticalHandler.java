@@ -4,35 +4,20 @@ import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.client.effects.SoundEffects;
 import net.dndats.hackersandslashers.client.effects.VisualEffects;
 import net.dndats.hackersandslashers.api.manager.CriticalManager;
-import net.dndats.hackersandslashers.common.combat.mechanics.block.Block;
-import net.dndats.hackersandslashers.utils.CombatUtils;
+import net.dndats.hackersandslashers.utils.CombatHelper;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.living.LivingDestroyBlockEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
 @EventBusSubscriber(modid = HackersAndSlashers.MODID)
-public class CombatEventHandler {
-
-    /**
-     * Handles all events related to combat
-     */
-
-    @SubscribeEvent
-    public static void blockReduceDamage(LivingIncomingDamageEvent event) {
-        try {
-            Block.blockDamage(25, event);
-        } catch (Exception e) {
-            HackersAndSlashers.LOGGER.error("Error while trying to block damage: {}", e.getMessage());
-        }
-    }
+public class CriticalHandler {
 
     @SubscribeEvent
     public static void dealCriticalHit(LivingIncomingDamageEvent event) {
         try {
             //Apply critical hit
             boolean isCritical = CriticalManager.applyCriticalHit(event);
-            CombatUtils.spawnCombatParticles(event, isCritical);
+            CombatHelper.spawnCombatParticles(event, isCritical);
             if (isCritical) {
                 SoundEffects.playCriticalSound(event.getEntity());
                 VisualEffects.spawnCriticalParticle(event.getEntity().level(),
@@ -43,15 +28,6 @@ public class CombatEventHandler {
             }
         } catch (Exception e) {
             HackersAndSlashers.LOGGER.error("Error while trying to apply a critical hit: {}", e.getMessage());
-        }
-    }
-
-    @SubscribeEvent
-    public static void stunEntityBlocked(LivingIncomingDamageEvent event) {
-        try {
-            CombatUtils.stunAttackingEntity(event);
-        } catch (Exception e) {
-            HackersAndSlashers.LOGGER.error("Error while trying to stun the target {}: {}", event.getSource().getEntity().getDisplayName(), e.getMessage());
         }
     }
 

@@ -1,14 +1,13 @@
-package net.dndats.hackersandslashers.common.events;
+package net.dndats.hackersandslashers.common.setup;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
-import net.dndats.hackersandslashers.client.input.ModKeybinds;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 
 @EventBusSubscriber(modid = HackersAndSlashers.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class ClientRegistererEventHandler {
+public class SetupKeybinds {
 
     /**
      * Handles all events related to the clientside registers

@@ -7,7 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
 
-public class OverlayUtils {
+public class OverlayHelper {
 
     public static void renderOverlay(RenderGuiEvent.Pre event, String filepath, Player player) {
 

@@ -1,9 +1,8 @@
 package net.dndats.hackersandslashers.common.events;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
-import net.dndats.hackersandslashers.common.combat.mechanics.stealth.Stealth;
-import net.dndats.hackersandslashers.utils.EntityUtils;
-import net.minecraft.world.entity.Mob;
+import net.dndats.hackersandslashers.api.combat.mechanics.stealth.Stealth;
+import net.dndats.hackersandslashers.utils.EntityHelper;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -12,7 +11,7 @@ import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 @EventBusSubscriber(modid = HackersAndSlashers.MODID)
-public class StealthEventHandler {
+public class StealthHandler {
 
     /**
      * Handles all events related to the stealth mechanic
@@ -30,7 +29,7 @@ public class StealthEventHandler {
     @SubscribeEvent
     public static void resetMobAlert(EntityTickEvent.Pre event) {
         try {
-            EntityUtils.resetMobTarget(event);
+            EntityHelper.resetMobTarget(event);
         } catch (Exception e) {
             HackersAndSlashers.LOGGER.error("Error while trying to reset entity data (IS_ALERT): {}", e.getMessage());
         }

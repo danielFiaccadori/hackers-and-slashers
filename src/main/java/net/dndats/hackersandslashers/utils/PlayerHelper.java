@@ -2,7 +2,6 @@ package net.dndats.hackersandslashers.utils;
 
 import net.dndats.hackersandslashers.common.ModPlayerData;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -19,7 +18,7 @@ import net.minecraft.world.phys.HitResult;
 import java.util.Objects;
 
 // UTILITY METHODS RELATED TO PLAYERS
-public class PlayerUtils {
+public class PlayerHelper {
 
     private static final ResourceLocation MOVESPEED_ATTRIBUTE_MODIFIER_LOCATION =
             ResourceLocation.fromNamespaceAndPath("hackersandslashers", "parry_movespeed_modifier");

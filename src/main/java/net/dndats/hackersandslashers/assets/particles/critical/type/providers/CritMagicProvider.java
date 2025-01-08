@@ -1,6 +1,6 @@
 package net.dndats.hackersandslashers.assets.particles.critical.type.providers;
 
-import net.dndats.hackersandslashers.assets.particles.ModParticles;
+import net.dndats.hackersandslashers.common.setup.ModParticles;
 import net.dndats.hackersandslashers.assets.particles.critical.type.instance.CritMagic;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;

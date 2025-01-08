@@ -1,4 +1,4 @@
-package net.dndats.hackersandslashers.assets.sounds;
+package net.dndats.hackersandslashers.common.setup;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.minecraft.core.registries.BuiltInRegistries;

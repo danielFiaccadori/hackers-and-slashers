@@ -3,9 +3,6 @@
 
   "key.categories.hackersandslashers": "Hackers 'n Slashers",
 
-  "effect.hackersandslashers.stun": "Atordoar",
-
-  "enchantment.hackersandslashers.hearts_edge": "À um fio",
-  "enchantment.hackersandslashers.hearts_edge.desc": "Executa inimigos com pouca vida"
+  "effect.hackersandslashers.stun": "Atordoar"
 
 }

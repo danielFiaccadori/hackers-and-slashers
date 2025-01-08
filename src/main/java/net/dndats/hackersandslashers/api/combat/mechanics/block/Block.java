@@ -1,20 +1,33 @@
-package net.dndats.hackersandslashers.common.combat.mechanics.block;
+package net.dndats.hackersandslashers.api.combat.mechanics.block;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.client.effects.SoundEffects;
-import net.dndats.hackersandslashers.client.effects.VisualEffects;
 import net.dndats.hackersandslashers.common.ModPlayerData;
 import net.dndats.hackersandslashers.common.network.packets.PacketTriggerPlayerBlock;
-import net.dndats.hackersandslashers.utils.AnimationUtils;
-import net.dndats.hackersandslashers.utils.ItemUtils;
-import net.dndats.hackersandslashers.utils.PlayerUtils;
+import net.dndats.hackersandslashers.utils.AnimationHelper;
+import net.dndats.hackersandslashers.utils.ItemHelper;
+import net.dndats.hackersandslashers.utils.PlayerHelper;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.SwordItem;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 public class Block {
+
+    private static final HashSet<ResourceKey<DamageType>> damageSourcesAccepted = new HashSet<>(
+            Arrays.asList(
+                    DamageTypes.PLAYER_ATTACK,
+                    DamageTypes.MOB_ATTACK,
+                    DamageTypes.ARROW,
+                    DamageTypes.MOB_ATTACK_NO_AGGRO,
+                    DamageTypes.EXPLOSION
+            )
+    );
 
     /**
      * This method represents the block mechanic behavior
@@ -23,22 +36,12 @@ public class Block {
      * @param event: the event that is responsible by applying the block effect
      */
 
-    public static void blockDamage(float percentage, LivingIncomingDamageEvent event) {
+    public static void reduceIncomingDamage(float percentage, LivingIncomingDamageEvent event) {
         try {
             if (event.getEntity() instanceof Player player) {
-                if (PlayerUtils.isBlocking(player)) {
+                if (PlayerHelper.isBlocking(player)) {
                     SoundEffects.playBlockSound(player);
-                    if (event.getEntity().getOffhandItem().getItem() instanceof SwordItem &&
-                            event.getEntity().getMainHandItem().getItem() instanceof SwordItem) {
-                        ItemUtils.damageAndDistribute(event.getEntity().level(),
-                                event.getEntity().getMainHandItem(),
-                                event.getEntity().getOffhandItem(),
-                                (int) event.getOriginalAmount());
-                    } else {
-                        ItemUtils.damage(event.getEntity().level(),
-                                event.getEntity().getMainHandItem(),
-                                (int) event.getOriginalAmount());
-                    }
+                    ItemHelper.damageBlockWeapon(player, (int) event.getAmount());
                     float totalReducedDamage = event.getAmount() * (percentage / 100);
                     event.setAmount(totalReducedDamage);
                 }
@@ -56,7 +59,7 @@ public class Block {
     public static void triggerDefensive(int duration, Player player) {
         if (player == null) return;
         if (canBlock(player)) {
-            AnimationUtils.playBlockAnimation(player);
+            AnimationHelper.playBlockAnimation(player);
             var playerData = player.getData(ModPlayerData.IS_BLOCKING);
             playerData.setIsBlocking(true);
             PacketDistributor.sendToServer(new PacketTriggerPlayerBlock(playerData, duration));
@@ -64,10 +67,11 @@ public class Block {
     }
 
     private static boolean canBlock(Player player) {
-        return PlayerUtils.isHoldingSword(player)
+        return PlayerHelper.isHoldingSword(player)
                 && !player.isCrouching()
-                && !PlayerUtils.isBlocking(player)
-                && !PlayerUtils.isPointingAtBlockEntity(player);
+                && !PlayerHelper.isBlocking(player)
+                && !PlayerHelper.isPointingAtBlockEntity(player)
+                && !player.swinging;
     }
 
 }

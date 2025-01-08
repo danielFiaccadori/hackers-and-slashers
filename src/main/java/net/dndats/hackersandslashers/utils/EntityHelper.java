@@ -1,6 +1,6 @@
 package net.dndats.hackersandslashers.utils;
 
-import net.dndats.hackersandslashers.assets.effects.ModMobEffects;
+import net.dndats.hackersandslashers.common.setup.ModMobEffects;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -9,7 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 // UTILITY METHODS RELATED TO ENTITIES AND PLAYERS
-public class EntityUtils {
+public class EntityHelper {
 
     // Checkers
 

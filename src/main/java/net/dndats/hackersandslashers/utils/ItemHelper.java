@@ -1,16 +1,32 @@
 package net.dndats.hackersandslashers.utils;
 
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.level.LevelAccessor;
 
 import java.util.Objects;
 
-public class ItemUtils {
+public class ItemHelper {
 
-    public static void damage(LevelAccessor world, ItemStack item, int amount) {
+    public static void damageBlockWeapon(LivingEntity livingEntity, int amount) {
+        if (livingEntity.getOffhandItem().getItem() instanceof SwordItem &&
+                livingEntity.getMainHandItem().getItem() instanceof SwordItem) {
+            ItemHelper.damageAndDistribute(livingEntity.level(),
+                    livingEntity.getMainHandItem(),
+                    livingEntity.getOffhandItem(),
+                    amount);
+        } else {
+            ItemHelper.damage(livingEntity.level(),
+                    livingEntity.getMainHandItem(),
+                    amount);
+        }
+    }
+
+    private static void damage(LevelAccessor world, ItemStack item, int amount) {
         if (item == null || world == null)
             return;
         if (world instanceof ServerLevel level) {
@@ -18,7 +34,7 @@ public class ItemUtils {
         }
     }
 
-    public static void damageAndDistribute(LevelAccessor world, ItemStack item1, ItemStack item2, int amount) {
+    private static void damageAndDistribute(LevelAccessor world, ItemStack item1, ItemStack item2, int amount) {
         if ((item1 == null || item2 == null) || world == null)
             return;
         if (world instanceof ServerLevel level) {

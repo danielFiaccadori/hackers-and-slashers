@@ -1,4 +1,4 @@
-package net.dndats.hackersandslashers.client.input;
+package net.dndats.hackersandslashers.common.setup;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
