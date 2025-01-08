@@ -1,6 +1,5 @@
 package net.dndats.hackersandslashers.utils;
 
-import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -50,6 +49,10 @@ public class ItemUtils {
             }
         }
         return 0;
+    }
+
+    public static String getRegistryName(ItemStack itemStack) {
+        return itemStack.getItem().toString().toLowerCase();
     }
 
 }

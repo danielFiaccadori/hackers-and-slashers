@@ -8,23 +8,48 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.PacketDistributor;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 public class AnimationUtils {
+
+    private static final Set<String> lightWeapons = new HashSet<>(
+            Arrays.asList("dagger", "knife", "sai")
+    );
+
+    private static final Set<String> mediumWeapons = new HashSet<>(
+            Arrays.asList("sword", "rapier", "cutlass")
+    );
+
+    private static final Set<String> heavyWeapons = new HashSet<>(
+            Arrays.asList("claymore", "heavy", "longsword", "double", "hammer")
+    );
+
+    private static void playAnimation(Player player, String animationKey) {
+        PlayerAnimator.playAnimation(player.level(), player, animationKey);
+        PacketDistributor.sendToServer(new PacketServerPlayAnimation(animationKey));
+    }
+
+    private static String getWeaponCategory(String mainHandName) {
+        if (lightWeapons.stream().anyMatch(mainHandName::contains)) return "parry_light";
+        if (mediumWeapons.stream().anyMatch(mainHandName::contains)) return "parry_generic";
+        if (heavyWeapons.stream().anyMatch(mainHandName::contains)) return "parry_heavy";
+        return "parry_generic";
+    }
 
     @OnlyIn(Dist.CLIENT)
     public static void playBlockAnimation(Player player) {
-        double attackSpeed = ItemUtils.getAttackSpeed(player.getMainHandItem(), player);
+        String mainHandName = ItemUtils.getRegistryName(player.getMainHandItem());
+        String weaponCategory = getWeaponCategory(mainHandName);
+
         if (player.getMainHandItem().getItem() instanceof SwordItem
                 && player.getOffhandItem().getItem() instanceof SwordItem) {
-            if (attackSpeed >= 2) {
-                PlayerAnimator.playAnimation(player.level(), player, "parry_light_dh");
-                PacketDistributor.sendToServer(new PacketServerPlayAnimation("parry_light_dh"));
-            } else {
-                PlayerAnimator.playAnimation(player.level(), player, "parry_variation2");
-                PacketDistributor.sendToServer(new PacketServerPlayAnimation("parry_variation2"));
-            }
+            playAnimation(player, weaponCategory + "_dh");
+        } else if (player.getMainHandItem().getItem() instanceof SwordItem) {
+            playAnimation(player, weaponCategory + "_oh");
         } else {
-            PlayerAnimator.playAnimation(player.level(), player, "parry_variation1");
-            PacketDistributor.sendToServer(new PacketServerPlayAnimation("parry_variation1"));
+            playAnimation(player, weaponCategory + "_oh");
         }
     }
 
