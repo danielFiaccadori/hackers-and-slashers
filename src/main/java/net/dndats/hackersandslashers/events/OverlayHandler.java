@@ -1,4 +1,4 @@
-package net.dndats.hackersandslashers.common.events;
+package net.dndats.hackersandslashers.events;
 
 
 import net.dndats.hackersandslashers.HackersAndSlashers;

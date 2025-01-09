@@ -1,15 +1,11 @@
-package net.dndats.hackersandslashers.common.events;
+package net.dndats.hackersandslashers.events;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.api.combat.mechanics.stealth.Stealth;
 import net.dndats.hackersandslashers.utils.EntityHelper;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.sound.SoundEvent;
-import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
 import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
