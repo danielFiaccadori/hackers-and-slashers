@@ -1,24 +1,24 @@
 package net.dndats.hackersandslashers.api.combat.mechanics.block;
 
-import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.client.effects.SoundEffects;
 import net.dndats.hackersandslashers.common.setup.ModPlayerData;
 import net.dndats.hackersandslashers.common.network.packets.PacketTriggerPlayerBlock;
-import net.dndats.hackersandslashers.utils.AnimationHelper;
-import net.dndats.hackersandslashers.utils.CombatHelper;
-import net.dndats.hackersandslashers.utils.ItemHelper;
-import net.dndats.hackersandslashers.utils.PlayerHelper;
+import net.dndats.hackersandslashers.utils.*;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Random;
 
 public class Block {
+
+    private static final Random lostHealthComparator = new Random();
 
     /**
      * This set stores all damage types that can be blocked
@@ -30,7 +30,8 @@ public class Block {
                     DamageTypes.MOB_ATTACK,
                     DamageTypes.ARROW,
                     DamageTypes.MOB_ATTACK_NO_AGGRO,
-                    DamageTypes.EXPLOSION
+                    DamageTypes.EXPLOSION,
+                    DamageTypes.SONIC_BOOM
             )
     );
 
@@ -42,23 +43,31 @@ public class Block {
      */
 
     public static void blockBehavior(float damageReduction, LivingIncomingDamageEvent event) {
-        try {
-            if (event.getEntity() instanceof Player player) {
-                if (damageSourcesAccepted.stream().anyMatch(event.getSource()::is)) {
-                    if (PlayerHelper.isBlocking(player)) {
-                        SoundEffects.playBlockSound(player);
-                        ItemHelper.damageBlockWeapon(player, (int) event.getAmount());
-                        float totalReducedDamage = event.getAmount() * (damageReduction / 100);
-                        event.setAmount(totalReducedDamage);
-                        if (event.getSource().isDirect()) {
-                            CombatHelper.stunAttackingEntity(event);
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            HackersAndSlashers.LOGGER.error("Error while trying to reduce damage: {}", e.getMessage());
+        if (!(event.getEntity() instanceof Player player)) return;
+        if (damageSourcesAccepted.stream().noneMatch(event.getSource()::is)) return;
+        if (!PlayerHelper.isBlocking(player)) return;
+        handleBlockEffects(player, event, damageReduction);
+    }
+
+    private static void handleBlockEffects(Player player, LivingIncomingDamageEvent event, float damageReduction) {
+        SoundEffects.playBlockSound(player);
+        ItemHelper.damageBlockWeapon(player, (int) event.getAmount());
+        event.setAmount(calculateReducedDamage(event.getAmount(), damageReduction));
+        if (shouldStunAttacker(event)) {
+            CombatHelper.stunAttackingEntity(event);
         }
+    }
+
+    private static float calculateReducedDamage(float originalDamage, float reductionPercentage) {
+        return originalDamage * (reductionPercentage / 100);
+    }
+
+    private static boolean shouldStunAttacker(LivingIncomingDamageEvent event) {
+        if (!event.getSource().isDirect() || !(event.getSource().getEntity() instanceof LivingEntity source)) {
+            return false;
+        }
+        int chance = lostHealthComparator.nextInt(100);
+        return EntityHelper.getMobLostHealth(source) >= chance;
     }
 
     /**

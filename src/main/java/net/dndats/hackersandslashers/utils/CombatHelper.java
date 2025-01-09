@@ -28,11 +28,7 @@ public class CombatHelper {
     public static void stunAttackingEntity(LivingIncomingDamageEvent event) {
         try {
             if (event.getSource().getEntity() instanceof LivingEntity target && event.getEntity() instanceof Player player) {
-                if (target.getHealth() < player.getHealth()) {
-                    if (PlayerHelper.isBlocking(player)) {
-                        EntityHelper.stunTarget(target);
-                    }
-                }
+                EntityHelper.stunTarget(target);
             }
         } catch (Exception e) {
             HackersAndSlashers.LOGGER.error("Error while trying to stun a target: {}", e.getMessage());

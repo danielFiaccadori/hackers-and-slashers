@@ -33,13 +33,7 @@ public class Stealth {
                 event.setNewAboutToBeSetTarget(null);
             }
 
-            if (mob.goalSelector.getAvailableGoals().stream()
-                    .noneMatch(goal -> goal.getGoal() instanceof SearchLostPlayerGoal)
-                    && !(mob instanceof Warden)) {
-                mob.lookAt(EntityAnchorArgument.Anchor.EYES, player.position());
-                player.sendSystemMessage(Component.literal("I saw something..."));
-                mob.goalSelector.addGoal(5, new SearchLostPlayerGoal(mob));
-            }
+            makeMobSearch(mob, player);
 
             if (!EntityHelper.hasAlertTag(mob)) {
                 // If the mob is not alert, enters here
@@ -69,6 +63,15 @@ public class Stealth {
                 }
             }
 
+        }
+    }
+
+    private static void makeMobSearch(Mob mob, Player player) {
+        if (mob.goalSelector.getAvailableGoals().stream()
+                .noneMatch(goal -> goal.getGoal() instanceof SearchLostPlayerGoal)
+                && !(mob instanceof Warden)) {
+            mob.lookAt(EntityAnchorArgument.Anchor.EYES, player.position());
+            mob.goalSelector.addGoal(5, new SearchLostPlayerGoal(mob));
         }
     }
 
@@ -157,4 +160,5 @@ public class Stealth {
         return (PlayerHelper.isOnBush(player) || PlayerHelper.isAtDarkPlace(player)) &&
                 (player.isCrouching() || player.isInvisible());
     }
+
 }

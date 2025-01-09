@@ -2,8 +2,11 @@ package net.dndats.hackersandslashers.api.combat.critical.logic;
 
 import net.dndats.hackersandslashers.common.setup.ModMobEffects;
 import net.dndats.hackersandslashers.api.interfaces.ICriticalLogic;
+import net.dndats.hackersandslashers.utils.ItemHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
 // CRITICAL ATTACK OF TYPE RIPOSTE
@@ -37,6 +40,17 @@ public class RiposteLogic implements ICriticalLogic {
 
     @Override
     public float getAdditionalModifiers(LivingIncomingDamageEvent event) {
+        ItemStack usedItem = event.getSource().getWeaponItem();
+        if (usedItem == null) return 0;
+        if (event.getSource().getEntity() instanceof Player player) {
+            float baseDamage = ItemHelper.getAttackDamage(usedItem, player);
+            float attackSpeed = ItemHelper.getAttackSpeed(usedItem, player);
+            float alpha = 0.125f;
+            float beta = 0.75f;
+            float adjustmentFactor = 0.25f;
+            float additionalDamage = (float) (Math.pow(baseDamage, beta) * adjustmentFactor - (attackSpeed * alpha));
+            return Math.max(additionalDamage, 0);
+        }
         return 0;
     }
 
@@ -44,6 +58,7 @@ public class RiposteLogic implements ICriticalLogic {
     public void applyOnHitFunction(LivingIncomingDamageEvent event) {
         if (event.getEntity().hasEffect(ModMobEffects.STUN)) {
             event.getEntity().removeEffect(ModMobEffects.STUN);
+            event.setAmount(event.getAmount() + event.getEntity().getMaxHealth() * 0.05F);
         }
     }
 

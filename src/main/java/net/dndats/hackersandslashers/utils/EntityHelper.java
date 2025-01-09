@@ -1,5 +1,6 @@
 package net.dndats.hackersandslashers.utils;
 
+import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.common.setup.ModMobEffects;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -28,6 +29,22 @@ public class EntityHelper {
                 nbt.remove("is_alert");
             }
         }
+    }
+
+    private static final String LOST_HEALTH_PERCENT = "lost_health_percent";
+
+    public static int getMobLostHealth(LivingEntity entity) {
+        CompoundTag nbt = entity.getPersistentData();
+        return nbt.getInt(LOST_HEALTH_PERCENT);
+    }
+
+    public static void updateLostHealth(LivingEntity entity) {
+        CompoundTag nbt = entity.getPersistentData();
+        float maxHealth = entity.getMaxHealth();
+        float currentHealth = entity.getHealth();
+        int lostHealthPercent = (int) ((1 - (currentHealth / maxHealth)) * 100);
+        nbt.putInt(LOST_HEALTH_PERCENT, lostHealthPercent);
+        HackersAndSlashers.LOGGER.info("{}% of lost health", nbt.getInt(LOST_HEALTH_PERCENT));
     }
 
     private static final String ALERT_TAG = "alert_level";
