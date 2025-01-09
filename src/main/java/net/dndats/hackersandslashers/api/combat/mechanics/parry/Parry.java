@@ -1,8 +1,8 @@
-package net.dndats.hackersandslashers.api.combat.mechanics.block;
+package net.dndats.hackersandslashers.api.combat.mechanics.parry;
 
 import net.dndats.hackersandslashers.client.effects.SoundEffects;
 import net.dndats.hackersandslashers.common.setup.ModPlayerData;
-import net.dndats.hackersandslashers.common.network.packets.PacketTriggerPlayerBlock;
+import net.dndats.hackersandslashers.common.network.packets.PacketTriggerPlayerParry;
 import net.dndats.hackersandslashers.utils.*;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageType;
@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Random;
 
-public class Block {
+public class Parry {
 
     private static final Random lostHealthComparator = new Random();
 
@@ -42,15 +42,15 @@ public class Block {
      * @param event: the event that is responsible by applying the block effect
      */
 
-    public static void blockBehavior(float damageReduction, LivingIncomingDamageEvent event) {
+    public static void parryBehavior(float damageReduction, LivingIncomingDamageEvent event) {
         if (!(event.getEntity() instanceof Player player)) return;
         if (damageSourcesAccepted.stream().noneMatch(event.getSource()::is)) return;
         if (!PlayerHelper.isBlocking(player)) return;
-        handleBlockEffects(player, event, damageReduction);
+        handleParryEffects(player, event, damageReduction);
     }
 
-    private static void handleBlockEffects(Player player, LivingIncomingDamageEvent event, float damageReduction) {
-        SoundEffects.playBlockSound(player);
+    private static void handleParryEffects(Player player, LivingIncomingDamageEvent event, float damageReduction) {
+        SoundEffects.playParrySound(player);
         ItemHelper.damageBlockWeapon(player, (int) event.getAmount());
         event.setAmount(calculateReducedDamage(event.getAmount(), damageReduction));
         if (shouldStunAttacker(event)) {
@@ -77,15 +77,15 @@ public class Block {
 
     public static void triggerDefensive(int duration, Player player) {
         if (player == null) return;
-        if (canBlock(player)) {
+        if (canParry(player)) {
             AnimationHelper.playBlockAnimation(player);
-            var playerData = player.getData(ModPlayerData.IS_BLOCKING);
-            playerData.setIsBlocking(true);
-            PacketDistributor.sendToServer(new PacketTriggerPlayerBlock(playerData, duration));
+            var playerData = player.getData(ModPlayerData.IS_PARRYING);
+            playerData.setIsParrying(true);
+            PacketDistributor.sendToServer(new PacketTriggerPlayerParry(playerData, duration));
         }
     }
 
-    private static boolean canBlock(Player player) {
+    private static boolean canParry(Player player) {
         return PlayerHelper.isHoldingSword(player)
                 && !player.isCrouching()
                 && !PlayerHelper.isBlocking(player)

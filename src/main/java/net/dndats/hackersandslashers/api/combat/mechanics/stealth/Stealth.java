@@ -1,10 +1,10 @@
 package net.dndats.hackersandslashers.api.combat.mechanics.stealth;
 
 import net.dndats.hackersandslashers.api.combat.mechanics.stealth.ai.SearchLostPlayerGoal;
-import net.dndats.hackersandslashers.utils.TickScheduler;
 import net.dndats.hackersandslashers.common.setup.ModPlayerData;
 import net.dndats.hackersandslashers.utils.EntityHelper;
 import net.dndats.hackersandslashers.utils.PlayerHelper;
+import net.dndats.hackersandslashers.utils.TickScheduler;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
@@ -70,6 +70,7 @@ public class Stealth {
         if (mob.goalSelector.getAvailableGoals().stream()
                 .noneMatch(goal -> goal.getGoal() instanceof SearchLostPlayerGoal)
                 && !(mob instanceof Warden)) {
+            mob.playAmbientSound();
             mob.lookAt(EntityAnchorArgument.Anchor.EYES, player.position());
             mob.goalSelector.addGoal(5, new SearchLostPlayerGoal(mob));
         }

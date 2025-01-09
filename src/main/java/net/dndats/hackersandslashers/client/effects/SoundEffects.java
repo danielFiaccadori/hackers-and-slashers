@@ -18,7 +18,7 @@ public class SoundEffects {
                 SoundSource.PLAYERS, 1.0F, 1.0F);
     }
 
-    public static void playBlockSound(LivingEntity entity) {
+    public static void playParrySound(LivingEntity entity) {
         entity.level().playSound(null,
                 entity.blockPosition(),
                 SoundEvents.SHIELD_BLOCK,
@@ -27,7 +27,7 @@ public class SoundEffects {
 
     }
 
-    public static void playBlockSwingSound(LivingEntity entity) {
+    public static void playParrySwingSound(LivingEntity entity) {
         entity.level().playSound(null,
                 entity.blockPosition(),
                 SoundEvents.PLAYER_ATTACK_SWEEP,

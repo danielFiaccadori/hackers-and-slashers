@@ -1,7 +1,7 @@
 package net.dndats.hackersandslashers.common.events;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
-import net.dndats.hackersandslashers.api.combat.mechanics.block.Block;
+import net.dndats.hackersandslashers.api.combat.mechanics.parry.Parry;
 import net.dndats.hackersandslashers.common.setup.ModPlayerData;
 import net.dndats.hackersandslashers.utils.EntityHelper;
 import net.minecraft.world.entity.Mob;
@@ -12,12 +12,12 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 
 @EventBusSubscriber(modid = HackersAndSlashers.MODID)
-public class BlockHandler {
+public class ParryHandler {
 
     @SubscribeEvent
     public static void updateLostHealth(LivingIncomingDamageEvent event) {
         try {
-            if (event.getEntity() instanceof Mob mob && event.getSource().getEntity() instanceof Player player) {
+            if (event.getEntity() instanceof Mob mob && event.getSource().getEntity() instanceof Player) {
                 EntityHelper.updateLostHealth(mob);
             }
         } catch (Exception e) {
@@ -28,7 +28,7 @@ public class BlockHandler {
     @SubscribeEvent
     public static void handleBlockBehavior(LivingIncomingDamageEvent event) {
         try {
-            Block.blockBehavior(25, event);
+            Parry.parryBehavior(25, event);
         } catch (Exception e) {
             HackersAndSlashers.LOGGER.error("Error while trying to block damage: {}", e.getMessage());
         }
@@ -37,8 +37,8 @@ public class BlockHandler {
     @SubscribeEvent
     public static void attackCancelDefensiveState(AttackEntityEvent event) {
         Player player = event.getEntity();
-        var playerData = player.getData(ModPlayerData.IS_BLOCKING);
-        if (playerData.getIsBlocking()) {
+        var playerData = player.getData(ModPlayerData.IS_PARRYING);
+        if (playerData.getIsParrying()) {
             event.setCanceled(true);
         }
     }

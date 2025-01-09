@@ -40,9 +40,10 @@ public class SearchLostPlayerGoal extends Goal {
         }
         if (target != null) {
             RandomSource random = mob.getRandom();
-            int offsetX = random.nextInt(7) - 3;
-            int offsetZ = random.nextInt(7) - 3;
-            targetPos = target.blockPosition().offset(mob.getRandom().nextInt(10) - 5, 0, mob.getRandom().nextInt(10) - 5);
+            targetPos = target.blockPosition().offset(
+                    mob.getRandom().nextInt(10) - 5,
+                    0,
+                    mob.getRandom().nextInt(10) - 5);
         }
     }
 

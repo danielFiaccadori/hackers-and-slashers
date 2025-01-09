@@ -18,6 +18,7 @@ public class BackstabLogic implements ICriticalLogic {
 
     /**
      * When created in main class, specify the amount of damage that this critical hit does.
+     *
      * @param damageMultiplier The multiplier of this critical hit.
      */
 
@@ -31,6 +32,7 @@ public class BackstabLogic implements ICriticalLogic {
     /**
      * Verifies if the backstab can be applied based on the position of the player and the target.
      * Also, applies the backstab if it's not being actively targeted (for mobs).
+     *
      * @param source The player attempting the backstab.
      * @param target The target entity.
      * @return True if the backstab can be applied, false otherwise.

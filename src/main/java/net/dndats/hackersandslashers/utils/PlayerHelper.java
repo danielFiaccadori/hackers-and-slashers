@@ -25,7 +25,7 @@ public class PlayerHelper {
             ResourceLocation.fromNamespaceAndPath("hackersandslashers", "parry_heavy_modifier");
     private static final AttributeModifier PARRY_HEAVY_MODIFIER = new AttributeModifier(
             PARRY_HEAVY_MODIFIER_LOCATION,
-            -0.075,
+            -0.05,
             AttributeModifier.Operation.ADD_VALUE
     );
 
@@ -33,7 +33,7 @@ public class PlayerHelper {
             ResourceLocation.fromNamespaceAndPath("hackersandslashers", "parry_generic_modifier");
     private static final AttributeModifier PARRY_GENERIC_MODIFIER = new AttributeModifier(
             PARRY_GENERIC_MODIFIER_LOCATION,
-            -0.050,
+            -0.05,
             AttributeModifier.Operation.ADD_VALUE
     );
 
@@ -41,7 +41,7 @@ public class PlayerHelper {
             ResourceLocation.fromNamespaceAndPath("hackersandslashers", "parry_light_modifier");
     private static final AttributeModifier PARRY_LIGHT_MODIFIER = new AttributeModifier(
             PARRY_LIGHT_MODIFIER_LOCATION,
-            -0.025,
+            -0.05,
             AttributeModifier.Operation.ADD_VALUE
     );
 
@@ -64,7 +64,7 @@ public class PlayerHelper {
     }
 
     public static boolean isBlocking(Player player) {
-        return player.getData(ModPlayerData.IS_BLOCKING).getIsBlocking();
+        return player.getData(ModPlayerData.IS_PARRYING).getIsParrying();
     }
 
     public static double getVisibilityLevel(Player player) {
