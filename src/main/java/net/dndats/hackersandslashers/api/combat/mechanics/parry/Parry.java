@@ -19,6 +19,11 @@ import java.util.Random;
 public class Parry {
 
     private static final Random lostHealthComparator = new Random();
+    private static final int MAX_COOLDOWN = 40;
+
+    public static int getMaxCooldown() {
+        return MAX_COOLDOWN;
+    }
 
     /**
      * This set stores all damage types that can be blocked

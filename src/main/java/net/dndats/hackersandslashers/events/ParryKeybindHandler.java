@@ -18,18 +18,17 @@ public class ParryKeybindHandler {
      * Handles the parry action keybind and it's cooldown
      */
 
-    private static final int MAX_COOLDOWN = 40;
-    private static int currentCooldown = MAX_COOLDOWN;
+    private static int currentCooldown = Parry.getMaxCooldown();
 
     @SubscribeEvent
     public static void onEntityBlock(ClientTickEvent.Pre event) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player == null) return;
-        if (currentCooldown < MAX_COOLDOWN) {
+        if (currentCooldown < Parry.getMaxCooldown()) {
             currentCooldown++;
         }
         if (ModKeybinds.PARRY.consumeClick()) {
-            if (currentCooldown >= MAX_COOLDOWN) {
+            if (currentCooldown >= Parry.getMaxCooldown()) {
                 currentCooldown = 0;
                 Parry.triggerDefensive(10, player);
             } else {
