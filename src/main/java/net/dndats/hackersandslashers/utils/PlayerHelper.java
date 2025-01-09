@@ -72,10 +72,6 @@ public class PlayerHelper {
         return player.getData(ModPlayerData.VISIBILITY_LEVEL).getVisibilityLevel();
     }
 
-    public static boolean isHoldingSword(Player player) {
-        return player.getMainHandItem().getItem() instanceof SwordItem;
-    }
-
     public static boolean isPointingAtBlockEntity(Player player) {
         HitResult block = player.pick(5, 0, false);
         if (block.getType() == HitResult.Type.BLOCK) {

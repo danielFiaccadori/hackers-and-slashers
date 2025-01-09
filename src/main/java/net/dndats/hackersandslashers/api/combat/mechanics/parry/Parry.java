@@ -19,7 +19,7 @@ import java.util.Random;
 public class Parry {
 
     private static final Random lostHealthComparator = new Random();
-    private static final int MAX_COOLDOWN = 40;
+    private static final int MAX_COOLDOWN = 20;
 
     public static int getMaxCooldown() {
         return MAX_COOLDOWN;
@@ -91,8 +91,7 @@ public class Parry {
     }
 
     private static boolean canParry(Player player) {
-        return PlayerHelper.isHoldingSword(player)
-                && !player.isCrouching()
+        return  !player.isCrouching()
                 && !PlayerHelper.isBlocking(player)
                 && !PlayerHelper.isPointingAtBlockEntity(player)
                 && !player.swinging;

@@ -6,6 +6,7 @@ import net.dndats.hackersandslashers.api.combat.mechanics.parry.Parry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.SwordItem;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -24,6 +25,7 @@ public class ParryKeybindHandler {
     public static void onEntityBlock(ClientTickEvent.Pre event) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player == null) return;
+        if (!(player.getMainHandItem().getItem() instanceof SwordItem)) return;
         if (currentCooldown < Parry.getMaxCooldown()) {
             currentCooldown++;
         }
