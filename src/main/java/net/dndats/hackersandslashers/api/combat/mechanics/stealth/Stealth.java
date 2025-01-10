@@ -6,7 +6,6 @@ import net.dndats.hackersandslashers.utils.EntityHelper;
 import net.dndats.hackersandslashers.utils.PlayerHelper;
 import net.dndats.hackersandslashers.utils.TickScheduler;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.monster.warden.Warden;
@@ -48,7 +47,6 @@ public class Stealth {
                         } else {
                             EntityHelper.addAlertTag(mob, 100);
                             mob.setTarget(player);
-                            player.sendSystemMessage(Component.literal("Gotcha!"));
                         }
                     }, DETECTION_WAIT_TIME - Math.max(player.getArmorValue(), 0));
                 } else {
@@ -58,7 +56,6 @@ public class Stealth {
                     } else {
                         EntityHelper.addAlertTag(mob, 100);
                         mob.setTarget(player);
-                        player.sendSystemMessage(Component.literal("Gotcha! With no excitation!"));
                     }
                 }
             }
