@@ -4,6 +4,7 @@ import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.client.effects.SoundEffects;
 import net.dndats.hackersandslashers.client.effects.VisualEffects;
 import net.dndats.hackersandslashers.api.manager.CriticalManager;
+import net.dndats.hackersandslashers.utils.AnimationHelper;
 import net.dndats.hackersandslashers.utils.CombatHelper;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;

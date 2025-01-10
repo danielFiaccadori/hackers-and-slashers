@@ -15,16 +15,28 @@ import java.util.Set;
 
 public class AnimationHelper {
 
-    private static final Set<String> lightWeapons = new HashSet<>(
-            Arrays.asList("dagger", "knife", "sai")
+    private static final Set<String> lightSwordWeapons = new HashSet<>(
+            Arrays.asList("dagger", "knife", "saï", "sai")
     );
 
-    private static final Set<String> mediumWeapons = new HashSet<>(
-            Arrays.asList("sword", "rapier", "cutlass")
+    private static final Set<String> mediumSwordWeapons = new HashSet<>(
+            Arrays.asList("sword", "cutlass", "blade")
     );
 
-    private static final Set<String> heavyWeapons = new HashSet<>(
-            Arrays.asList("claymore", "heavy", "longsword", "double", "hammer")
+    private static final Set<String> heavySwordWeapons = new HashSet<>(
+            Arrays.asList("claymore", "longsword")
+    );
+
+    private static final Set<String> slimSwordWeapons = new HashSet<>(
+            Arrays.asList("rapier", "saber")
+    );
+
+    private static final Set<String> cuttingSwordWeapons = new HashSet<>(
+            Arrays.asList("katana", "uchigatana", "scythe")
+    );
+
+    private static final Set<String> smasherSwordWeapons = new HashSet<>(
+            Arrays.asList("hammer", "axe", "mace")
     );
 
     private static void playAnimation(Player player, String animationKey) {
@@ -33,9 +45,12 @@ public class AnimationHelper {
     }
 
     private static String getWeaponCategory(String mainHandName) {
-        if (lightWeapons.stream().anyMatch(mainHandName::contains)) return "parry_light";
-        if (mediumWeapons.stream().anyMatch(mainHandName::contains)) return "parry_generic";
-        if (heavyWeapons.stream().anyMatch(mainHandName::contains)) return "parry_heavy";
+        if (lightSwordWeapons.stream().anyMatch(mainHandName::contains)) return "parry_light";
+        if (mediumSwordWeapons.stream().anyMatch(mainHandName::contains)) return "parry_generic";
+        if (heavySwordWeapons.stream().anyMatch(mainHandName::contains)) return "parry_heavy";
+        if (slimSwordWeapons.stream().anyMatch(mainHandName::contains)) return "parry_slim";
+        if (cuttingSwordWeapons.stream().anyMatch(mainHandName::contains)) return "parry_cutting";
+        if (smasherSwordWeapons.stream().anyMatch(mainHandName::contains)) return "parry_smasher";
         return "parry_generic";
     }
 
@@ -53,6 +68,7 @@ public class AnimationHelper {
             } else {
                 playAnimation(player, weaponCategory + "_oh");
             }
+
         } else {
             playAnimation(player, "parry_generic_oh");
         }

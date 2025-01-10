@@ -1,4 +1,4 @@
-package net.dndats.hackersandslashers.api.combat.mechanics.stealth.ai;
+package net.dndats.hackersandslashers.api.combat.mechanics.ai;
 
 import net.dndats.hackersandslashers.utils.EntityHelper;
 import net.dndats.hackersandslashers.utils.PlayerHelper;

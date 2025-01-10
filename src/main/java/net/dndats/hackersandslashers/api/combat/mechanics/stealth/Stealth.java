@@ -1,6 +1,6 @@
 package net.dndats.hackersandslashers.api.combat.mechanics.stealth;
 
-import net.dndats.hackersandslashers.api.combat.mechanics.stealth.ai.SearchLostPlayerGoal;
+import net.dndats.hackersandslashers.api.combat.mechanics.ai.SearchLostPlayerGoal;
 import net.dndats.hackersandslashers.common.setup.ModPlayerData;
 import net.dndats.hackersandslashers.utils.EntityHelper;
 import net.dndats.hackersandslashers.utils.PlayerHelper;
