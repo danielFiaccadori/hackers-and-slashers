@@ -12,6 +12,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
+import org.jetbrains.annotations.NotNull;
 
 @EventBusSubscriber(modid = HackersAndSlashers.MODID, bus = EventBusSubscriber.Bus.MOD)
 public record PacketServerPlayAnimation(String animationName) implements CustomPacketPayload {
@@ -20,9 +21,8 @@ public record PacketServerPlayAnimation(String animationName) implements CustomP
             new Type<>(ResourceLocation.fromNamespaceAndPath(HackersAndSlashers.MODID, "sync_server_animation"));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, PacketServerPlayAnimation> STREAM_CODEC =
-            StreamCodec.of((RegistryFriendlyByteBuf buffer, PacketServerPlayAnimation message) -> {
-                buffer.writeUtf(message.animationName());
-    }, (RegistryFriendlyByteBuf buffer) -> new PacketServerPlayAnimation(buffer.readUtf()));
+            StreamCodec.of((RegistryFriendlyByteBuf buffer, PacketServerPlayAnimation message) ->
+                    buffer.writeUtf(message.animationName()), (RegistryFriendlyByteBuf buffer) -> new PacketServerPlayAnimation(buffer.readUtf()));
 
 
     public static void handleData(final PacketServerPlayAnimation message, final IPayloadContext context) {
@@ -30,7 +30,6 @@ public record PacketServerPlayAnimation(String animationName) implements CustomP
             context.enqueueWork(() -> {
                 if (!context.player().level().isClientSide()) {
                     PlayerAnimator.playAnimation(context.player().level(), context.player(), message.animationName());
-                    HackersAndSlashers.LOGGER.info("Now the server knows player {} played a animation.", context.player().getName().getString());
                 }
             }).exceptionally(e -> {
                 context.connection().disconnect(Component.literal(e.getMessage()));
@@ -50,7 +49,7 @@ public record PacketServerPlayAnimation(String animationName) implements CustomP
     }
 
     @Override
-    public Type<PacketServerPlayAnimation> type() {
+    public @NotNull Type<PacketServerPlayAnimation> type() {
         return TYPE;
     }
 

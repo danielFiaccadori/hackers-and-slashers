@@ -13,6 +13,9 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 @EventBusSubscriber(modid = HackersAndSlashers.MODID, bus = EventBusSubscriber.Bus.MOD)
 public record PacketSetPlayerVisibility(VisibilityLevelData data) implements CustomPacketPayload {
@@ -24,7 +27,7 @@ public record PacketSetPlayerVisibility(VisibilityLevelData data) implements Cus
             .of((RegistryFriendlyByteBuf buffer, PacketSetPlayerVisibility packet) ->
                     buffer.writeNbt(packet.data().serializeNBT(buffer.registryAccess())), (RegistryFriendlyByteBuf buffer) -> {
                         PacketSetPlayerVisibility message = new PacketSetPlayerVisibility(new VisibilityLevelData());
-                        message.data().deserializeNBT(buffer.registryAccess(), buffer.readNbt());
+                        message.data().deserializeNBT(buffer.registryAccess(), Objects.requireNonNull(buffer.readNbt()));
                         return message;
             });
 
@@ -34,8 +37,6 @@ public record PacketSetPlayerVisibility(VisibilityLevelData data) implements Cus
                 context.player().getData(ModPlayerData.VISIBILITY_LEVEL).deserializeNBT(context.player().registryAccess(),
                     message.data().serializeNBT(context.player().registryAccess()));
                 context.player().setData(ModPlayerData.VISIBILITY_LEVEL, message.data());
-                HackersAndSlashers.LOGGER.info("Player data VISIBILITY LEVEL set to {} at {}",
-                        context.player().getData(ModPlayerData.VISIBILITY_LEVEL).getVisibilityLevel(), context.flow().getReceptionSide());
             }).exceptionally(e -> {
                 context.connection().disconnect(Component.literal(e.getMessage()));
                 return null;
@@ -53,7 +54,7 @@ public record PacketSetPlayerVisibility(VisibilityLevelData data) implements Cus
     }
 
     @Override
-    public Type<? extends CustomPacketPayload> type() {
+    public @NotNull Type<? extends CustomPacketPayload> type() {
         return TYPE;
     }
 

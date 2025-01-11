@@ -57,7 +57,7 @@ public class PlayerAnimator {
             if (entity == null) return;
             if (world.isClientSide()) {
                 if (Minecraft.getInstance().player == null) return;
-                if (entity instanceof AbstractClientPlayer clientPlayer) {
+                if (entity instanceof AbstractClientPlayer) {
                     Object associatedData = PlayerAnimationAccess.getPlayerAssociatedData(Minecraft.getInstance().player).get(ResourceLocation
                             .fromNamespaceAndPath(HackersAndSlashers.MODID, "player_animations"));
                     if (associatedData instanceof ModifierLayer<?> modifierLayer) {
@@ -70,7 +70,6 @@ public class PlayerAnimator {
                                             .playAnimation()
                                             .setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL)
                                             .setFirstPersonConfiguration(new FirstPersonConfiguration().setShowRightArm(false).setShowLeftItem(true)));
-                            HackersAndSlashers.LOGGER.info("Animation '{}' played at client side for clientPlayer '{}'.", animationName, clientPlayer.getName().getString());
                         }
                     }
                 }
@@ -79,7 +78,6 @@ public class PlayerAnimator {
                 if (entity instanceof Player) {
 //                    PacketDistributor.sendToPlayersInDimension((ServerLevel) entity.level(), new PacketPlayAnimationAtPlayer(animationName, entity.getId(), false));
                     PacketDistributor.sendToPlayersTrackingEntity(entity, new PacketPlayAnimationAtPlayer(animationName, entity.getId(), false));
-                    HackersAndSlashers.LOGGER.info("The server sent a message to all clients in the ServerLevel");
                 }
             }
         } catch (Exception e) {

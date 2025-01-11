@@ -22,6 +22,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -58,7 +59,6 @@ public record PacketPlayAnimationAtPlayer(String animationName, Integer entityId
                                             .playAnimation()
                                             .setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL)
                                             .setFirstPersonConfiguration(new FirstPersonConfiguration().setShowRightArm(false).setShowLeftItem(true)));
-                            HackersAndSlashers.LOGGER.info("Animation '{}' played for all clients at player '{}'.", message.animationName(), clientPlayer.getName().getString());
                         }
                     }
                 }
@@ -80,7 +80,7 @@ public record PacketPlayAnimationAtPlayer(String animationName, Integer entityId
     }
 
     @Override
-    public Type<? extends CustomPacketPayload> type() {
+    public @NotNull Type<? extends CustomPacketPayload> type() {
         return TYPE;
     }
 

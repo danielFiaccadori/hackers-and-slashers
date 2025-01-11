@@ -33,7 +33,6 @@ public class TickScheduler {
             ScheduledTask task = iterator.next();
             task.decrementTicks();
             if (task.isReady()) {
-                HackersAndSlashers.LOGGER.debug("Executing scheduled task.");
                 task.run();
                 iterator.remove();
             }
