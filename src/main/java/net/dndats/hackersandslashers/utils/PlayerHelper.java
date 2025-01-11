@@ -46,16 +46,6 @@ public class PlayerHelper {
 
     // Checkers
 
-    public static boolean isAtDarkPlace(Player player) {
-        Level level = player.level();
-        BlockPos position = player.blockPosition();
-        int lightLevel = Math.max(
-                level.getBrightness(LightLayer.SKY, position),
-                level.getBrightness(LightLayer.BLOCK, position)
-        );
-        return lightLevel < 15;
-    }
-
     public static int lightLevel(Player player) {
         Level level = player.level();
         BlockPos position = player.blockPosition();

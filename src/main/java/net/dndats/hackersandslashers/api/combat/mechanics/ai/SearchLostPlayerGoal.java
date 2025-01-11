@@ -28,8 +28,8 @@ public class SearchLostPlayerGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        // Do only for suspect mobs, with 10% of chance
-        return EntityHelper.getAlertLevel(mob) == 50 && mob.getRandom().nextInt(10) == 1;
+        // Do only for suspect mobs, with 20% of chance
+        return EntityHelper.getAlertLevel(mob) == 50;
     }
 
     @Override
