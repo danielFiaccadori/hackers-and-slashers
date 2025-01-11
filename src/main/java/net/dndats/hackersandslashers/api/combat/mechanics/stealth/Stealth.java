@@ -78,6 +78,7 @@ public class Stealth {
         if (player.level().isDay()) points += DAY_WEIGHT;
         if (player.level().isRaining() || player.level().isThundering()) points -= RAINING_WEIGHT;
         if (player.isSprinting()) points += SPRINTING_WEIGHT;
+        if (player.isCrouching()) points -= CROUCHING_WEIGHT;
         if (PlayerHelper.isOnBush(player)) points -= ON_BUSH_WEIGHT;
         if (PlayerHelper.isMoving(player)) points += MOVING_WEIGHT;
         if (PlayerHelper.isPlayerBehind(mob, player)) points -= IS_BEHIND_WEIGHT;
@@ -87,11 +88,12 @@ public class Stealth {
 
     // Environment weights
 
-    private static final int ON_BUSH_WEIGHT = 50;
-    private static final int RAINING_WEIGHT = 30;
-    private static final int IS_BEHIND_WEIGHT = 30;
+    private static final int CROUCHING_WEIGHT = 50;
     private static final int DAY_WEIGHT = 30;
-    private static final int SPRINTING_WEIGHT = 20;
+    private static final int ON_BUSH_WEIGHT = 20;
+    private static final int RAINING_WEIGHT = 10;
+    private static final int IS_BEHIND_WEIGHT = 10;
+    private static final int SPRINTING_WEIGHT = 10;
     private static final int MOVING_WEIGHT = 5;
     private static final int BEING_SEEN_WEIGHT = 5;
 
