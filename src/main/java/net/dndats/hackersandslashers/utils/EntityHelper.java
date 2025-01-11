@@ -97,10 +97,6 @@ public class EntityHelper {
         return entity.getLastAttacker() == player;
     }
 
-    public static boolean isBehind(Player source, LivingEntity target) {
-        return source.getDirection() == target.getDirection();
-    }
-
     // Modifiers
 
     public static void stunTarget(LivingEntity entity) {

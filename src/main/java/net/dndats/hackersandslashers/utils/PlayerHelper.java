@@ -3,6 +3,7 @@ package net.dndats.hackersandslashers.utils;
 import net.dndats.hackersandslashers.common.setup.ModPlayerData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -14,6 +15,7 @@ import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.Objects;
 
@@ -57,6 +59,18 @@ public class PlayerHelper {
 
     public static int getArmorLevel(Player player) {
         return player.getArmorValue();
+    }
+
+    public static boolean isPlayerBehind(LivingEntity target, Player player) {
+        Vec3 mobForward = Vec3.directionFromRotation(0, target.getYRot());
+        Vec3 mobToPlayer = new Vec3(
+                player.getX() - target.getX(),
+                player.getY() - target.getY(),
+                player.getZ() - target.getZ()
+        ).normalize();
+        double dotProduct = mobForward.dot(mobToPlayer);
+        double angle = Math.acos(dotProduct) * (180 / Math.PI);
+        return angle > 90;
     }
 
     public static boolean isOnBush(Player player) {

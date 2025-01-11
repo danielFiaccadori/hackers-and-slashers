@@ -32,7 +32,7 @@ public class Stealth {
 
             */
 
-            int alertPoints = calculateAlertPoints(player);
+            int alertPoints = calculateAlertPoints(player, mob);
             int alertLevel = EntityHelper.getAlertLevel(mob);
 
             if (EntityHelper.isAwareOf(player, mob)) {
@@ -67,29 +67,33 @@ public class Stealth {
     /**
      * This method calculates the probability of the player being targeted based on its environment.
      * The amount is calculated by points, where the default base punctuation is of 10.
-     * @param player: the player in context
+     *
+     * @param player : the player in context
+     * @param mob: the mob in context
      * @return the amount of points, or "probability" of the mob being seen
      */
 
-    private static int calculateAlertPoints(Player player) {
+    private static int calculateAlertPoints(Player player, Mob mob) {
         int points = 10 + PlayerHelper.getArmorLevel(player) + PlayerHelper.lightLevel(player);
         if (player.level().isDay()) points += DAY_WEIGHT;
         if (player.level().isRaining() || player.level().isThundering()) points -= RAINING_WEIGHT;
         if (player.isSprinting()) points += SPRINTING_WEIGHT;
         if (PlayerHelper.isOnBush(player)) points -= ON_BUSH_WEIGHT;
         if (PlayerHelper.isMoving(player)) points += MOVING_WEIGHT;
+        if (PlayerHelper.isPlayerBehind(mob, player)) points -= IS_BEHIND_WEIGHT;
         if (!isBeingSeen(player)) points -= BEING_SEEN_WEIGHT;
         return points;
     }
 
     // Environment weights
 
+    private static final int IS_BEHIND_WEIGHT = 50;
+    private static final int ON_BUSH_WEIGHT = 50;
+    private static final int RAINING_WEIGHT = 30;
     private static final int DAY_WEIGHT = 20;
     private static final int SPRINTING_WEIGHT = 10;
-    private static final int ON_BUSH_WEIGHT = 50;
     private static final int MOVING_WEIGHT = 5;
     private static final int BEING_SEEN_WEIGHT = 5;
-    private static final int RAINING_WEIGHT = 30;
 
     /**
      * This is a method that changes the visibility level data attachment of the player

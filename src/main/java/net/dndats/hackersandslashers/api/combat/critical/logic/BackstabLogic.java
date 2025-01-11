@@ -3,6 +3,7 @@ package net.dndats.hackersandslashers.api.combat.critical.logic;
 import net.dndats.hackersandslashers.api.interfaces.ICriticalLogic;
 import net.dndats.hackersandslashers.utils.EntityHelper;
 import net.dndats.hackersandslashers.utils.ItemHelper;
+import net.dndats.hackersandslashers.utils.PlayerHelper;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -42,11 +43,12 @@ public class BackstabLogic implements ICriticalLogic {
     public boolean canBeApplied(Entity source, LivingEntity target) {
         if (!(source instanceof Player player)) return false;
         if (target instanceof Player) {
-            return EntityHelper.isBehind(player, target)
+            return PlayerHelper.isPlayerBehind(target, player)
                     && !EntityHelper.isAwareOf(player, target);
         } else {
-            return !EntityHelper.isBeingTargeted(player, target)
-                    && !EntityHelper.isAwareOf(player, target);
+            return (!EntityHelper.isBeingTargeted(player, target)
+                    && !EntityHelper.isAwareOf(player, target))
+                    || PlayerHelper.isPlayerBehind(target, player);
         }
     }
 
@@ -71,7 +73,7 @@ public class BackstabLogic implements ICriticalLogic {
         Player player = (Player) event.getSource().getEntity();
         if (player == null) return;
         LivingEntity target = event.getEntity();
-        if (EntityHelper.isBehind(player, target)) {
+        if (PlayerHelper.isPlayerBehind(target, player)) {
             target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,
                     20,
                     1,
