@@ -17,12 +17,17 @@ public class DetectionOverlay {
         Player player = Minecraft.getInstance().player;
         if (player == null) return;
         if (canRender(player)) {
-            if (PlayerHelper.getVisibilityLevel(player) == 100) {
-                OverlayHelper.renderOverlay(event, "hackersandslashers:textures/screens/alert.png", player);
-            } else if (PlayerHelper.getVisibilityLevel(player) == 50) {
-                OverlayHelper.renderOverlay(event, "hackersandslashers:textures/screens/suspect.png", player);
+            int visibilityLevel = PlayerHelper.getVisibilityLevel(player);
+            if (visibilityLevel > 90) {
+                OverlayHelper.renderOverlay(event, "hackersandslashers:textures/screens/alert_80.png", player);
+            } else if (visibilityLevel > 60) {
+                OverlayHelper.renderOverlay(event, "hackersandslashers:textures/screens/alert_60.png", player);
+            } else if (visibilityLevel > 40) {
+                OverlayHelper.renderOverlay(event, "hackersandslashers:textures/screens/alert_40.png", player);
+            } else if (visibilityLevel > 0) {
+                OverlayHelper.renderOverlay(event, "hackersandslashers:textures/screens/alert_20.png", player);
             } else {
-                OverlayHelper.renderOverlay(event, "hackersandslashers:textures/screens/hidden.png", player);
+                OverlayHelper.renderOverlay(event, "hackersandslashers:textures/screens/alert_0.png", player);
             }
         }
     }

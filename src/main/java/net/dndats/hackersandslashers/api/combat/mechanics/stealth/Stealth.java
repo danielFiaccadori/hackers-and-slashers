@@ -4,9 +4,8 @@ import net.dndats.hackersandslashers.api.combat.mechanics.ai.SearchLostPlayerGoa
 import net.dndats.hackersandslashers.common.setup.ModPlayerData;
 import net.dndats.hackersandslashers.utils.EntityHelper;
 import net.dndats.hackersandslashers.utils.PlayerHelper;
-import net.dndats.hackersandslashers.utils.TickScheduler;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.monster.warden.Warden;
 import net.minecraft.world.entity.player.Player;
@@ -17,8 +16,6 @@ import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
 // MANAGES STEALTH LOGICS
 public class Stealth {
 
-    private static final int DETECTION_WAIT_TIME = 60; // TICKS
-
     /**
      * This method represents the stealth mechanic behavior
      *
@@ -28,40 +25,35 @@ public class Stealth {
     public static void stealthBehavior(LivingChangeTargetEvent event) {
         if (event.getEntity() instanceof Mob mob && event.getNewAboutToBeSetTarget() instanceof Player player) {
 
-            if (EntityHelper.getMobAlertLevel(mob) == 50) {
-                event.setNewAboutToBeSetTarget(null);
+            int alertPoints = calculateAlertPoints(player);
+            int alertLevel = EntityHelper.getAlertLevel(mob);
+
+            if (alertLevel > 50) {
+                makeMobSearch(mob, player);
             }
 
-            makeMobSearch(mob, player);
-
-            if (!EntityHelper.hasAlertTag(mob)) {
-                // If the mob is not alert, enters here
-                if (PlayerHelper.isAtDarkPlace(player) && (!isStealthy(player)) && !EntityHelper.isAwareOf(player, mob)) {
-                    // If the target (player) is at a place of difficult vision but not stealthy and not in combat with the mob, then enters here
-                    EntityHelper.addAlertTag(mob, 50);
-                    TickScheduler.schedule(() -> {
-                        // After some seconds, enters here
-                        if (isStealthy(player) && !EntityHelper.isAwareOf(player, mob)) {
-                            EntityHelper.removeAlertTag(mob);
-                            event.setNewAboutToBeSetTarget(null);
-                        } else {
-                            EntityHelper.addAlertTag(mob, 100);
-                            mob.setTarget(player);
-                        }
-                    }, DETECTION_WAIT_TIME - Math.max(player.getArmorValue(), 0));
-                } else {
-                    if (isStealthy(player) && !EntityHelper.isAwareOf(player, mob)) {
-                        EntityHelper.removeAlertTag(mob);
-                        event.setNewAboutToBeSetTarget(null);
-                    } else {
-                        EntityHelper.addAlertTag(mob, 100);
-                        mob.setTarget(player);
-                    }
+            if (EntityHelper.canSee(player, mob)) {
+                if (alertLevel < 100) {
+                    int newAlertLevel = Math.min(100, Math.max(0, alertLevel + alertPoints));
+                    EntityHelper.setAlertLevel(mob, newAlertLevel);
                 }
+            } else {
+                EntityHelper.setAlert(mob, false);
+            }
+
+            if (alertLevel < 100) {
+                event.setCanceled(true);
             }
 
         }
     }
+
+    /**
+     * These methods are utility methods to be used in the stealth behavior method.
+     *
+     * @param mob: the mob in context
+     * @param player: the player in context
+     */
 
     private static void makeMobSearch(Mob mob, Player player) {
         if (mob.goalSelector.getAvailableGoals().stream()
@@ -73,6 +65,25 @@ public class Stealth {
         }
     }
 
+    private static int calculateAlertPoints(Player player) {
+        int points = 25 + PlayerHelper.getArmorLevel(player);
+        if (PlayerHelper.isOnBush(player)) points -= 25;
+        if (PlayerHelper.isAtDarkPlace(player)) points -= 20;
+        if (PlayerHelper.isMoving(player)) points += 5;
+        return points;
+    }
+
+    private static void mobAlertSetter(Player player) {
+        if (player == null) return;
+        final Vec3 surroundings = new Vec3(player.getX(), player.getY(), player.getZ());
+        player.level().getEntitiesOfClass(Mob.class, new AABB(surroundings, surroundings).inflate(64)).forEach(mob -> {
+                    if (mob.getPersistentData().contains("is_alert")) {
+                        EntityHelper.setAlert(mob, EntityHelper.canSee(player, mob));
+                    }
+                });
+
+    }
+
     /**
      * This is a method that changes the visibility level data attachment of the player
      * The data attachment is purely used for a visual feedback of the detection overlay, although it needs a server side behavior too
@@ -80,83 +91,37 @@ public class Stealth {
      * @param player: the player in context
      */
 
-    public static void detectBeingTargeted(Player player) {
+    public static void updatePlayerVisibility(Player player) {
         if (player == null) return;
+        mobAlertSetter(player);
         var playerData = player.getData(ModPlayerData.VISIBILITY_LEVEL);
-        if (mobAlertChecker(player) || mobLastAttackerChecker(player) || mobSightChecker(player)) {
-            if (mobTargetChecker(player) || mobLastAttackerChecker(player)) {
-                if (PlayerHelper.getVisibilityLevel(player) != 100) {
-                    playerData.setVisibilityLevel(100);
-                    playerData.syncData(player);
-                }
-            } else if (mobSightChecker(player)){
-                if (PlayerHelper.getVisibilityLevel(player) != 50) {
-                    playerData.setVisibilityLevel(50);
-                    playerData.syncData(player);
-                }
-            } else {
-                if (PlayerHelper.getVisibilityLevel(player) != 50) {
-                    playerData.setVisibilityLevel(50);
-                    playerData.syncData(player);
-                }
-            }
-        } else {
-            if (PlayerHelper.getVisibilityLevel(player) != 0) {
-                playerData.setVisibilityLevel(0);
+        final Vec3 surroundings = new Vec3(player.getX(), player.getY(), player.getZ());
+        Mob mostAlertMob = player.level().getEntitiesOfClass(Mob.class, new AABB(surroundings, surroundings).inflate(64))
+                .stream().max((mob1, mob2) -> {
+                    int alertMob1 = EntityHelper.getAlertLevel(mob1);
+                    int alertMob2 = EntityHelper.getAlertLevel(mob2);
+                    return Integer.compare(alertMob1, alertMob2);
+                }).orElse(null);
+        if (mostAlertMob != null) {
+            player.sendSystemMessage(Component.literal("The most alert mob is " + EntityHelper.getAlertLevel(mostAlertMob) + "% alert"));
+
+            int alertLevel = EntityHelper.getAlertLevel(mostAlertMob);
+            int newVisibilityLevel = calculateVisibilityLevel(alertLevel);
+
+            if (PlayerHelper.getVisibilityLevel(player) != newVisibilityLevel) {
+                playerData.setVisibilityLevel(newVisibilityLevel);
                 playerData.syncData(player);
             }
         }
     }
 
-    /**
-     * Here, both methods above are used for verifying if some mob in a determined area (default of 64) is targeting the player or is alert.
-     * It basically iterates in all mobs around, if the check is true, it returns a boolean value
-     *
-     * @param player: the player in context
-     * @return after tracking, the waited boolean value
-     */
-
-    private static boolean mobTargetChecker(Player player) {
-        if (player == null) return false;
-        final Vec3 surroundings = new Vec3(player.getX(), player.getY(), player.getZ());
-        return player.level().getEntitiesOfClass(Mob.class, new AABB(surroundings, surroundings).inflate(64))
-                .stream()
-                .anyMatch(mob -> mob.getTarget() == player);
-
-    }
-
-    private static boolean mobAlertChecker(Player player) {
-        if (player == null) return false;
-        final Vec3 surroundings = new Vec3(player.getX(), player.getY(), player.getZ());
-        return player.level().getEntitiesOfClass(Mob.class, new AABB(surroundings, surroundings).inflate(64))
-                .stream()
-                .anyMatch(EntityHelper::hasAlertTag);
-    }
-
-    private static boolean mobLastAttackerChecker(Player player) {
-        if (player == null) return false;
-        final Vec3 surroundings = new Vec3(player.getX(), player.getY(), player.getZ());
-        return player.level().getEntitiesOfClass(LivingEntity.class, new AABB(surroundings, surroundings).inflate(64))
-                .stream()
-                .anyMatch(mob -> mob.getLastAttacker() == player && mob.getHealth() > 0);
-    }
-
-    private static boolean mobSightChecker(Player player) {
-        if (player == null) return false;
-        final Vec3 surroundings = new Vec3(player.getX(), player.getY(), player.getZ());
-        return player.level().getEntitiesOfClass(LivingEntity.class, new AABB(surroundings, surroundings).inflate(64))
-                .stream()
-                .anyMatch(entity -> {
-                    if (!PlayerHelper.isOnBush(player) || !PlayerHelper.isAtDarkPlace(player)) {
-                        return entity.hasLineOfSight(player) && entity != player;
-                    }
-                    return false;
-                });
-    }
-
-    private static boolean isStealthy(Player player) {
-        return (PlayerHelper.isOnBush(player) || PlayerHelper.isAtDarkPlace(player)) &&
-                (player.isCrouching() || player.isInvisible());
+    private static int calculateVisibilityLevel(int alertLevel) {
+        if (alertLevel >= 100) return 100;
+        if (alertLevel > 80) return 80;
+        if (alertLevel > 60) return 60;
+        if (alertLevel > 40) return 40;
+        if (alertLevel > 20) return 20;
+        return 0;
     }
 
 }

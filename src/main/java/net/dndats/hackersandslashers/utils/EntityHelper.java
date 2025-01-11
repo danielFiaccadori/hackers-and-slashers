@@ -7,12 +7,9 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 // UTILITY METHODS RELATED TO ENTITIES AND PLAYERS
 public class EntityHelper {
-
-    // Checkers
 
     public static boolean isBeingTargeted(Player target, LivingEntity source) {
         if (source instanceof Mob mob) {
@@ -22,14 +19,14 @@ public class EntityHelper {
         return false;
     }
 
-    public static void resetMobTarget(EntityTickEvent event) {
-        if (event.getEntity() instanceof Mob mob) {
-            CompoundTag nbt = mob.getPersistentData();
-            if (nbt.getBoolean("is_alert") && mob.getTarget() == null) {
-                nbt.remove("is_alert");
-            }
-        }
-    }
+//    public static void resetMobTarget(EntityTickEvent event) {
+//        if (event.getEntity() instanceof Mob mob) {
+//            CompoundTag nbt = mob.getPersistentData();
+//            if (nbt.getBoolean("is_alert") && mob.getTarget() == null) {
+//                nbt.remove("is_alert");
+//            }
+//        }
+//    }
 
     private static final String LOST_HEALTH_PERCENT = "lost_health_percent";
 
@@ -47,26 +44,49 @@ public class EntityHelper {
         HackersAndSlashers.LOGGER.info("{}% of lost health", nbt.getInt(LOST_HEALTH_PERCENT));
     }
 
-    private static final String ALERT_TAG = "alert_level";
+    private static final String IS_ALERT = "is_alert";
+    private static final String ALERT_LEVEL = "alert_level";
 
-    public static boolean hasAlertTag(Mob mob) {
+    public static boolean isAlert(Mob mob) {
         CompoundTag nbt = mob.getPersistentData();
-        return nbt.contains(ALERT_TAG);
+        return nbt.getBoolean(IS_ALERT);
     }
 
-    public static int getMobAlertLevel(Mob mob) {
+    public static void setAlert(Mob mob, boolean is) {
         CompoundTag nbt = mob.getPersistentData();
-        return nbt.getInt("alert_level");
+        nbt.putBoolean(IS_ALERT, is);
     }
 
-    public static void addAlertTag(Mob mob, int alertLevel) {
+    public static int getAlertLevel(Mob mob) {
         CompoundTag nbt = mob.getPersistentData();
-        nbt.putInt(ALERT_TAG, alertLevel);
+        return nbt.getInt(ALERT_LEVEL);
     }
 
-    public static void removeAlertTag(Mob mob) {
+    public static void setAlertLevel(Mob mob, int alertLevel) {
         CompoundTag nbt = mob.getPersistentData();
-        nbt.remove(ALERT_TAG);
+        nbt.putInt(ALERT_LEVEL, alertLevel);
+    }
+
+    public static void removeAlertTags(Mob mob) {
+        CompoundTag nbt = mob.getPersistentData();
+        nbt.remove(ALERT_LEVEL);
+        nbt.remove(IS_ALERT);
+    }
+
+    public static int getDistanceBetweenEntities(LivingEntity entity1, LivingEntity entity2) {
+        double x1 = entity1.getX();
+        double y1 = entity1.getY();
+        double z1 = entity1.getZ();
+
+        double x2 = entity2.getX();
+        double y2 = entity2.getY();
+        double z2 = entity2.getZ();
+
+        return (int) Math.sqrt(
+                Math.pow(x2 - x1, 2) +
+                        Math.pow(y2 - y1, 2) +
+                        Math.pow(z2 - z1, 2)
+        );
     }
 
     public static boolean canSee(Player player, LivingEntity entity) {

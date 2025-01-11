@@ -45,7 +45,8 @@ public class BackstabLogic implements ICriticalLogic {
             return EntityHelper.isBehind(player, target)
                     && !EntityHelper.isAwareOf(player, target);
         } else {
-            return !EntityHelper.isBeingTargeted(player, target);
+            return !EntityHelper.isBeingTargeted(player, target)
+                    && !EntityHelper.isAwareOf(player, target);
         }
     }
 

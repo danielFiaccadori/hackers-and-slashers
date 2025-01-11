@@ -7,7 +7,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.Block;
@@ -50,12 +49,24 @@ public class PlayerHelper {
     public static boolean isAtDarkPlace(Player player) {
         Level level = player.level();
         BlockPos position = player.blockPosition();
-        boolean isObfuscated = (level.isRainingAt(position) || level.isThundering()) && level.isNight();
         int lightLevel = Math.max(
                 level.getBrightness(LightLayer.SKY, position),
                 level.getBrightness(LightLayer.BLOCK, position)
         );
-        return lightLevel < 15 || isObfuscated;
+        return lightLevel < 15;
+    }
+
+    public static int lightLevel(Player player) {
+        Level level = player.level();
+        BlockPos position = player.blockPosition();
+        return Math.max(
+                level.getBrightness(LightLayer.SKY, position),
+                level.getBrightness(LightLayer.BLOCK, position)
+        );
+    }
+
+    public static int getArmorLevel(Player player) {
+        return player.getArmorValue();
     }
 
     public static boolean isOnBush(Player player) {
@@ -63,11 +74,15 @@ public class PlayerHelper {
         return block instanceof BushBlock;
     }
 
+    public static boolean isMoving(Player player) {
+        return player.getSpeed() > 0;
+    }
+
     public static boolean isBlocking(Player player) {
         return player.getData(ModPlayerData.IS_PARRYING).getIsParrying();
     }
 
-    public static double getVisibilityLevel(Player player) {
+    public static int getVisibilityLevel(Player player) {
         if (player == null) return 0;
         return player.getData(ModPlayerData.VISIBILITY_LEVEL).getVisibilityLevel();
     }

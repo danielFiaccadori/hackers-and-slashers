@@ -16,7 +16,7 @@ public class SearchLostPlayerGoal extends Goal {
      * This goal makes mobs search for possible targets around, when they detect a suspicious action
      */
 
-    private static final Double SEARCH_SPEED = 1.0;
+    private static final Double SEARCH_SPEED = 0.75;
     private final Mob mob;
     private BlockPos targetPos;
     private Player target;
@@ -28,8 +28,8 @@ public class SearchLostPlayerGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        // Do only for suspect mobs, with 50% of chance
-        return EntityHelper.getMobAlertLevel(mob) == 50 && mob.getRandom().nextBoolean();
+        // Do only for suspect mobs, with 10% of chance
+        return EntityHelper.getAlertLevel(mob) == 50 && mob.getRandom().nextInt(10) == 1;
     }
 
     @Override

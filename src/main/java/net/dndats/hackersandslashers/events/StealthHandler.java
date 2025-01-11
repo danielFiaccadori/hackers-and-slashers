@@ -3,10 +3,15 @@ package net.dndats.hackersandslashers.events;
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.api.combat.mechanics.stealth.Stealth;
 import net.dndats.hackersandslashers.utils.EntityHelper;
+import net.dndats.hackersandslashers.utils.TickScheduler;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
@@ -29,9 +34,35 @@ public class StealthHandler {
     @SubscribeEvent
     public static void resetMobAlert(EntityTickEvent.Pre event) {
         try {
-            EntityHelper.resetMobTarget(event);
+            if (event.getEntity() instanceof Mob mob) {
+                if (!EntityHelper.isAlert(mob)) {
+                    if (EntityHelper.getAlertLevel(mob) > 0) {
+                        EntityHelper.setAlertLevel(mob, EntityHelper.getAlertLevel(mob) - 1);
+                    } else if (EntityHelper.getAlertLevel(mob) == 0) {
+                        EntityHelper.removeAlertTags(mob);
+                    }
+                }
+            }
         } catch (Exception e) {
             HackersAndSlashers.LOGGER.error("Error while trying to reset entity data (IS_ALERT): {}", e.getMessage());
+        }
+    }
+
+    @SubscribeEvent
+    public static void setPassiveMobAlert(EntityTickEvent.Pre event) {
+        try {
+            if (event.getEntity() instanceof Mob mob && !mob.isAggressive()) {
+                if (mob.getLastAttacker() != null) {
+                    EntityHelper.setAlertLevel(mob, 100);
+                }
+                if (mob instanceof Animal animal) {
+                    if (!animal.isPanicking()) {
+                        EntityHelper.setAlertLevel(mob, 0);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            HackersAndSlashers.LOGGER.error("Error while trying to set passive mob entity data (IS_ALERT): {}", e.getMessage());
         }
     }
 
@@ -44,7 +75,7 @@ public class StealthHandler {
                 if (scheduledTracker >= 20) {
                     scheduledTracker = 0;
                     for (Player player : event.getEntity().level().players()) {
-                        Stealth.detectBeingTargeted(player);
+                        Stealth.updatePlayerVisibility(player);
                     }
                 }
             }
