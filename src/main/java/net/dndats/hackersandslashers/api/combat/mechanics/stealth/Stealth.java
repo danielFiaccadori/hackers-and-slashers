@@ -127,10 +127,15 @@ public class Stealth {
 
     private static int calculateVisibilityLevel(int alertLevel) {
         if (alertLevel >= 100) return 100;
+        if (alertLevel > 90) return 90;
         if (alertLevel > 80) return 80;
+        if (alertLevel > 70) return 70;
         if (alertLevel > 60) return 60;
+        if (alertLevel > 50) return 50;
         if (alertLevel > 40) return 40;
+        if (alertLevel > 30) return 30;
         if (alertLevel > 20) return 20;
+        if (alertLevel > 10) return 10;
         return 0;
     }
 
