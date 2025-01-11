@@ -87,11 +87,11 @@ public class Stealth {
 
     // Environment weights
 
-    private static final int IS_BEHIND_WEIGHT = 50;
     private static final int ON_BUSH_WEIGHT = 50;
     private static final int RAINING_WEIGHT = 30;
-    private static final int DAY_WEIGHT = 20;
-    private static final int SPRINTING_WEIGHT = 10;
+    private static final int IS_BEHIND_WEIGHT = 30;
+    private static final int DAY_WEIGHT = 30;
+    private static final int SPRINTING_WEIGHT = 20;
     private static final int MOVING_WEIGHT = 5;
     private static final int BEING_SEEN_WEIGHT = 5;
 
