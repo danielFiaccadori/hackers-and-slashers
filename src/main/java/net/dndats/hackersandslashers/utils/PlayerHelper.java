@@ -1,6 +1,6 @@
 package net.dndats.hackersandslashers.utils;
 
-import net.dndats.hackersandslashers.common.setup.ModPlayerData;
+import net.dndats.hackersandslashers.common.setup.ModData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
@@ -83,12 +83,12 @@ public class PlayerHelper {
     }
 
     public static boolean isBlocking(Player player) {
-        return player.getData(ModPlayerData.IS_PARRYING).getIsParrying();
+        return player.getData(ModData.IS_PARRYING).getIsParrying();
     }
 
     public static int getVisibilityLevel(Player player) {
         if (player == null) return 0;
-        return player.getData(ModPlayerData.VISIBILITY_LEVEL).getVisibilityLevel();
+        return player.getData(ModData.VISIBILITY_LEVEL).getVisibilityLevel();
     }
 
     public static boolean isPointingAtBlockEntity(Player player) {

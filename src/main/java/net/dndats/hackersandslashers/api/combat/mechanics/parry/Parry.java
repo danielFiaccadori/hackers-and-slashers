@@ -1,7 +1,7 @@
 package net.dndats.hackersandslashers.api.combat.mechanics.parry;
 
 import net.dndats.hackersandslashers.client.effects.SoundEffects;
-import net.dndats.hackersandslashers.common.setup.ModPlayerData;
+import net.dndats.hackersandslashers.common.setup.ModData;
 import net.dndats.hackersandslashers.common.network.packets.PacketTriggerPlayerParry;
 import net.dndats.hackersandslashers.utils.*;
 import net.minecraft.resources.ResourceKey;
@@ -84,7 +84,7 @@ public class Parry {
         if (player == null) return;
         if (canParry(player)) {
             AnimationHelper.playBlockAnimation(player);
-            var playerData = player.getData(ModPlayerData.IS_PARRYING);
+            var playerData = player.getData(ModData.IS_PARRYING);
             playerData.setIsParrying(true);
             PacketDistributor.sendToServer(new PacketTriggerPlayerParry(playerData, duration));
         }

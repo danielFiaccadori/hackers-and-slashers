@@ -2,7 +2,7 @@ package net.dndats.hackersandslashers.events;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.api.combat.mechanics.parry.Parry;
-import net.dndats.hackersandslashers.common.setup.ModPlayerData;
+import net.dndats.hackersandslashers.common.setup.ModData;
 import net.dndats.hackersandslashers.utils.EntityHelper;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
@@ -37,7 +37,7 @@ public class ParryHandler {
     @SubscribeEvent
     public static void attackCancelDefensiveState(AttackEntityEvent event) {
         Player player = event.getEntity();
-        var playerData = player.getData(ModPlayerData.IS_PARRYING);
+        var playerData = player.getData(ModData.IS_PARRYING);
         if (playerData.getIsParrying()) {
             event.setCanceled(true);
         }

@@ -8,7 +8,7 @@ import net.dndats.hackersandslashers.api.combat.critical.logic.HeadshotLogic;
 import net.dndats.hackersandslashers.api.combat.critical.logic.RiposteLogic;
 import net.dndats.hackersandslashers.api.manager.MeleeCritical;
 import net.dndats.hackersandslashers.api.manager.CriticalManager;
-import net.dndats.hackersandslashers.common.setup.ModPlayerData;
+import net.dndats.hackersandslashers.common.setup.ModData;
 import net.dndats.hackersandslashers.api.manager.RangedCritical;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
@@ -45,7 +45,7 @@ public class HackersAndSlashers {
         CriticalManager.registerCritical(new RangedCritical("Headshot", new HeadshotLogic(2.0F)));
 
         // Register data
-        ModPlayerData.ATTACHMENT_TYPES.register(modEventBus);
+        ModData.ATTACHMENT_TYPES.register(modEventBus);
 
         // Register assets
         ModMobEffects.register(modEventBus);

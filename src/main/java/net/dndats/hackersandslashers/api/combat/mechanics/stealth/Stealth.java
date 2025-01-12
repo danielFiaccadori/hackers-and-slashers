@@ -1,7 +1,7 @@
 package net.dndats.hackersandslashers.api.combat.mechanics.stealth;
 
 import net.dndats.hackersandslashers.api.combat.mechanics.ai.SearchLostPlayerGoal;
-import net.dndats.hackersandslashers.common.setup.ModPlayerData;
+import net.dndats.hackersandslashers.common.setup.ModData;
 import net.dndats.hackersandslashers.utils.EntityHelper;
 import net.dndats.hackersandslashers.utils.PlayerHelper;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
@@ -34,6 +34,8 @@ public class Stealth {
 
             int alertPoints = calculateAlertPoints(player, mob);
             int alertLevel = EntityHelper.getAlertLevel(mob);
+
+            EntityHelper.setCurrentTargetId(mob, player);
 
             if (EntityHelper.isAwareOf(player, mob)) {
                 makeMobSearch(mob, player);
@@ -82,20 +84,22 @@ public class Stealth {
         if (PlayerHelper.isOnBush(player)) points -= ON_BUSH_WEIGHT;
         if (PlayerHelper.isMoving(player)) points += MOVING_WEIGHT;
         if (PlayerHelper.isPlayerBehind(mob, player)) points -= IS_BEHIND_WEIGHT;
+        if (EntityHelper.isAwareOf(player, mob)) points += LAST_ATTACKER_WEIGHT;
         if (!isBeingSeen(player)) points -= BEING_SEEN_WEIGHT;
         return points;
     }
 
     // Environment weights
 
-    private static final int CROUCHING_WEIGHT = 50;
+    private static final int LAST_ATTACKER_WEIGHT = 50;
+    private static final int CROUCHING_WEIGHT = 30;
     private static final int DAY_WEIGHT = 30;
     private static final int ON_BUSH_WEIGHT = 20;
     private static final int RAINING_WEIGHT = 10;
     private static final int IS_BEHIND_WEIGHT = 10;
     private static final int SPRINTING_WEIGHT = 10;
+    private static final int BEING_SEEN_WEIGHT = 10;
     private static final int MOVING_WEIGHT = 5;
-    private static final int BEING_SEEN_WEIGHT = 5;
 
     /**
      * This is a method that changes the visibility level data attachment of the player
@@ -107,7 +111,7 @@ public class Stealth {
     public static void updatePlayerVisibility(Player player) {
         if (player == null) return;
         mobAlertSetter(player);
-        var playerData = player.getData(ModPlayerData.VISIBILITY_LEVEL);
+        var playerData = player.getData(ModData.VISIBILITY_LEVEL);
         final Vec3 surroundings = new Vec3(player.getX(), player.getY(), player.getZ());
         Mob mostAlertMob = player.level().getEntitiesOfClass(Mob.class, new AABB(surroundings, surroundings).inflate(32))
                 .stream().max((mob1, mob2) -> {

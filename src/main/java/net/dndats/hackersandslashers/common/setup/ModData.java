@@ -2,6 +2,7 @@ package net.dndats.hackersandslashers.common.setup;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.common.data.IsParryingData;
+import net.dndats.hackersandslashers.common.data.MobDetectabilityData;
 import net.dndats.hackersandslashers.common.data.VisibilityLevelData;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -9,8 +10,9 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 import java.util.function.Supplier;
 
-public class ModPlayerData {
+public class ModData {
 
+    // Players
     public static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES =
             DeferredRegister.create(NeoForgeRegistries.Keys.ATTACHMENT_TYPES, HackersAndSlashers.MODID);
 
@@ -19,5 +21,9 @@ public class ModPlayerData {
 
     public static final Supplier<AttachmentType<VisibilityLevelData>> VISIBILITY_LEVEL = ATTACHMENT_TYPES.register("visibility_level", () ->
             AttachmentType.serializable(VisibilityLevelData::new).build());
+
+    // Mobs
+    public static final Supplier<AttachmentType<MobDetectabilityData>> MOB_DETECTABILITY = ATTACHMENT_TYPES.register("mob_detectability", () ->
+            AttachmentType.serializable(MobDetectabilityData::new).build());
 
 }

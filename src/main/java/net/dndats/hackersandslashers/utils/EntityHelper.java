@@ -8,6 +8,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 
+import java.util.UUID;
+
 // UTILITY METHODS RELATED TO ENTITIES AND PLAYERS
 public class EntityHelper {
 
@@ -46,6 +48,17 @@ public class EntityHelper {
 
     private static final String IS_ALERT = "is_alert";
     private static final String ALERT_LEVEL = "alert_level";
+    private static final String CURRENT_TARGET_UUID = "current_target_uuid";
+
+    public static void setCurrentTargetId(Mob mob, Player player) {
+        CompoundTag nbt = mob.getPersistentData();
+        nbt.putUUID(CURRENT_TARGET_UUID, player.getUUID());
+    }
+
+    public static UUID getCurrentTargetId(Mob mob) {
+        CompoundTag nbt = mob.getPersistentData();
+        return nbt.getUUID(CURRENT_TARGET_UUID);
+    }
 
     public static boolean isAlert(Mob mob) {
         CompoundTag nbt = mob.getPersistentData();

@@ -1,7 +1,7 @@
 package net.dndats.hackersandslashers.common.network.packets;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
-import net.dndats.hackersandslashers.common.setup.ModPlayerData;
+import net.dndats.hackersandslashers.common.setup.ModData;
 import net.dndats.hackersandslashers.common.data.VisibilityLevelData;
 import net.dndats.hackersandslashers.common.network.NetworkHandler;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -34,9 +34,9 @@ public record PacketSetPlayerVisibility(VisibilityLevelData data) implements Cus
     public static void handleData(final PacketSetPlayerVisibility message, final IPayloadContext context) {
         if (context.flow().isClientbound() && message.data() != null) {
             context.enqueueWork(() -> {
-                context.player().getData(ModPlayerData.VISIBILITY_LEVEL).deserializeNBT(context.player().registryAccess(),
+                context.player().getData(ModData.VISIBILITY_LEVEL).deserializeNBT(context.player().registryAccess(),
                     message.data().serializeNBT(context.player().registryAccess()));
-                context.player().setData(ModPlayerData.VISIBILITY_LEVEL, message.data());
+                context.player().setData(ModData.VISIBILITY_LEVEL, message.data());
             }).exceptionally(e -> {
                 context.connection().disconnect(Component.literal(e.getMessage()));
                 return null;
