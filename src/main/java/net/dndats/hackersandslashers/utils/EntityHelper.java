@@ -1,6 +1,7 @@
 package net.dndats.hackersandslashers.utils;
 
 import net.dndats.hackersandslashers.HackersAndSlashers;
+import net.dndats.hackersandslashers.common.setup.ModData;
 import net.dndats.hackersandslashers.common.setup.ModMobEffects;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -46,44 +47,32 @@ public class EntityHelper {
         HackersAndSlashers.LOGGER.info("{}% of lost health", nbt.getInt(LOST_HEALTH_PERCENT));
     }
 
-    private static final String IS_ALERT = "is_alert";
-    private static final String ALERT_LEVEL = "alert_level";
-    private static final String CURRENT_TARGET_UUID = "current_target_uuid";
-
     public static void setCurrentTargetId(Mob mob, Player player) {
-        CompoundTag nbt = mob.getPersistentData();
-        nbt.putUUID(CURRENT_TARGET_UUID, player.getUUID());
+        mob.getData(ModData.MOB_DETECTABILITY).setCurrentTargetUUID(player.getUUID().toString());
     }
 
-    public static UUID getCurrentTargetId(Mob mob) {
-        CompoundTag nbt = mob.getPersistentData();
-        return nbt.getUUID(CURRENT_TARGET_UUID);
+    public static void resetCurrentTargetId(Mob mob) {
+        mob.getData(ModData.MOB_DETECTABILITY).setCurrentTargetUUID("");
     }
 
-    public static boolean isAlert(Mob mob) {
-        CompoundTag nbt = mob.getPersistentData();
-        return nbt.getBoolean(IS_ALERT);
+    public static String getCurrentTargetId(Mob mob) {
+        return mob.getData(ModData.MOB_DETECTABILITY).getCurrentTargetUUID();
     }
 
     public static void setAlert(Mob mob, boolean is) {
-        CompoundTag nbt = mob.getPersistentData();
-        nbt.putBoolean(IS_ALERT, is);
+        mob.getData(ModData.MOB_DETECTABILITY).setAlert(is);
     }
 
-    public static int getAlertLevel(Mob mob) {
-        CompoundTag nbt = mob.getPersistentData();
-        return nbt.getInt(ALERT_LEVEL);
+    public static boolean isAlert(Mob mob) {
+        return mob.getData(ModData.MOB_DETECTABILITY).isAlert();
     }
 
     public static void setAlertLevel(Mob mob, int alertLevel) {
-        CompoundTag nbt = mob.getPersistentData();
-        nbt.putInt(ALERT_LEVEL, alertLevel);
+        mob.getData(ModData.MOB_DETECTABILITY).setAlertLevel(alertLevel);
     }
 
-    public static void removeAlertTags(Mob mob) {
-        CompoundTag nbt = mob.getPersistentData();
-        nbt.remove(ALERT_LEVEL);
-        nbt.remove(IS_ALERT);
+    public static int getAlertLevel(Mob mob) {
+        return mob.getData(ModData.MOB_DETECTABILITY).getAlertLevel();
     }
 
     public static int getDistanceBetweenEntities(LivingEntity entity1, LivingEntity entity2) {

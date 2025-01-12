@@ -1,10 +1,12 @@
 package net.dndats.hackersandslashers.api.combat.mechanics.stealth;
 
 import net.dndats.hackersandslashers.api.combat.mechanics.ai.SearchLostPlayerGoal;
+import net.dndats.hackersandslashers.common.data.MobDetectabilityData;
 import net.dndats.hackersandslashers.common.setup.ModData;
 import net.dndats.hackersandslashers.utils.EntityHelper;
 import net.dndats.hackersandslashers.utils.PlayerHelper;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.monster.warden.Warden;
@@ -13,6 +15,8 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
+
+import java.util.Objects;
 
 public class Stealth {
 
@@ -55,8 +59,10 @@ public class Stealth {
                 }
             } else {
                 if (EntityHelper.getAlertLevel(mob) == 0) {
-                    EntityHelper.setAlert(mob, false);
+                    EntityHelper.resetCurrentTargetId(mob);
+                    player.sendSystemMessage(Component.literal("Target from " + mob.getDisplayName() + " reseted"));
                 }
+                EntityHelper.setAlert(mob, false);
             }
 
             if (alertLevel < 100) {
@@ -114,7 +120,13 @@ public class Stealth {
         var playerData = player.getData(ModData.VISIBILITY_LEVEL);
         final Vec3 surroundings = new Vec3(player.getX(), player.getY(), player.getZ());
         Mob mostAlertMob = player.level().getEntitiesOfClass(Mob.class, new AABB(surroundings, surroundings).inflate(32))
-                .stream().max((mob1, mob2) -> {
+                .stream()
+                .filter(mob -> {
+                    MobDetectabilityData data = mob.getData(ModData.MOB_DETECTABILITY);
+                    return !Objects.equals(data.getCurrentTargetUUID(), "")
+                            && data.getCurrentTargetUUID().equals(player.getUUID().toString());
+                })
+                .max((mob1, mob2) -> {
                     int alertMob1 = EntityHelper.getAlertLevel(mob1);
                     int alertMob2 = EntityHelper.getAlertLevel(mob2);
                     return Integer.compare(alertMob1, alertMob2);
@@ -122,12 +134,19 @@ public class Stealth {
         if (mostAlertMob != null) {
             int alertLevel = EntityHelper.getAlertLevel(mostAlertMob);
             int newVisibilityLevel = calculateVisibilityLevel(alertLevel);
+            player.sendSystemMessage(Component.literal("An entity has " + EntityHelper.getAlertLevel(mostAlertMob) + "% of alert level"));
 
             if (PlayerHelper.getVisibilityLevel(player) != newVisibilityLevel) {
                 playerData.setVisibilityLevel(newVisibilityLevel);
                 playerData.syncData(player);
             }
 
+        } else {
+            if (PlayerHelper.getVisibilityLevel(player) != 0) {
+                player.sendSystemMessage(Component.literal("Visibility set to 0."));
+                playerData.setVisibilityLevel(0);
+                playerData.syncData(player);
+            }
         }
     }
 

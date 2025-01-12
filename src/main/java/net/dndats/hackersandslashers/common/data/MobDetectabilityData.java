@@ -12,7 +12,7 @@ public class MobDetectabilityData implements INBTSerializable<CompoundTag> {
 
     private int alertLevel = 0;
     private boolean isAlert = false;
-    private UUID currentTarget = null;
+    private String currentTargetUUID = "";
 
     public int getAlertLevel() {
         return alertLevel;
@@ -30,12 +30,12 @@ public class MobDetectabilityData implements INBTSerializable<CompoundTag> {
         isAlert = alert;
     }
 
-    public UUID getCurrentTarget() {
-        return currentTarget;
+    public String getCurrentTargetUUID() {
+        return currentTargetUUID;
     }
 
-    public void setCurrentTarget(UUID currentTarget) {
-        this.currentTarget = currentTarget;
+    public void setCurrentTargetUUID(String currentTargetUUID) {
+        this.currentTargetUUID = currentTargetUUID;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class MobDetectabilityData implements INBTSerializable<CompoundTag> {
         CompoundTag tag = new CompoundTag();
         tag.putInt("alertLevel", alertLevel);
         tag.putBoolean("isAlert", isAlert);
-        tag.putUUID("currentTargetUUID", currentTarget);
+        tag.putString("currentTargetUUID", currentTargetUUID);
         return tag;
     }
 
@@ -51,7 +51,7 @@ public class MobDetectabilityData implements INBTSerializable<CompoundTag> {
     public void deserializeNBT(HolderLookup.@NotNull Provider provider, @NotNull CompoundTag tag) {
         alertLevel = tag.getInt("alertLevel");
         isAlert = tag.getBoolean("isAlert");
-        currentTarget = tag.getUUID("currentTargetUUID");
+        currentTargetUUID = tag.getString("currentTargetUUID");
     }
 
 }
