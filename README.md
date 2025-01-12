@@ -1,4 +1,4 @@
-<div align="center">
+<div align="center" style="margin-top: 5%">
   <img alt="Hackers 'n Slashers logo" src="src/main/resources/logo.png" />
 </div>
 
