@@ -1,19 +1,18 @@
 package net.dndats.hackersandslashers.api.combat.mechanics.stealth;
 
-import net.dndats.hackersandslashers.api.combat.mechanics.ai.SearchLostPlayerGoal;
 import net.dndats.hackersandslashers.common.data.MobDetectabilityData;
 import net.dndats.hackersandslashers.common.setup.ModData;
 import net.dndats.hackersandslashers.utils.EntityHelper;
 import net.dndats.hackersandslashers.utils.PlayerHelper;
-import net.minecraft.commands.arguments.EntityAnchorArgument;
+import net.dndats.hackersandslashers.utils.StealthHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.monster.warden.Warden;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 import java.util.Objects;
@@ -42,7 +41,7 @@ public class Stealth {
             EntityHelper.setCurrentTargetId(mob, player);
 
             if (EntityHelper.isAwareOf(player, mob)) {
-                makeMobSearch(mob, player);
+                StealthHelper.makeMobSearch(mob, player);
             }
 
             if (alertLevel == 0) {
@@ -60,7 +59,6 @@ public class Stealth {
             } else {
                 if (EntityHelper.getAlertLevel(mob) == 0) {
                     EntityHelper.resetCurrentTargetId(mob);
-                    player.sendSystemMessage(Component.literal("Target from " + mob.getDisplayName() + " reseted"));
                 }
                 EntityHelper.setAlert(mob, false);
             }
@@ -87,16 +85,18 @@ public class Stealth {
         if (player.level().isRaining() || player.level().isThundering()) points -= RAINING_WEIGHT;
         if (player.isSprinting()) points += SPRINTING_WEIGHT;
         if (player.isCrouching()) points -= CROUCHING_WEIGHT;
+        if (player.isInvisible()) points -= IS_INVISIBLE_WEIGHT;
         if (PlayerHelper.isOnBush(player)) points -= ON_BUSH_WEIGHT;
         if (PlayerHelper.isMoving(player)) points += MOVING_WEIGHT;
         if (PlayerHelper.isPlayerBehind(mob, player)) points -= IS_BEHIND_WEIGHT;
         if (EntityHelper.isAwareOf(player, mob)) points += LAST_ATTACKER_WEIGHT;
-        if (!isBeingSeen(player)) points -= BEING_SEEN_WEIGHT;
+        if (!StealthHelper.isBeingSeen(player)) points -= BEING_SEEN_WEIGHT;
         return points;
     }
 
     // Environment weights
 
+    private static final int IS_INVISIBLE_WEIGHT = 50;
     private static final int LAST_ATTACKER_WEIGHT = 50;
     private static final int CROUCHING_WEIGHT = 30;
     private static final int DAY_WEIGHT = 30;
@@ -116,15 +116,20 @@ public class Stealth {
 
     public static void updatePlayerVisibility(Player player) {
         if (player == null) return;
-        mobAlertSetter(player);
+        StealthHelper.mobAlertSetter(player);
         var playerData = player.getData(ModData.VISIBILITY_LEVEL);
         final Vec3 surroundings = new Vec3(player.getX(), player.getY(), player.getZ());
         Mob mostAlertMob = player.level().getEntitiesOfClass(Mob.class, new AABB(surroundings, surroundings).inflate(32))
                 .stream()
                 .filter(mob -> {
                     MobDetectabilityData data = mob.getData(ModData.MOB_DETECTABILITY);
-                    return !Objects.equals(data.getCurrentTargetUUID(), "")
-                            && data.getCurrentTargetUUID().equals(player.getUUID().toString());
+                    if (mob instanceof AgeableMob animal) {
+                        return data.getAlertLevel() > 0
+                                && mob.getLastAttacker() == player; // <-- Passive mobs contribute if alertLevel > 0
+                    } else {
+                        return !Objects.equals(data.getCurrentTargetUUID(), "")
+                                && data.getCurrentTargetUUID().equals(player.getUUID().toString());
+                    }
                 })
                 .max((mob1, mob2) -> {
                     int alertMob1 = EntityHelper.getAlertLevel(mob1);
@@ -134,7 +139,6 @@ public class Stealth {
         if (mostAlertMob != null) {
             int alertLevel = EntityHelper.getAlertLevel(mostAlertMob);
             int newVisibilityLevel = calculateVisibilityLevel(alertLevel);
-            player.sendSystemMessage(Component.literal("An entity has " + EntityHelper.getAlertLevel(mostAlertMob) + "% of alert level"));
 
             if (PlayerHelper.getVisibilityLevel(player) != newVisibilityLevel) {
                 playerData.setVisibilityLevel(newVisibilityLevel);
@@ -143,7 +147,6 @@ public class Stealth {
 
         } else {
             if (PlayerHelper.getVisibilityLevel(player) != 0) {
-                player.sendSystemMessage(Component.literal("Visibility set to 0."));
                 playerData.setVisibilityLevel(0);
                 playerData.syncData(player);
             }
@@ -170,7 +173,6 @@ public class Stealth {
      * @param event: the event responsible by managing the alert state
      */
 
-
     public static void mobAlert(EntityTickEvent event) {
         if (event.getEntity() instanceof Mob mob) {
             if (!EntityHelper.isAlert(mob)) {
@@ -181,8 +183,10 @@ public class Stealth {
         } else {
             if (event.getEntity() instanceof AgeableMob ageableMob) {
                 if (ageableMob.isPanicking()) {
+                    EntityHelper.setAlert(ageableMob, true);
                     EntityHelper.setAlertLevel(ageableMob, 100);
                 } else {
+                    EntityHelper.setAlert(ageableMob, false);
                     EntityHelper.setAlertLevel(ageableMob, 0);
                 }
             }
@@ -190,42 +194,17 @@ public class Stealth {
     }
 
     /**
-     * These methods are utility methods to be used in the stealth behavior method.
+     * This method increases alert level on hit (immediate detection when attacked)
      *
-     * @param mob:    the mob in context
-     * @param player: the player in context
+     * @param event: the event responsible by managing the alert state
      */
 
-    private static void makeMobSearch(Mob mob, Player player) {
-        if (mob.goalSelector.getAvailableGoals().stream()
-                .noneMatch(goal -> goal.getGoal() instanceof SearchLostPlayerGoal)
-                && !(mob instanceof Warden)) {
-            mob.playAmbientSound();
-            mob.lookAt(EntityAnchorArgument.Anchor.EYES, player.position());
-            mob.goalSelector.addGoal(5, new SearchLostPlayerGoal(mob));
-        }
-    }
-
-    private static boolean isBeingSeen(Player player) {
-        if (player == null) return false;
-        final Vec3 surroundings = new Vec3(player.getX(), player.getY(), player.getZ());
-        for (Mob mob : player.level().getEntitiesOfClass(Mob.class, new AABB(surroundings, surroundings).inflate(32))) {
-            if (EntityHelper.canSee(player, mob)) {
-                return true;
+    public static void increaseAlertLevelOnHit(LivingIncomingDamageEvent event) {
+        if (event.getSource().getEntity() instanceof Player player && event.getEntity() instanceof Mob mob) {
+            if (EntityHelper.getAlertLevel(mob) < 100) {
+                EntityHelper.setAlertLevel(mob, EntityHelper.getAlertLevel(mob) + 100);
             }
         }
-        return false;
-    }
-
-    private static void mobAlertSetter(Player player) {
-        if (player == null) return;
-        final Vec3 surroundings = new Vec3(player.getX(), player.getY(), player.getZ());
-        player.level().getEntitiesOfClass(Mob.class, new AABB(surroundings, surroundings).inflate(32)).forEach(mob -> {
-            if (mob.getPersistentData().contains("is_alert")) {
-                EntityHelper.setAlert(mob, EntityHelper.canSee(player, mob));
-            }
-        });
-
     }
 
 }

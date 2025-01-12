@@ -6,6 +6,7 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
@@ -23,6 +24,15 @@ public class StealthHandler {
             Stealth.stealthBehavior(event);
         } catch (Exception e) {
             HackersAndSlashers.LOGGER.error("Error while trying to cancel entity target: {}", e.getMessage());
+        }
+    }
+
+    @SubscribeEvent
+    public static void increaseAlertLevelOnHit(LivingIncomingDamageEvent event) {
+        try {
+            Stealth.increaseAlertLevelOnHit(event);
+        } catch (Exception e) {
+            HackersAndSlashers.LOGGER.error("Error while trying to increase alert level on hit: {}", e.getMessage());
         }
     }
 
