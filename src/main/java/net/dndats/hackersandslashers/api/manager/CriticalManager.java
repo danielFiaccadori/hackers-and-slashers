@@ -3,6 +3,7 @@ package net.dndats.hackersandslashers.api.manager;
 import net.dndats.hackersandslashers.HackersAndSlashers;
 import net.dndats.hackersandslashers.api.interfaces.ICritical;
 import net.dndats.hackersandslashers.utils.CombatHelper;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
@@ -38,9 +39,6 @@ public class CriticalManager {
                 float totalDamageMultiplier = processCriticalHit(event, player);
                 if (totalDamageMultiplier > 0) {
                     float finalAmount = CombatHelper.dealCriticalDamage(totalDamageMultiplier, event);
-                    HackersAndSlashers.LOGGER.info("Dealt {} damage with a total multiplier of {}",
-                            finalAmount,
-                            totalDamageMultiplier);
                     return true;
                 }
                 return false;

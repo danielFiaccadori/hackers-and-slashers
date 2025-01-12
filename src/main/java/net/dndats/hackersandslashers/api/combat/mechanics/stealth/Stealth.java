@@ -5,7 +5,6 @@ import net.dndats.hackersandslashers.common.setup.ModData;
 import net.dndats.hackersandslashers.utils.EntityHelper;
 import net.dndats.hackersandslashers.utils.PlayerHelper;
 import net.dndats.hackersandslashers.utils.StealthHelper;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
@@ -98,8 +97,8 @@ public class Stealth {
 
     private static final int IS_INVISIBLE_WEIGHT = 50;
     private static final int LAST_ATTACKER_WEIGHT = 50;
-    private static final int CROUCHING_WEIGHT = 30;
     private static final int DAY_WEIGHT = 30;
+    private static final int CROUCHING_WEIGHT = 20;
     private static final int ON_BUSH_WEIGHT = 20;
     private static final int RAINING_WEIGHT = 10;
     private static final int IS_BEHIND_WEIGHT = 10;
@@ -123,9 +122,9 @@ public class Stealth {
                 .stream()
                 .filter(mob -> {
                     MobDetectabilityData data = mob.getData(ModData.MOB_DETECTABILITY);
-                    if (mob instanceof AgeableMob animal) {
-                        return data.getAlertLevel() > 0
-                                && mob.getLastAttacker() == player; // <-- Passive mobs contribute if alertLevel > 0
+                    if (mob instanceof AgeableMob) {
+                        return data.getAlertLevel() > 0 // <-- Passive mobs contribute if alertLevel > 0
+                                && mob.getLastAttacker() == player;
                     } else {
                         return !Objects.equals(data.getCurrentTargetUUID(), "")
                                 && data.getCurrentTargetUUID().equals(player.getUUID().toString());
@@ -200,7 +199,7 @@ public class Stealth {
      */
 
     public static void increaseAlertLevelOnHit(LivingIncomingDamageEvent event) {
-        if (event.getSource().getEntity() instanceof Player player && event.getEntity() instanceof Mob mob) {
+        if (event.getSource().getEntity() instanceof Player && event.getEntity() instanceof Mob mob) {
             if (EntityHelper.getAlertLevel(mob) < 100) {
                 EntityHelper.setAlertLevel(mob, EntityHelper.getAlertLevel(mob) + 100);
             }

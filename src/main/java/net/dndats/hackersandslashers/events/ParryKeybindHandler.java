@@ -16,7 +16,7 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 public class ParryKeybindHandler {
 
     /**
-     * Handles the parry action keybind and it's cooldown
+     * Handles the parry action keybind and its cooldown
      */
 
     private static int currentCooldown = Parry.getMaxCooldown();
@@ -25,16 +25,21 @@ public class ParryKeybindHandler {
     public static void onEntityBlock(ClientTickEvent.Pre event) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player == null) return;
-        if (!(player.getMainHandItem().getItem() instanceof SwordItem)) return;
-        if (currentCooldown < Parry.getMaxCooldown()) {
+
+        boolean holdingSword = player.getMainHandItem().getItem() instanceof SwordItem;
+
+        if (holdingSword && currentCooldown < Parry.getMaxCooldown()) {
             currentCooldown++;
         }
+
         if (ModKeybinds.PARRY.consumeClick()) {
-            if (currentCooldown >= Parry.getMaxCooldown()) {
-                currentCooldown = 0;
-                Parry.triggerDefensive(10, player);
-            } else {
-                player.displayClientMessage(Component.literal("Parry is on cooldown!"), true);
+            if (holdingSword) {
+                if (currentCooldown >= Parry.getMaxCooldown()) {
+                    currentCooldown = 0;
+                    Parry.triggerDefensive(15, player);
+                } else {
+                    player.displayClientMessage(Component.literal("Parry is on cooldown!"), true);
+                }
             }
         }
     }

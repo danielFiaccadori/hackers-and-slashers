@@ -6,8 +6,6 @@ import net.neoforged.neoforge.common.util.INBTSerializable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.UnknownNullability;
 
-import java.util.UUID;
-
 public class MobDetectabilityData implements INBTSerializable<CompoundTag> {
 
     private int alertLevel = 0;
